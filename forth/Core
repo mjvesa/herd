@@ -1,0 +1,116 @@
+( NOPS for making some stuff more obvious )
+CREATENOP listensTo
+CREATENOP listenedBy
+
+( set up variables )
+500 0 !
+: VAR CREATE 0 @ 1 + DUP 0 ! DUP NULL SWAP ! , DOES> ;
+( Move the storage pointer the amount of places on stack )
+: ALLOT 0 @ + 0 ! ;
+
+( Insert one value into the list we're creating )
+: |  ( addr value -- addr+1 )
+  OVER ! 1 + 
+;
+
+( )
+: ||  ( addr value1 value2 -- addr+2 )
+  ROT TUCK ! TUCK 1 + ! 2 + 
+;
+
+: STACKVAR STACKCREATE 0 @ 1 + DUP 0 ! DUP NULL SWAP ! , DOES> ;
+: RECORD 
+  WORD "." CAT 
+  BEGIN 
+    DUP WORD DUP "ENDRECORD" EQUALS NOT 
+  WHILE 
+    CAT STACKVAR 
+  REPEAT 
+  DROP DROP DROP  
+;
+
+
+( Attempt at something smalltalkish )
+: insideIt addComponent ;
+: asColumnNames setColumnHeaders ;
+: asVisibleColumns setVisibleColumns ;
+: asCaption setCaption ;
+: asValue setValue ;
+: asClickListener FIND setClickListener ;
+: createASQLContainer createSQLContainer ;
+: createAFilteredSQLContainer createFilteredSQLContainer ;
+: asContainerDatasource setContainerDatasource DROP ;
+: asName ! ;
+: asWidth setWidth ;
+: asHeight setHeight ;
+: usesIt @ SWAP ;
+: addIt addComponent ;
+( caption -- Button )
+: aButton newButton SWAP setCaption ;
+: aLabel newLabel ;
+: aTextField newTextField ;
+: aComboBox newComboBox ;
+: aTable newTable ;
+: aSelect newSelect ;
+: aWindow newWindow ;
+( : -> ' EXECUTE , COMPILE ! ; IMMEDIATE )
+: prop getProperty ;
+: fromStack SWAP ;
+
+( Space for lists )
+VAR list[ 100 ALLOT
+
+( Stuff to do with lists )
+: ]asParamsForQuery | LIST_TERMINATOR | DROP ;
+: ]isUsedBy | LIST_TERMINATOR | DROP ;
+
+
+( Adds buttons in a list to a layout )
+
+( executes a token for each entry in a list )
+
+: forList 
+ ( TODO do this sometime )
+;
+
+( Loads a list of buttons and clicklisteners to )
+(  a layout )
+: ]addButtonsToLayout
+  || LIST_TERMINATOR | DROP
+  list[
+  BEGIN
+    DUP @ LIST_TERMINATOR EQUALS NOT
+  WHILE  ( layout addr ) 
+    DUP DUP @ SWAP 1 + @ aButton SWAP setClickListener 
+    ROT SWAP addIt SWAP 2 + 
+  REPEAT
+  DROP
+;
+
+( loads a list of properties to an item)
+( item record_name -- )
+: loadProps
+  "." CAT
+  list[
+  BEGIN
+    DUP @ LIST_TERMINATOR EQUALS NOT
+  WHILE
+    ROT SWAP TUCK @ getProperty
+    2SWAP DUP @ ROT DUP ROT
+    CAT 2SWAP -ROT
+    SWAP FIND EXECUTE !
+    1 +
+  REPEAT
+  DROP DROP DROP
+;
+
+( addr record_name -- record_name )
+: ]loadPropsTo | LIST_TERMINATOR | DROP WORD loadProps ;
+  
+( These words are more filling and less taste )
+CREATENOP has CREATENOP a
+CREATENOP the CREATENOP with
+CREATENOP and CREATENOP or
+CREATENOP is  CREATENOP to
+CREATENOP use CREATENOP contains:
+

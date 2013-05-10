@@ -1,0 +1,163 @@
+( Test app dear chap )
+  
+( Filter attribs ) 
+RECORD Filter
+ name beginYear endYear beginDuration endDuration genres
+ENDRECORD
+
+( Movie attributes ) 
+RECORD Movie
+ id name duration prodyear genres
+ENDRECORD
+
+( A table for movies ) 
+VAR movieTable
+
+: setTableHeaders
+  list[ "name" | "duration" | "prodyear" | "genres" ]isUsedBy
+    movieTable @ asVisibleColumns
+  list[ "Name" | "Duration" | "Production year" | "Genres" ]isUsedBy
+    movieTable @ asColumnNames
+;
+
+( Attach '%' to the beginning and end of a string )
+: wildcard
+  "%" CAT "%" SWAP CAT
+;
+
+( Form field listeners )
+: setNameFilter Filter.name ! ;
+: setDurationBegin STRTOINT Filter.beginDuration ! ;
+: setDurationEnd STRTOINT Filter.endDuration ! ;
+: setProdYearBegin STRTOINT Filter.beginYear ! ;
+: setProdYearEnd STRTOINT Filter.endYear ! ;
+: setGenresFilter "name" prop wildcard  Filter.genres ! ;
+
+( This stuff is for the window )
+: setName Movie.name ! ;
+: setDuration STRTOINT Movie.duration ! ;
+: setProdYear STRTOINT Movie.prodyear ! ;
+: setGenres Movie.genres ! ;
+
+: filterList
+  use list[ Filter.name @ | Filter.beginYear @ | 
+    Filter.endYear @ | Filter.beginDuration @ |
+  Filter.endDuration @ | Filter.genres @ ]asParamsForQuery
+  "SELECT id, name, duration, prodyear, genres FROM movie WHERE "
+  "name like ? OR (prodyear >= ? AND prodYear <= ?) OR (duration >= ? AND "
+  " duration <= ?) OR genres like ?" CAT CAT to createAFilteredSQLContainer
+  movieTable usesIt asContainerDatasource
+  setTableHeaders
+;
+
+: fillMovieList
+  use "SELECT id, name, duration, prodyear, genres FROM movie"
+  to createASQLContainer
+  movieTable usesIt asContainerDatasource
+  setTableHeaders
+;
+
+: addMovie
+  use list[ Movie.name @ | Movie.prodyear @ | Movie.duration @ |
+    Movie.genres @ ]asParamsForQuery
+  "INSERT INTO movie VALUES (?,?,?,?, NULL)" doQuery
+  fillMovieList
+;
+
+VAR genreTextField
+VAR genreComboBox
+
+: makeGenreContainer
+   use "SELECT name FROM genre" to createASQLContainer
+;
+
+: fillGenreComboBox
+   makeGenreContainer genreComboBox @ SWAP asContainerDatasource
+;
+
+: newGenre
+  use list[ fromStack ]asParamsForQuery "INSERT INTO genre VALUES (NULL, ?)" 
+  doQuery
+  fillGenreComboBox
+;
+
+( TODO this can be optimized )
+: genreSelected
+   "name" prop NIP 
+   genreTextField @ getValue NIP  " " CAT
+   SWAP CAT
+   genreTextField @ SWAP setValue
+   DROP
+;
+
+( a combobox for genres )  
+"Choose a genre" is aComboBox listenedBy newGenre and genreSelected
+genreComboBox asName
+
+
+: showEditWindow
+  aWindow with "Edit movie" asCaption "40em" asWidth contains:
+    [ "Name" is aTextField listenedBy setName , ] Movie.name @ asValue 
+    "30em" asWidth
+    addIt
+    [ "Production year" is aTextField listenedBy setProdYear , ]
+    Movie.prodyear @ asValue "5em" asWidth
+    addIt
+    [ "Duration" is aTextField listenedBy setDuration , ] Movie.duration @ asValue
+    "5em" asWidth
+    addIt
+ 
+    [ "Genres" is aTextField listenedBy setGenres , ] Movie.genres @ asValue
+    "30em" asWidth genreTextField asName
+    genreTextField @ addIt
+    fillGenreComboBox
+    genreComboBox @ addIt
+    "Add movie" is aButton with "addMovie" asClickListener
+    addIt
+
+  addWindow
+;
+
+: deleteSelection
+  use list[ Movie.id @ ]asParamsForQuery "DELETE FROM movie WHERE id = ?" doQuery
+  fillMovieList
+;
+
+( This listener gets the properties of the selected movie )
+: movieSelected
+  list[ "id" | "name" | "duration" | "prodyear" | "genres" ]loadPropsTo Movie
+;
+
+
+( Fill main panel with components )
+mainPanel contains:
+
+  "name" is aTextField listenedBy setNameFilter addIt
+  a newHl
+    "Duration begin" is aTextField listenedBy setDurationBegin addIt
+    "Duration end" is aTextField listenedBy setDurationEnd addIt
+  addIt
+  a newHl
+    "Prod. year begin" is aTextField listenedBy setProdYearBegin addIt
+    "Prod. year end" is aTextField listenedBy setProdYearEnd addIt
+  addIt
+  
+  "Genre" is aSelect listenedBy setGenresFilter DUP
+   makeGenreContainer asContainerDatasource 
+  addIt
+
+  "Filter list" is aButton with "filterList" asClickListener addIt
+
+  ( Create movie table and fill with content from DB )
+  "Movies" is aTable listenedBy movieSelected with movieTable asName
+  movieTable @ addIt
+  fillMovieList
+
+  a newHl
+   "Delete" is aButton with "deleteSelection" asClickListener addIt
+   "Edit selection" is aButton with "showEditWindow" asClickListener addIt
+   "Add New Movie" is aButton with "showEditWindow" asClickListener addIt 
+  addIt
+
+DROP
+ 

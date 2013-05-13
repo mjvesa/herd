@@ -65,31 +65,20 @@ public class Interpreter implements ClickListener {
     private static final long serialVersionUID = -8695295335619892044L;
     private HashMap<String, Word> dictionary;
     private HashMap<String, String> source;
-
     private Stack<Object> dataStack;
     private Stack<Integer> returnStack;
     private Stack<Word[]> codeStack;
-
     private Object[] heap;
-
     private Word currentDefinition; // These two are used to define new words
     private ArrayList<Word> currentDefinitionWords;
-
     private boolean isCompiling;
-
     private int ip; // These tell use where we are executing now
     private Word[] code;
-
     private Parser parser;
-
     private ComponentContainer mainComponentContainer;
-
     private Blocks blocks;
-
     private GuiEventListener guiEventListener;
-
     private SQL sql;
-
     private boolean logNewWords;
     private boolean logExecutedWords;
 
@@ -189,7 +178,7 @@ public class Interpreter implements ClickListener {
     }
 
     /**
-     * Interprets a string of Forth.
+     * Outer interpreter.
      * 
      * @param str
      */
@@ -256,7 +245,10 @@ public class Interpreter implements ClickListener {
 
     }
 
-    /*
+    /**
+     * 
+     * Inner interpreter
+     * 
      * Execution:
      * 
      * Base words are atomic, so just fetch and execute. Defined words consist
@@ -778,7 +770,7 @@ public class Interpreter implements ClickListener {
                 tf.setCaption((String) dataStack.pop());
                 tf.setValue("");
                 tf.setImmediate(true);
-                tf.addListener(new ValueChangeListener() {
+                tf.addValueChangeListener(new ValueChangeListener() {
                     /**
 		 * 
 		 */
@@ -839,7 +831,7 @@ public class Interpreter implements ClickListener {
                     }
                 });
 
-                cb.addListener(new ValueChangeListener() {
+                cb.addValueChangeListener(new ValueChangeListener() {
 
                     /**
                      * 
@@ -861,7 +853,7 @@ public class Interpreter implements ClickListener {
                 sel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
                 sel.setNullSelectionAllowed(false);
                 sel.setImmediate(true);
-                sel.addListener(new ValueChangeListener() {
+                sel.addValueChangeListener(new ValueChangeListener() {
                     /**
                      * 
                      */
@@ -883,7 +875,7 @@ public class Interpreter implements ClickListener {
                 lsel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
                 lsel.setNullSelectionAllowed(false);
                 lsel.setImmediate(true);
-                lsel.addListener(new ValueChangeListener() {
+                lsel.addValueChangeListener(new ValueChangeListener() {
                     /**
                      * 
                      */

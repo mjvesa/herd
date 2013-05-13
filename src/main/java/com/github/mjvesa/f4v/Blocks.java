@@ -18,8 +18,11 @@ package com.github.mjvesa.f4v;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Manages blocks, which are regular files. This class is named blocks only for
@@ -30,10 +33,9 @@ import java.util.HashMap;
  */
 public class Blocks {
 
-    public static final String BLOCK_DIRECTORY = "/home/mjvesa/git/F4V/WebContent/WEB-INF/forth/";
-
-    // public static final String BLOCK_DIRECTORY =
-    // "/home/dev/apache-tomcat-6.0.18/webapps/F4V/WEB-INF/forth/";
+	
+	// This needs to be the directory Forth files are stored in
+    public static final String BLOCK_DIRECTORY = "/home/mjvesa/forth/";
 
     public HashMap<String, String> loadBuffers() {
         HashMap<String, String> blocks = new HashMap<String, String>();
@@ -66,16 +68,30 @@ public class Blocks {
         return blocks;
     }
 
+    /**
+     * Saves a buffer by the specified name.
+     * @param name
+     * @param content
+     */
     public void saveBuffer(String name, String content) {
-        // try {
-        // File file = new File(BLOCK_DIRECTORY + name);
-        // file.createNewFile();
-        // FileWriter fw = new FileWriter(file);
-        // fw.write(content);
-        // fw.close();
-        // } catch (Exception e) {
-        // System.out.println("Blocks bloxx");
-        // e.printStackTrace();
-        // }
+    	
+    	StringBuffer cleanName = new StringBuffer();
+    	
+    	Pattern p = Pattern.compile("[a-zA-Z]");
+    	for (char ch : name.toCharArray()) {
+        	Matcher m = p.matcher(Character.toString(ch));    		
+    		if (m.matches())
+    		cleanName.append(ch);
+    	}
+    	
+		try {
+			File file = new File(BLOCK_DIRECTORY + cleanName.toString());
+			file.createNewFile();
+			FileWriter fw = new FileWriter(file);
+			fw.write(content);
+			fw.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 }

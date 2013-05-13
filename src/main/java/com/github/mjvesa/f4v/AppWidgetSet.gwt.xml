@@ -43,7 +43,7 @@
     <!-- <set-configuration-property name="devModeRedirectEnabled" value="true" /> -->
 
 
-    
+    <set-property name="user.agent" value="safari"/>
 
     <inherits name="org.vaadin.aceeditor.AceEditorWidgetSet" />
 </module>

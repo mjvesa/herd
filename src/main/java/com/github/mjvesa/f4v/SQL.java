@@ -95,7 +95,6 @@ public class SQL {
                 Item item = container.getItem(id);
                 for (int i = 1; i <= meta.getColumnCount(); i++) {
                     String name = meta.getColumnName(i);
-                    Class clazz = Object.class;
 
                     switch (meta.getColumnType(i)) {
                     case java.sql.Types.VARCHAR:
@@ -187,13 +186,7 @@ public class SQL {
      * @throws SQLException
      */
     private Connection getConnection() throws SQLException {
-        Connection conn = null;
-        Properties connectionProps = new Properties();
-        connectionProps.put("user", "forth");
-        connectionProps.put("password", "forth");
-
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/forth",
-                connectionProps);
+        Connection conn = DriverManager.getConnection("jdbc:hsqldb:mem:forth","forth","forth");
         return conn;
     }
 

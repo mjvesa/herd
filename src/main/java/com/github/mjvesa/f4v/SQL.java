@@ -39,13 +39,13 @@ import com.vaadin.data.util.IndexedContainer;
 public class SQL {
 
     private Object[] heap;
-    private HashMap<String, Word> dictionary;
+    private HashMap<String, DefinedWord> dictionary;
 
     public void setHeap(Object[] heap) {
         this.heap = heap;
     }
 
-    public void setDictionary(HashMap<String, Word> dic) {
+    public void setDictionary(HashMap<String, DefinedWord> dic) {
         dictionary = dic;
     }
 
@@ -144,7 +144,7 @@ public class SQL {
     private void applyParameterListToPreparedStatement(PreparedStatement st)
             throws SQLException {
 
-        Word[] code = dictionary.get("list[").getCode();
+        DefinedWord[] code = dictionary.get("list[").getCode();
         int addr = (Integer) code[0].getParam();
         int i = 1;
         while (heap[addr] != Util.LIST_TERMINATOR) {
@@ -168,7 +168,7 @@ public class SQL {
 
         // The first word of 'list[' is a literal with the address of our
         // list as parameter
-        Word[] code = dictionary.get("list[").getCode();
+        DefinedWord[] code = dictionary.get("list[").getCode();
         int addr = (Integer) code[0].getParam();
 
         while (heap[addr] != Util.LIST_TERMINATOR) {

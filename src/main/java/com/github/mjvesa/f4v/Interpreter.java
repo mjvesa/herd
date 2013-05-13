@@ -21,7 +21,7 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.Stack;
 
-import com.github.mjvesa.f4v.Word.BaseWord;
+import com.github.mjvesa.f4v.DefinedWord.BaseWord;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
@@ -63,17 +63,17 @@ public class Interpreter implements ClickListener {
      * 
      */
     private static final long serialVersionUID = -8695295335619892044L;
-    private HashMap<String, Word> dictionary;
+    private HashMap<String, DefinedWord> dictionary;
     private HashMap<String, String> source;
     private Stack<Object> dataStack;
     private Stack<Integer> returnStack;
-    private Stack<Word[]> codeStack;
+    private Stack<DefinedWord[]> codeStack;
     private Object[] heap;
-    private Word currentDefinition; // These two are used to define new words
-    private ArrayList<Word> currentDefinitionWords;
+    private DefinedWord currentDefinition; // These two are used to define new words
+    private ArrayList<DefinedWord> currentDefinitionWords;
     private boolean isCompiling;
     private int ip; // These tell use where we are executing now
-    private Word[] code;
+    private DefinedWord[] code;
     private Parser parser;
     private ComponentContainer mainComponentContainer;
     private Blocks blocks;
@@ -135,9 +135,9 @@ public class Interpreter implements ClickListener {
 
         dataStack = new Stack<Object>();
         returnStack = new Stack<Integer>();
-        codeStack = new Stack<Word[]>();
+        codeStack = new Stack<DefinedWord[]>();
         heap = new Object[2000];
-        dictionary = new HashMap<String, Word>();
+        dictionary = new HashMap<String, DefinedWord>();
     }
 
     /**
@@ -145,8 +145,8 @@ public class Interpreter implements ClickListener {
      */
     private void fillDictionary() {
         for (BaseWord bw : BaseWord.values()) {
-            Word word = new Word();
-            word.setType(Word.Type.BASE);
+            DefinedWord word = new DefinedWord();
+            word.setType(DefinedWord.Type.BASE);
             word.setBaseWord(bw);
             word.setName(bw.getString());
             guiEventListener.newWord(bw.getString());
@@ -197,8 +197,8 @@ public class Interpreter implements ClickListener {
             } else {
 
                 if (dictionary.containsKey(word)) {
-                    Word w = dictionary.get(word);
-                    if (w.getType() != Word.Type.NOP) {
+                    DefinedWord w = dictionary.get(word);
+                    if (w.getType() != DefinedWord.Type.NOP) {
                         execute(w);
                     }
                 } else {
@@ -224,8 +224,8 @@ public class Interpreter implements ClickListener {
     private void compileWord(String word) {
 
         if (dictionary.containsKey(word)) {
-            Word w = dictionary.get(word);
-            if (w.getType() != Word.Type.NOP) {
+            DefinedWord w = dictionary.get(word);
+            if (w.getType() != DefinedWord.Type.NOP) {
                 if (w.isImmediate()) {
                     execute(w);
                 } else {
@@ -256,7 +256,7 @@ public class Interpreter implements ClickListener {
      * previous point in return stack so there will be no problems with nested
      * calls.
      */
-    public void execute(Word word) {
+    public void execute(DefinedWord word) {
 
         if (word == null) {
             guiEventListener.getUI()
@@ -272,13 +272,13 @@ public class Interpreter implements ClickListener {
             print("Executing: " + word.getName());
         }
 
-        if (word.getType() == Word.Type.BASE) {
+        if (word.getType() == DefinedWord.Type.BASE) {
             executeBaseWord(word);
         } else {
             code = word.getCode();
             ip = 0;
             while (ip < code.length) {
-                if (code[ip].getType() == Word.Type.BASE) {
+                if (code[ip].getType() == DefinedWord.Type.BASE) {
                     executeBaseWord(code[ip]);
                 } else {
                     returnStack.push(ip);
@@ -294,7 +294,7 @@ public class Interpreter implements ClickListener {
         code = codeStack.pop();
     }
 
-    private void executeBaseWord(Word word) {
+    private void executeBaseWord(DefinedWord word) {
 
         BaseWord baseWord = word.getBaseWord();
         Integer address;
@@ -307,8 +307,8 @@ public class Interpreter implements ClickListener {
         ComponentContainer cc;
         Window w;
         Button btn;
-        Word wrd;
-        Word[] code;
+        DefinedWord wrd;
+        DefinedWord[] code;
         Table table;
         Field f;
 
@@ -433,8 +433,8 @@ public class Interpreter implements ClickListener {
                 createFromStack();
                 break;
             case CREATENOP:
-                Word nop = new Word();
-                nop.setType(Word.Type.NOP);
+                DefinedWord nop = new DefinedWord();
+                nop.setType(DefinedWord.Type.NOP);
                 String name = parser.getNextWord();
                 dictionary.put(name, nop);
                 guiEventListener.newWord(name);
@@ -564,7 +564,7 @@ public class Interpreter implements ClickListener {
                 break;
 
             case ISXT: // ( XT? -- Boolean )
-                dataStack.push(dataStack.pop() instanceof Word);
+                dataStack.push(dataStack.pop() instanceof DefinedWord);
                 break;
             case WORDS:
                 printWords();
@@ -613,7 +613,7 @@ public class Interpreter implements ClickListener {
                 dataStack.push(wrd);
                 break;
             case EXECUTE:
-                wrd = (Word) dataStack.pop();
+                wrd = (DefinedWord) dataStack.pop();
                 returnStack.push(ip);
                 codeStack.push(this.code);
                 execute(wrd);
@@ -942,9 +942,9 @@ public class Interpreter implements ClickListener {
     }
 
     /* Gets the next executable word and skips it in execution */
-    private Word getNextExecutableWord() {
-        Word[] words = this.code;
-        Word w = words[ip + 1];
+    private DefinedWord getNextExecutableWord() {
+        DefinedWord[] words = this.code;
+        DefinedWord w = words[ip + 1];
         ip++;
         return w;
     }
@@ -954,7 +954,7 @@ public class Interpreter implements ClickListener {
 
         String word = parser.getNextWord();
         while (!word.isEmpty()) {
-            if (dictionary.get(word).getType() != Word.Type.NOP) {
+            if (dictionary.get(word).getType() != DefinedWord.Type.NOP) {
                 return word;
             }
             word = parser.getNextWord();
@@ -964,10 +964,10 @@ public class Interpreter implements ClickListener {
 
     /* Generates a word which pushes a literal onto the stack */
     private void generateLiteral(Object value) {
-        Word w = new Word();
+        DefinedWord w = new DefinedWord();
         w.setBaseWord(BaseWord.LITERAL);
         w.setName("LITERAL " + value.toString());
-        w.setType(Word.Type.BASE);
+        w.setType(DefinedWord.Type.BASE);
         w.setParam(value);
         currentDefinitionWords.add(w);
     }
@@ -989,13 +989,13 @@ public class Interpreter implements ClickListener {
             // TODO is this the right thing to do? "Specs" seem kinda vague
             finishCompilation();
         }
-        currentDefinition = new Word();
-        currentDefinition.setType(Word.Type.DEFINED);
+        currentDefinition = new DefinedWord();
+        currentDefinition.setType(DefinedWord.Type.DEFINED);
         guiEventListener.newWord(name);
         // wordListSelect.addItem();
         currentDefinition.setName(name);
         dictionary.put(name, currentDefinition);
-        currentDefinitionWords = new ArrayList<Word>();
+        currentDefinitionWords = new ArrayList<DefinedWord>();
         isCompiling = true;
     }
 
@@ -1005,7 +1005,7 @@ public class Interpreter implements ClickListener {
      */
     private void finishCompilation() {
         String name = currentDefinition.getName();
-        currentDefinition.setCode(currentDefinitionWords.toArray(new Word[1]));
+        currentDefinition.setCode(currentDefinitionWords.toArray(new DefinedWord[1]));
         if (logNewWords) {
             print("ADDED: " + name);
         }
@@ -1035,7 +1035,7 @@ public class Interpreter implements ClickListener {
 
     public void buttonClick(ClickEvent event) {
         Button b = event.getButton();
-        Word command = (Word) b.getData();
+        DefinedWord command = (DefinedWord) b.getData();
         if (command != null) {
             execute(command);
         }

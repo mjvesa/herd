@@ -151,57 +151,45 @@ public class FlowControlWordSet extends WordSet {
 				}
 			},
 
-			new BaseWord("", "", Word.POSTPONED) {
+			new BaseWord("<", "LESSTHAN", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					Integer a = (Integer) interpreter.popData();
+					Integer b = (Integer) interpreter.popData();
+					interpreter.pushData((Boolean) (b < a));
 				}
 			},
 
-			// case LESSTHAN:
-			// a = (Integer) dataStack.pop();
-			// b = (Integer) dataStack.pop();
-			// dataStack.push((Boolean) (b < a));
-			// break;
-
-			new BaseWord("", "", Word.POSTPONED) {
+			new BaseWord("=", "EQUALS", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					Integer a = (Integer) interpreter.popData();
+					Integer b = (Integer) interpreter.popData();
+					interpreter.pushData((Boolean) (b.equals(a)));
 				}
 			},
 
-			// case EQUALS:
-			// a = (Integer) dataStack.pop();
-			// b = (Integer) dataStack.pop();
-			// dataStack.push((Boolean) (b.intValue() == a.intValue()));
-			// break;
-
-			new BaseWord("", "", Word.POSTPONED) {
+			new BaseWord(">", "GREATERTHAN", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					Integer a = (Integer) interpreter.popData();
+					Integer b = (Integer) interpreter.popData();
+					interpreter.pushData((Boolean) (b > a));
 				}
 			},
 
-			// case GREATERTHAN: // (a b -- a > b )
-			// b = (Integer) dataStack.pop();
-			// a = (Integer) dataStack.pop();
-			// dataStack.push((Boolean) (a > b));
-			// break;
-			//
-
-			new BaseWord("", "", Word.POSTPONED) {
+			new BaseWord("NOT", "NOT", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					Boolean b = (Boolean) interpreter.popData();
+					interpreter.pushData((Boolean) !b);
 				}
 
 			}
-	// case NOT:
-	// bool = (Boolean) dataStack.pop();
-	// dataStack.push(!bool);
-	// break;
 
 	};
 

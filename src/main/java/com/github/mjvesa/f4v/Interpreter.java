@@ -21,7 +21,6 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.Stack;
 
-import com.github.mjvesa.f4v.DefinedWord.BaseWord;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -123,14 +122,17 @@ public class Interpreter implements ClickListener {
 	 * Pulls basic words from the list and
 	 */
 	private void fillDictionary() {
-		for (BaseWord bw : BaseWord.values()) {
-			DefinedWord word = new DefinedWord();
-			word.setType(DefinedWord.Type.BASE);
-			word.setBaseWord(bw);
-			word.setName(bw.getString());
-			guiEventListener.newWord(bw.getString());
-			dictionary.put(bw.getString(), word);
-		}
+
+		// TODO install words instead
+
+		// for (BaseWord bw : BaseWord.values()) {
+		// DefinedWord word = new DefinedWord();
+		// word.setType(DefinedWord.Type.BASE);
+		// word.setBaseWord(bw);
+		// word.setName(bw.getString());
+		// guiEventListener.newWord(bw.getString());
+		// dictionary.put(bw.getString(), word);
+		// }
 
 		// Set some words to be executed immediately when compiling
 		dictionary.get("ENDIF").setImmediate(true);
@@ -267,12 +269,9 @@ public class Interpreter implements ClickListener {
 
 	/* Generates a word which pushes a literal onto the stack */
 	private void generateLiteral(Object value) {
-		DefinedWord w = new DefinedWord();
-		w.setBaseWord(BaseWord.LITERAL);
-		w.setName("LITERAL " + value.toString());
-		w.setType(DefinedWord.Type.BASE);
-		w.setParam(value);
-		currentDefinitionWords.add(w);
+		Word w = dictionary.get("GENLITERAL");
+		CompiledWord cw = new CompiledWord(w, value);
+		currentDefinitionWords.add(cw);
 	}
 
 	private void create() {
@@ -293,7 +292,6 @@ public class Interpreter implements ClickListener {
 			finishCompilation();
 		}
 		currentDefinition = new DefinedWord();
-		currentDefinition.setType(DefinedWord.Type.DEFINED);
 		guiEventListener.newWord(name);
 		// wordListSelect.addItem();
 		currentDefinition.setName(name);
@@ -308,8 +306,7 @@ public class Interpreter implements ClickListener {
 	 */
 	private void finishCompilation() {
 		String name = currentDefinition.getName();
-		currentDefinition.setCode(currentDefinitionWords
-				.toArray(new DefinedWord[1]));
+		currentDefinition.setCode(currentDefinitionWords.toArray(new Word[1]));
 		if (logNewWords) {
 			print("ADDED: " + name);
 		}

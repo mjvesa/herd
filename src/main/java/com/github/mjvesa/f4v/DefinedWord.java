@@ -22,7 +22,7 @@ package com.github.mjvesa.f4v;
 public class DefinedWord extends Word {
 
 	private String name;
-	private DefinedWord[] code;
+	private Word[] code;
 
 	public String getName() {
 		return name;
@@ -32,11 +32,11 @@ public class DefinedWord extends Word {
 		this.name = name;
 	}
 
-	public DefinedWord[] getCode() {
+	public Word[] getCode() {
 		return code;
 	}
 
-	public void setCode(DefinedWord[] code) {
+	public void setCode(Word[] code) {
 		this.code = code;
 	}
 

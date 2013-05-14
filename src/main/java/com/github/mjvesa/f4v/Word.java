@@ -14,8 +14,6 @@ public abstract class Word {
 
 	private boolean immediate;
 
-	private Object param;
-
 	public abstract void execute(Interpreter interpreter);
 
 	public boolean isImmediate() {
@@ -41,13 +39,4 @@ public abstract class Word {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public Object getParam() {
-		return param;
-	}
-
-	public void setParam(Object param) {
-		this.param = param;
-	}
-
 }

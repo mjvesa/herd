@@ -144,7 +144,7 @@ public class SQL {
 			throws SQLException {
 
 		Word[] code = ((DefinedWord) dictionary.get("list[")).getCode();
-		int addr = (Integer) code[0].getParam();
+		int addr = (Integer) ((CompiledWord) code[0]).getParameter();
 		int i = 1;
 		while (heap[addr] != Util.LIST_TERMINATOR) {
 			st.setObject(i, heap[addr]);
@@ -168,7 +168,7 @@ public class SQL {
 		// The first word of 'list[' is a literal with the address of our
 		// list as parameter
 		Word[] code = ((DefinedWord) dictionary.get("list[")).getCode();
-		int addr = (Integer) code[0].getParam();
+		int addr = (Integer) ((CompiledWord) code[0]).getParameter();
 
 		while (heap[addr] != Util.LIST_TERMINATOR) {
 			list.add(heap[addr]);

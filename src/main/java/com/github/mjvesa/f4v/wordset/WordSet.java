@@ -11,7 +11,7 @@ import com.github.mjvesa.f4v.Word;
  */
 public class WordSet {
 
-	private Word[] words;
+	protected Word[] words;
 
 	public void install(Interpreter interpreter) {
 

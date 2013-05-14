@@ -8,6 +8,9 @@ package com.github.mjvesa.f4v;
  */
 public abstract class BaseWord extends Word {
 
-	public abstract void execute(Interpreter interpreter);
+	public BaseWord(String name, String description) {
+		this.name = name;
+		this.description = description;
+	}
 
 }

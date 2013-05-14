@@ -8,11 +8,11 @@ package com.github.mjvesa.f4v;
  */
 public abstract class Word {
 
+	protected String name;
+
+	protected String description;
+
 	private boolean immediate;
-
-	public abstract String getName();
-
-	public abstract String getDescription();
 
 	public abstract void execute(Interpreter interpreter);
 
@@ -22,6 +22,22 @@ public abstract class Word {
 
 	public void setImmediate(boolean immediate) {
 		this.immediate = immediate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 }

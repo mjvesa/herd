@@ -21,63 +21,8 @@ package com.github.mjvesa.f4v;
  */
 public class DefinedWord extends Word {
 
-	public enum Type {
-		BASE, DEFINED, NOP
-	};
-
-	public enum BaseWord {
-		/* Basic actions */
-		LITERAL("LITERAL"), GENLITERAL(","), STORE("!"), LOAD("@"), ADD("+"), SUB(
-				"-"), MUL("*"), DIV("/"), NOT("NOT"), DUP("DUP"), OVER("OVER"), ROT(
-				"ROT"), MINUSROT("-ROT"), TWOSWAP("2SWAP"), NIP("NIP"), TUCK(
-				"TUCK"), SWAP("SWAP"), DROP("DROP"), PRINT("."), CREATE(
-				"CREATE"), STACKCREATE("STACKCREATE"), CREATENOP("CREATENOP"), IMMEDIATE(
-				"IMMEDIATE"), COMPILE("COMPILE"), DOES("DOES>"), COLONCREATE(
-				":"), ANONCREATE("ANONCREATE"), FINISHCOMPILATION(";"), DO("DO"), LOOP(
-				"LOOP"), BEGIN("BEGIN"), REPEAT("REPEAT"), WHILE("WHILE"), IF(
-				"IF"), ENDIF("ENDIF"), ELSE("ELSE"), LESSTHANZERO("0<"), ZERO(
-				"0="), GREATERTHANZERO("0>"), LESSTHAN("<"), EQUALS("="), GREATERTHAN(
-				">"), OBJEQUALS("EQUALS"), ISXT("ISXT"), WORDS("WORDS"), BEGINCOMMENT(
-				"("), ENDCOMMENT(")"), BEGININTERPRET("["), ENDINTERPRET("]"), WORD(
-				"WORD"), TICK("'"), BRACKETTICK("[']"), FIND("FIND"), EXECUTE(
-				"EXECUTE"), STRTOINT("STRTOINT"), INTTOSTR("INTTOSTR"), CAT(
-				"CAT"), NULL("NULL"), BREAKPOINT("BP"), LIST_TERMINATOR(
-				"LIST_TERMINATOR"), EXECBUFFER("EXECBUFFER"), PRINTSTACK(
-				"PRINTSTACK"), LOG("LOG"),
-		/* Vaadin API words */
-		NEWHL("newHl"), NEWVL("newVl"), NEWGL("newGl"), GLNEWLINE("glNewline"), SETCAPTION(
-				"setCaption"), SETVALUE("setValue"), GETVALUE("getValue"), NEWBUTTON(
-				"newButton"), SETCLICKLISTENER("setClickListener"), ADDCOMPONENT(
-				"addComponent"), MAINPANEL("mainPanel"), ADDWINDOW("addWindow"), NEWWINDOW(
-				"newWindow"), CLEARCONTAINER("clearContainer"), SETSIZEFULL(
-				"setSizeFull"), SETSIZEUNDEFINED("setSizeUndefined"), SETWIDTH(
-				"setWidth"), SETHEIGHT("setHeight"), NEWLABEL("newLabel"), NEWTEXTFIELD(
-				"newTextField"), NEWDATEFIELD("newDateField"), NEWCHECKBOX(
-				"newCheckBox"), NEWCOMBOBOX("newComboBox"), NEWSELECT(
-				"newSelect"), NEWLISTSELECT("newListSelect"),
-		/* Table */
-		NEWTABLE("newTable"), SETCONTAINERDATASOURCE("setContainerDatasource"), SETCOLUMHEADERS(
-				"setColumnHeaders"), SETVISIBLECOLUMNS("setVisibleColumns"),
-		/* SQL queries and containers */
-		CREATESQLCONTAINER("createSQLContainer"), CREATEFILTEREDSQLCONTAINER(
-				"createFilteredSQLContainer"), DOQUERY("doQuery"), GETPROPERTY(
-				"getProperty"), SETPROPERTY("setProperty");
-
-		String s;
-
-		private BaseWord(String s) {
-			this.s = s;
-		}
-
-		public String getString() {
-			return s;
-		}
-	};
-
 	private String name;
 	private DefinedWord[] code;
-	private Type type;
-	private BaseWord baseWord;
 
 	public String getName() {
 		return name;
@@ -93,22 +38,6 @@ public class DefinedWord extends Word {
 
 	public void setCode(DefinedWord[] code) {
 		this.code = code;
-	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
-
-	public BaseWord getBaseWord() {
-		return baseWord;
-	}
-
-	public void setBaseWord(BaseWord baseWord) {
-		this.baseWord = baseWord;
 	}
 
 	public String toString() {

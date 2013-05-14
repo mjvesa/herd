@@ -125,8 +125,8 @@ public class DefinedWord extends Word {
 	}
 
 	@Override
-	public void execute(State state) {
-		state.executeDefinedWord(code);
+	public void execute(Interpreter interpreter) {
+		interpreter.executeDefinedWord(code);
 
 	}
 

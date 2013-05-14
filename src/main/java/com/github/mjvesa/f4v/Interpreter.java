@@ -16,6 +16,7 @@
 package com.github.mjvesa.f4v;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.Set;
 import java.util.Stack;
@@ -111,14 +112,14 @@ public class Interpreter implements ClickListener {
 
 		// TODO this should go to the SQL wordset when installing
 		sql = new SQL();
-		sql.setDictionary(state.getDictionary());
-		sql.setHeap(state.getHeap());
+		sql.setDictionary(dictionary);
+		sql.setHeap(heap);
 
 	}
 
 	public void setGuiEventListener(GuiEventListener listener) {
 		guiEventListener = listener;
-		state.setMainComponentContainer(listener.getMainComponentContainer());
+		mainComponentContainer = listener.getMainComponentContainer();
 	}
 
 	private void loadBuffers() {
@@ -186,28 +187,26 @@ public class Interpreter implements ClickListener {
 	 */
 	public void interpret(String str) {
 
-		state.setCompiling(false);
-		Parser parser = new Parser();
+		isCompiling = false;
+		parser = new Parser();
 		parser.setString(str);
-		state.setParser(parser);
 
 		String word = parser.getNextWord();
 
 		while (!word.isEmpty()) {
 
-			if (state.isCompiling()) {
+			if (isCompiling) {
 				compileWord(word);
 			} else {
 
-				if (state.getDictionary().containsKey(word)) {
-					Word w = state.getDictionary().get(word);
+				if (dictionary.containsKey(word)) {
+					Word w = dictionary.get(word);
 					execute(w);
 				} else {
 					if (word.charAt(0) == '"') {
-						state.getDataStack().push(
-								word.substring(1, word.length() - 1));
+						dataStack.push(word.substring(1, word.length() - 1));
 					} else if (Character.isDigit(word.charAt(0))) {
-						state.getDataStack().push(Integer.valueOf(word));
+						dataStack.push(Integer.valueOf(word));
 					} else {
 						print("ERROR: didn't quite get this: " + word);
 					}
@@ -224,12 +223,12 @@ public class Interpreter implements ClickListener {
 	 * @param word
 	 */
 	private void compileWord(String word) {
-		if (state.getDictionary().containsKey(word)) {
-			Word w = state.getDictionary().get(word);
+		if (dictionary.containsKey(word)) {
+			Word w = dictionary.get(word);
 			if (w.isImmediate()) {
 				execute(w);
 			} else {
-				state.getCurrentDefinitionWords().add(w);
+				currentDefinitionWords.add(w);
 			}
 		} else {
 			if (word.charAt(0) == '"') {
@@ -238,7 +237,7 @@ public class Interpreter implements ClickListener {
 				generateLiteral(Integer.valueOf(word));
 			} else {
 				print("COMPILER ERROR: didn't quite get this: " + word
-						+ state.getParser().getPosition());
+						+ parser.getPosition());
 			}
 		}
 	}
@@ -263,11 +262,11 @@ public class Interpreter implements ClickListener {
 			// TODO return to main loop or stop interpreting when this happens.
 		}
 
-		if (state.isLogExecutedWords()) {
+		if (logExecutedWords) {
 			print("Executing: " + word.getName());
 		}
 
-		word.execute(state);
+		word.execute(this);
 	}
 
 	private void executeBaseWord(DefinedWord word) {
@@ -284,7 +283,7 @@ public class Interpreter implements ClickListener {
 		Window w;
 		Button btn;
 		DefinedWord wrd;
-		DefinedWord[] code;
+		Word[] code;
 		Table table;
 		Field f;
 

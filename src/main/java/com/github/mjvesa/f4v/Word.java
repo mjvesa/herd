@@ -14,7 +14,7 @@ public abstract class Word {
 
 	public abstract String getDescription();
 
-	public abstract void execute(State state);
+	public abstract void execute(Interpreter interpreter);
 
 	public boolean isImmediate() {
 		return immediate;

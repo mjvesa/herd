@@ -8,6 +8,6 @@ package com.github.mjvesa.f4v;
  */
 public abstract class BaseWord extends Word {
 
-	public abstract void execute(State state);
+	public abstract void execute(Interpreter interpreter);
 
 }

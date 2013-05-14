@@ -1,6 +1,6 @@
 package com.github.mjvesa.f4v.wordset;
 
-import com.github.mjvesa.f4v.State;
+import com.github.mjvesa.f4v.Interpreter;
 import com.github.mjvesa.f4v.Word;
 
 /**
@@ -13,10 +13,10 @@ public class WordSet {
 
 	private Word[] words;
 
-	public void install(State state) {
+	public void install(Interpreter interpreter) {
 
 		for (Word word : words) {
-			state.getDictionary().put(word.getName(), word);
+			interpreter.getDictionary().put(word.getName(), word);
 		}
 	}
 

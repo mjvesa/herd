@@ -9,32 +9,47 @@ public class SQLWordSet extends WordSet {
 	protected Word[] words = {
 
 	new BaseWord("", "") {
-
 		@Override
 		public void execute(Interpreter interpreter) {
 		}
-	}
+	},
 
-	};
+			// /* Database stuff */
+			// case CREATESQLCONTAINER:
+			// str = (String) dataStack.pop();
+			// dataStack.push(sql.createIndexedContainerFromQuery(str, false));
+			// break;
 
-	// /* Database stuff */
-	// case CREATESQLCONTAINER:
-	// str = (String) dataStack.pop();
-	// dataStack.push(sql.createIndexedContainerFromQuery(str, false));
-	// break;
-	// case CREATEFILTEREDSQLCONTAINER:
-	// str = (String) dataStack.pop();
-	// dataStack.push(sql.createIndexedContainerFromQuery(str, true));
-	// break;
-	// case DOQUERY:
-	// sql.doQuery((String) dataStack.pop());
-	// break;
-	// case GETPROPERTY:
-	// str = (String) dataStack.pop();
-	// item = (Item) dataStack.pop();
-	// dataStack.push(item);
-	// dataStack.push(item.getItemProperty(str).getValue());
-	// break;
+			new BaseWord("", "") {
+				@Override
+				public void execute(Interpreter interpreter) {
+				}
+			},
+			// case CREATEFILTEREDSQLCONTAINER:
+			// str = (String) dataStack.pop();
+			// dataStack.push(sql.createIndexedContainerFromQuery(str, true));
+			// break;
+			// case DOQUERY:
+			// sql.doQuery((String) dataStack.pop());
+			// break;
+
+			new BaseWord("", "") {
+				@Override
+				public void execute(Interpreter interpreter) {
+				}
+			},
+			// case GETPROPERTY:
+			// str = (String) dataStack.pop();
+			// item = (Item) dataStack.pop();
+			// dataStack.push(item);
+			// dataStack.push(item.getItemProperty(str).getValue());
+			// break;
+
+			new BaseWord("", "") {
+				@Override
+				public void execute(Interpreter interpreter) {
+				}
+			}
 	// case SETPROPERTY:
 	// str = (String) dataStack.pop();
 	// str2 = (String) dataStack.pop();
@@ -42,5 +57,7 @@ public class SQLWordSet extends WordSet {
 	// item.getItemProperty(str2).setValue(str);
 	// break;
 	//
+
+	};
 
 }

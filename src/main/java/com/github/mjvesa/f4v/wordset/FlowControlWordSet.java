@@ -219,8 +219,8 @@ public class FlowControlWordSet extends WordSet {
 				@Override
 				public void execute(Interpreter interpreter) {
 				}
-			},
 
+			}
 	// case NOT:
 	// bool = (Boolean) dataStack.pop();
 	// dataStack.push(!bool);

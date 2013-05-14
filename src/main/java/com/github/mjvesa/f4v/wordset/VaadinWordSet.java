@@ -392,64 +392,86 @@ public class VaadinWordSet extends WordSet {
 				}
 			},
 
-	// case NEWSELECT:
-	// final String selCommand = getNextNonNopWord();
-	// final Select sel = new Select();
-	// sel.setCaption((String) dataStack.pop());
-	// sel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
-	// sel.setNullSelectionAllowed(false);
-	// sel.setImmediate(true);
-	// sel.addValueChangeListener(new ValueChangeListener() {
-	// /**
-	// *
-	// */
-	// private static final long serialVersionUID = -7705548618092166199L;
-	//
-	// public void valueChange(ValueChangeEvent event) {
-	// Item item = sel.getContainerDataSource().getItem(
-	// event.getProperty().getValue());
-	// dataStack.push(item);
-	// interpret(selCommand);
-	// }
-	// });
-	// dataStack.push(sel);
-	// break;
+			// case NEWSELECT:
+			// final String selCommand = getNextNonNopWord();
+			// final Select sel = new Select();
+			// sel.setCaption((String) dataStack.pop());
+			// sel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
+			// sel.setNullSelectionAllowed(false);
+			// sel.setImmediate(true);
+			// sel.addValueChangeListener(new ValueChangeListener() {
+			// /**
+			// *
+			// */
+			// private static final long serialVersionUID =
+			// -7705548618092166199L;
+			//
+			// public void valueChange(ValueChangeEvent event) {
+			// Item item = sel.getContainerDataSource().getItem(
+			// event.getProperty().getValue());
+			// dataStack.push(item);
+			// interpret(selCommand);
+			// }
+			// });
+			// dataStack.push(sel);
+			// break;
+			new BaseWord("", "") {
+				@Override
+				public void execute(Interpreter interpreter) {
+				}
+			},
 
-	// case NEWLISTSELECT:
-	// final String lselCommand = getNextNonNopWord();
-	// final ListSelect lsel = new ListSelect();
-	// lsel.setCaption((String) dataStack.pop());
-	// lsel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
-	// lsel.setNullSelectionAllowed(false);
-	// lsel.setImmediate(true);
-	// lsel.addValueChangeListener(new ValueChangeListener() {
-	// /**
-	// *
-	// */
-	// private static final long serialVersionUID = -5523488417834167806L;
-	//
-	// public void valueChange(ValueChangeEvent event) {
-	// Item item = lsel.getContainerDataSource().getItem(
-	// event.getProperty().getValue());
-	// dataStack.push(item);
-	// interpret(lselCommand);
-	// }
-	// });
-	// dataStack.push(lsel);
-	// break;
+			// case NEWLISTSELECT:
+			// final String lselCommand = getNextNonNopWord();
+			// final ListSelect lsel = new ListSelect();
+			// lsel.setCaption((String) dataStack.pop());
+			// lsel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
+			// lsel.setNullSelectionAllowed(false);
+			// lsel.setImmediate(true);
+			// lsel.addValueChangeListener(new ValueChangeListener() {
+			// /**
+			// *
+			// */
+			// private static final long serialVersionUID =
+			// -5523488417834167806L;
+			//
+			// public void valueChange(ValueChangeEvent event) {
+			// Item item = lsel.getContainerDataSource().getItem(
+			// event.getProperty().getValue());
+			// dataStack.push(item);
+			// interpret(lselCommand);
+			// }
+			// });
+			// dataStack.push(lsel);
+			// break;
+			new BaseWord("", "") {
+				@Override
+				public void execute(Interpreter interpreter) {
+				}
+			},
 
-	// case SETCONTAINERDATASOURCE:
-	// Container cont = (Container) dataStack.pop();
-	// AbstractSelect as = (AbstractSelect) dataStack.pop();
-	// as.setContainerDataSource(cont);
-	// dataStack.push(as);
-	// break;
+			// case SETCONTAINERDATASOURCE:
+			// Container cont = (Container) dataStack.pop();
+			// AbstractSelect as = (AbstractSelect) dataStack.pop();
+			// as.setContainerDataSource(cont);
+			// dataStack.push(as);
+			// break;
+			new BaseWord("", "") {
+				@Override
+				public void execute(Interpreter interpreter) {
+				}
+			},
 
-	// case SETCOLUMHEADERS:
-	// table = (Table) dataStack.pop();
-	// table.setColumnHeaders((String[]) sql
-	// .getArrayFromList(new String[0]));
-	// break;
+			// case SETCOLUMHEADERS:
+			// table = (Table) dataStack.pop();
+			// table.setColumnHeaders((String[]) sql
+			// .getArrayFromList(new String[0]));
+			// break;
+			new BaseWord("", "") {
+				@Override
+				public void execute(Interpreter interpreter) {
+				}
+			}
 
 	// case SETVISIBLECOLUMNS:
 	// table = (Table) dataStack.pop();

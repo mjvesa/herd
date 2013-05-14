@@ -1,180 +1,157 @@
 package com.github.mjvesa.f4v.wordset;
 
 import com.github.mjvesa.f4v.BaseWord;
+import com.github.mjvesa.f4v.CompiledWord;
 import com.github.mjvesa.f4v.Interpreter;
 import com.github.mjvesa.f4v.Word;
 
 public class FlowControlWordSet extends WordSet {
 
-	protected Word[] words = {
+	protected static Word[] words = {
 
-	new BaseWord("", "") {
-
-		@Override
-		public void execute(Interpreter interpreter) {
-		}
-	},
-
-			// case DO:
-			// returnStack.push(ip);
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord(
+					"DO",
+					"Beginning of DO loop. (n1 n2 -- ) Expects begin and end counter values to be at TOS and NOS",
+					Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.pushReturn(interpreter.getIp());
 				}
 			},
 
-			// case LOOP:
-			// a = (Integer) dataStack.pop();
-			// a++;
-			// b = (Integer) dataStack.pop();
-			// if (a < b) {
-			// ip = returnStack.pop();
-			// returnStack.push(ip);
-			// dataStack.push(b);
-			// dataStack.push(a);
-			// } else {
-			// returnStack.pop();
-			// }
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("LOOP", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					Integer a = (Integer) interpreter.popData();
+					a++;
+					Integer b = (Integer) interpreter.popData();
+					if (a < b) {
+						Integer ip = interpreter.popReturn();
+						interpreter.pushReturn(ip);
+						interpreter.pushData(b);
+						interpreter.pushData(a);
+					} else {
+						interpreter.popReturn();
+					}
 				}
 			},
 
-			// case IF:
-			// bool = (Boolean) dataStack.pop();
-			// // If false, skip to endif
-			// if (!bool) {
-			// ip += (Integer) word.getParam();
-			// System.out.println("IF Jumping to: "
-			// + this.code[ip + 1].toString());
-			// }
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("IF", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					Boolean bool = (Boolean) interpreter.popData();
+					// If false, skip to endif
+					if (!bool) {
+						// TODO The same thing is done in ELSE, could it be
+						// moved to Interpreter?
+						interpreter.setIp(interpreter.getIp()
+								+ (Integer) ((CompiledWord) interpreter
+										.getExecutedWord()).getParameter());
+					}
 				}
 			},
 
-			// case ELSE:
-			// ip += (Integer) word.getParam();
-			// System.out.println("ELSE Jumping to what is after: "
-			// + this.code[ip].toString());
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("ELSE", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.setIp(interpreter.getIp()
+							+ (Integer) ((CompiledWord) interpreter
+									.getExecutedWord()).getParameter());
 				}
 			},
 
-			// case ENDIF:
-			// // Find latest IF
-			// // set current address minus one as parameter
-			// i = currentDefinitionWords.size() - 1;
-			// int jumpDest = i;
-			// while (currentDefinitionWords.get(i).getBaseWord() !=
-			// BaseWord.IF) {
-			// if (currentDefinitionWords.get(i).getBaseWord() == BaseWord.ELSE)
-			// {
-			// currentDefinitionWords.get(i).setParam(jumpDest - i);
-			// jumpDest = i; // IF jumps to word after else
-			// }
-			// i--;
-			//
-			// // TODO should we check if we are stepping out of array?
-			// // Nah.
-			// }
-			// currentDefinitionWords.get(i).setParam(jumpDest - i);
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("ENDIF", "", Word.IMMEDIATE) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					// Find latest IF
+					// set current address minus one as parameter
+					int i = interpreter.getCurrentDefinitionSize() - 1;
+					int jumpDest = i;
+					while (!"IF".equals(interpreter.getFromCurrentDefinition(i)
+							.getName()) && (i >= 0)) {
+						CompiledWord word = interpreter
+								.getFromCurrentDefinition(i);
+						if ("ELSE".equals(word.getName())) {
+							word.setParameter(jumpDest - i);
+							jumpDest = i; // IF jumps to word after else
+						}
+						i--;
+					}
+					if (i < 0) {
+						throw new RuntimeException();
+					}
+					interpreter.getFromCurrentDefinition(i).setParameter(
+							jumpDest - i);
 				}
 			},
 
-			// case BEGIN:
-			// returnStack.push(ip);
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("BEGIN", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.pushReturn(interpreter.getIp());
 				}
 			},
 
-			// case WHILE:
-			// bool = (Boolean) dataStack.pop();
-			// if (!bool) {
-			// code = this.code;
-			// while (code[ip].getBaseWord() != BaseWord.REPEAT) {
-			// ip++;
-			// }
-			// returnStack.pop();
-			// }
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("WHILE", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					Boolean bool = (Boolean) interpreter.popData();
+					if (!bool) {
+						Word[] code = interpreter.getCode();
+						int ip = interpreter.getIp();
+						while (!"REPEAT".equals(code[ip].getName())) {
+							ip++;
+						}
+						interpreter.setIp(ip);
+						interpreter.popReturn();
+					}
 				}
 			},
 
-			// case REPEAT:
-			// ip = returnStack.pop();
-			// returnStack.push(ip); // TODO might be off by one
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("REPEAT", "", Word.IMMEDIATE) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.pushReturn(interpreter.getIp());
 				}
 			},
 
-			// case LESSTHANZERO:
-			// a = (Integer) dataStack.pop();
-			// dataStack.push((Boolean) (a < 0));
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("<0", "LESSTHANZERO", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.pushData((Boolean) ((Integer) interpreter
+							.popData() < 0));
 				}
 			},
 
-			// case ZERO:
-			// a = (Integer) dataStack.pop();
-			// dataStack.push((Boolean) (a == 0));
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("=0", "ZERO", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.pushData((Boolean) ((Integer) interpreter
+							.popData() == 0));
+
 				}
 			},
 
-			// case GREATERTHANZERO:
-			// a = (Integer) dataStack.pop();
-			// dataStack.push((Boolean) (a > 0));
-			// break;
+			new BaseWord(">0", "GREATERTHANZERO", Word.POSTPONED) {
 
-			new BaseWord("", "") {
+				@Override
+				public void execute(Interpreter interpreter) {
+					interpreter.pushData((Boolean) ((Integer) interpreter
+							.popData() > 0));
+				}
+			},
+
+			new BaseWord("", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
@@ -187,7 +164,7 @@ public class FlowControlWordSet extends WordSet {
 			// dataStack.push((Boolean) (b < a));
 			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
@@ -200,7 +177,7 @@ public class FlowControlWordSet extends WordSet {
 			// dataStack.push((Boolean) (b.intValue() == a.intValue()));
 			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
@@ -214,7 +191,7 @@ public class FlowControlWordSet extends WordSet {
 			// break;
 			//
 
-			new BaseWord("", "") {
+			new BaseWord("", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {

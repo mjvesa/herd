@@ -8,11 +8,14 @@ package com.github.mjvesa.f4v;
  */
 public abstract class Word {
 
+	public static final boolean IMMEDIATE = true;
+	public static final boolean POSTPONED = false;
+
 	protected String name;
 
 	protected String description;
 
-	private boolean immediate;
+	protected boolean immediate;
 
 	public abstract void execute(Interpreter interpreter);
 

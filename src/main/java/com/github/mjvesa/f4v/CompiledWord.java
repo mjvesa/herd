@@ -14,6 +14,11 @@ public class CompiledWord extends Word {
 		this.parameter = parameter;
 	}
 
+	public CompiledWord(Word word) {
+		this.word = word;
+		this.parameter = null;
+	}
+
 	public Word getWord() {
 		return word;
 	}

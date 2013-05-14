@@ -11,9 +11,9 @@ import com.github.mjvesa.f4v.Word;
  */
 public class WordSet {
 
-	protected Word[] words;
+	protected static Word[] words;
 
-	public void install(Interpreter interpreter) {
+	public static void install(Interpreter interpreter) {
 
 		for (Word word : words) {
 			interpreter.getDictionary().put(word.getName(), word);

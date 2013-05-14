@@ -8,7 +8,7 @@ public class HeapWordSet extends WordSet {
 
 	protected Word[] words = {
 
-	new BaseWord("", "") {
+	new BaseWord("", "", false) {
 		@Override
 		public void execute(Interpreter interpreter) {
 		}
@@ -21,7 +21,7 @@ public class HeapWordSet extends WordSet {
 			// heap[address] = value;
 			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("", "", false) {
 				@Override
 				public void execute(Interpreter interpreter) {
 				}

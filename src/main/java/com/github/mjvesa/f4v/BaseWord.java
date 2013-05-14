@@ -8,9 +8,9 @@ package com.github.mjvesa.f4v;
  */
 public abstract class BaseWord extends Word {
 
-	public BaseWord(String name, String description) {
+	public BaseWord(String name, String description, boolean immediate) {
 		this.name = name;
 		this.description = description;
+		this.immediate = immediate;
 	}
-
 }

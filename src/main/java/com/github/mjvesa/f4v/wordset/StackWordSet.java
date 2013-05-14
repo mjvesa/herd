@@ -6,9 +6,9 @@ import com.github.mjvesa.f4v.Word;
 
 public class StackWordSet extends WordSet {
 
-	protected Word[] words = {
+	protected static Word[] words = {
 
-	new BaseWord("", "") {
+	new BaseWord("", "", Word.POSTPONED) {
 		@Override
 		public void execute(Interpreter interpreter) {
 		}
@@ -20,7 +20,7 @@ public class StackWordSet extends WordSet {
 			// dataStack.push(o);
 			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("", "", Word.POSTPONED) {
 				@Override
 				public void execute(Interpreter interpreter) {
 				}
@@ -33,7 +33,7 @@ public class StackWordSet extends WordSet {
 			// dataStack.push(o2);
 			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("", "", Word.POSTPONED) {
 				@Override
 				public void execute(Interpreter interpreter) {
 				}

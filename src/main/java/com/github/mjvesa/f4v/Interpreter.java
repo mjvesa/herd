@@ -48,10 +48,13 @@ public class Interpreter implements ClickListener {
 	private Object[] heap;
 	private DefinedWord currentDefinition; // These two are used to define new
 											// words
-	private ArrayList<Word> currentDefinitionWords;
+	private ArrayList<CompiledWord> currentDefinitionWords;
 	private boolean isCompiling;
-	private int ip; // These tell use where we are executing now
-	private DefinedWord[] code;
+
+	// ip and code are the defined word currently being executed
+	private int ip;
+	private CompiledWord[] code;
+
 	private Parser parser;
 	private ComponentContainer mainComponentContainer;
 	private Blocks blocks;
@@ -207,7 +210,7 @@ public class Interpreter implements ClickListener {
 			if (w.isImmediate()) {
 				w.execute(this);
 			} else {
-				currentDefinitionWords.add(w);
+				currentDefinitionWords.add(new CompiledWord(w));
 			}
 		} else {
 			if (word.charAt(0) == '"') {
@@ -246,10 +249,20 @@ public class Interpreter implements ClickListener {
 
 	}
 
+	/**
+	 * Executes a defined word. This is done in the Interpreter so that the
+	 * innards of the defined word are exposed.
+	 * 
+	 * @param word
+	 */
+	public void executeDefinedWord(DefinedWord word) {
+		// TODO implement
+	}
+
 	/* Gets the next executable word and skips it in execution */
-	private DefinedWord getNextExecutableWord() {
-		DefinedWord[] words = this.code;
-		DefinedWord w = words[ip + 1];
+	private Word getNextExecutableWord() {
+		CompiledWord[] words = this.code;
+		CompiledWord w = words[ip + 1];
 		ip++;
 		return w;
 	}
@@ -296,7 +309,7 @@ public class Interpreter implements ClickListener {
 		// wordListSelect.addItem();
 		currentDefinition.setName(name);
 		dictionary.put(name, currentDefinition);
-		currentDefinitionWords = new ArrayList<Word>();
+		currentDefinitionWords = new ArrayList<CompiledWord>();
 		isCompiling = true;
 	}
 
@@ -394,6 +407,38 @@ public class Interpreter implements ClickListener {
 
 	public void pushData(Object obj) {
 		dataStack.push(obj);
+	}
+
+	public Integer popReturn() {
+		return returnStack.pop();
+	}
+
+	public void pushReturn(Integer value) {
+		returnStack.push(value);
+	}
+
+	public int getIp() {
+		return ip;
+	}
+
+	public void setIp(int ip) {
+		this.ip = ip;
+	}
+
+	public Word getExecutedWord() {
+		return code[ip];
+	}
+
+	public int getCurrentDefinitionSize() {
+		return currentDefinitionWords.size();
+	}
+
+	public CompiledWord getFromCurrentDefinition(int index) {
+		return currentDefinitionWords.get(index);
+	}
+
+	public CompiledWord[] getCode() {
+		return code;
 	}
 
 }

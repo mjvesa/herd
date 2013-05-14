@@ -167,7 +167,7 @@ public class SQL {
 
 		// The first word of 'list[' is a literal with the address of our
 		// list as parameter
-		Word[] code = dictionary.get("list[").getCode();
+		Word[] code = ((DefinedWord) dictionary.get("list[")).getCode();
 		int addr = (Integer) code[0].getParam();
 
 		while (heap[addr] != Util.LIST_TERMINATOR) {

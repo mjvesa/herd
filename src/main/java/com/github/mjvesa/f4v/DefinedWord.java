@@ -19,7 +19,7 @@ package com.github.mjvesa.f4v;
  * Forth Words. These can be built in atomic instructions or complex defined
  * words.
  */
-public class DefinedWord {
+public class DefinedWord extends Word {
 
 	public enum Type {
 		BASE, DEFINED, NOP
@@ -113,6 +113,12 @@ public class DefinedWord {
 
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public void execute(Interpreter interpreter) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

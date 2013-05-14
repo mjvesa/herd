@@ -114,9 +114,9 @@ public class Interpreter implements ClickListener {
 
 		dataStack = new Stack<Object>();
 		returnStack = new Stack<Integer>();
-		codeStack = new Stack<DefinedWord[]>();
+		codeStack = new Stack<Word[]>();
 		heap = new Object[2000];
-		dictionary = new HashMap<String, DefinedWord>();
+		dictionary = new HashMap<String, Word>();
 	}
 
 	/**
@@ -176,8 +176,8 @@ public class Interpreter implements ClickListener {
 			} else {
 
 				if (dictionary.containsKey(word)) {
-					DefinedWord w = dictionary.get(word);
-					w.execute();
+					Word w = dictionary.get(word);
+					w.execute(this);
 				} else {
 					if (word.charAt(0) == '"') {
 						dataStack.push(word.substring(1, word.length() - 1));
@@ -201,13 +201,11 @@ public class Interpreter implements ClickListener {
 	private void compileWord(String word) {
 
 		if (dictionary.containsKey(word)) {
-			DefinedWord w = dictionary.get(word);
-			if (w.getType() != DefinedWord.Type.NOP) {
-				if (w.isImmediate()) {
-					execute(w);
-				} else {
-					currentDefinitionWords.add(w);
-				}
+			Word w = dictionary.get(word);
+			if (w.isImmediate()) {
+				w.execute(this);
+			} else {
+				currentDefinitionWords.add(w);
 			}
 		} else {
 			if (word.charAt(0) == '"') {
@@ -259,7 +257,7 @@ public class Interpreter implements ClickListener {
 
 		String word = parser.getNextWord();
 		while (!word.isEmpty()) {
-			if (dictionary.get(word).getType() != DefinedWord.Type.NOP) {
+			if (!"NOP".equals(dictionary.get(word).getName())) {
 				return word;
 			}
 			word = parser.getNextWord();
@@ -300,7 +298,7 @@ public class Interpreter implements ClickListener {
 		// wordListSelect.addItem();
 		currentDefinition.setName(name);
 		dictionary.put(name, currentDefinition);
-		currentDefinitionWords = new ArrayList<DefinedWord>();
+		currentDefinitionWords = new ArrayList<Word>();
 		isCompiling = true;
 	}
 

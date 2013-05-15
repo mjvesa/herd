@@ -8,120 +8,101 @@ public class StackWordSet extends WordSet {
 
 	protected static Word[] words = {
 
-	new BaseWord("", "", Word.POSTPONED) {
+	new BaseWord("DUP", "( a -- a a )", Word.POSTPONED) {
 		@Override
 		public void execute(Interpreter interpreter) {
+			Object o = interpreter.peekData();
+			interpreter.pushData(o);
 		}
 	},
 
-			// case DUP: // ( a -- a a )
-			// o = dataStack.pop();
-			// dataStack.push(o);
-			// dataStack.push(o);
-			// break;
+	new BaseWord("OVER", "( a b -- a b a )", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			Object o1 = interpreter.popData();
+			Object o2 = interpreter.popData();
+			interpreter.pushData(o2);
+			interpreter.pushData(o1);
+			interpreter.pushData(o2);
+		}
+	},
 
-			new BaseWord("", "", Word.POSTPONED) {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case OVER: // ( a b -- a b a )
-			// o1 = dataStack.pop();
-			// o2 = dataStack.pop();
-			// dataStack.push(o2);
-			// dataStack.push(o1);
-			// dataStack.push(o2);
-			// break;
+	new BaseWord("ROT", "( a b c -- b c a )", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			Object o1 = interpreter.popData();
+			Object o2 = interpreter.popData();
+			Object o3 = interpreter.popData();
+			interpreter.pushData(o2);
+			interpreter.pushData(o1);
+			interpreter.pushData(o3);
+		}
+	},
 
-			new BaseWord("", "", Word.POSTPONED) {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case ROT: // ( a b c -- b c a )
-			// o1 = dataStack.pop();
-			// o2 = dataStack.pop();
-			// o3 = dataStack.pop();
-			// dataStack.push(o2);
-			// dataStack.push(o1);
-			// dataStack.push(o3);
-			// break;
+	new BaseWord("-ROT", "( a b c -- c a b )", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			Object o1 = interpreter.popData();
+			Object o2 = interpreter.popData();
+			Object o3 = interpreter.popData();
+			interpreter.pushData(o1);
+			interpreter.pushData(o3);
+			interpreter.pushData(o2);
+		}
+	},
 
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case MINUSROT: // ( a b c -- c a b )
-			// o1 = dataStack.pop();
-			// o2 = dataStack.pop();
-			// o3 = dataStack.pop();
-			// dataStack.push(o1);
-			// dataStack.push(o3);
-			// dataStack.push(o2);
-			// break;
+	new BaseWord("NIP", "( a b -- b )", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			Object o = interpreter.popData();
+			interpreter.popData();
+			interpreter.pushData(o);
+		}
+	},
 
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case NIP: // ( a b -- b )
-			// o1 = dataStack.pop();
-			// o2 = dataStack.pop();
-			// dataStack.push(o1);
-			// break;
+	new BaseWord("TUCK", "( a b -- b a b )", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			Object o1 = interpreter.popData();
+			Object o2 = interpreter.popData();
+			interpreter.pushData(o1);
+			interpreter.pushData(o2);
+			interpreter.pushData(o1);
 
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case TUCK: // ( a b -- b a b )
-			// o1 = dataStack.pop();
-			// o2 = dataStack.pop();
-			// dataStack.push(o1);
-			// dataStack.push(o2);
-			// dataStack.push(o1);
-			// break;
-			//
+		}
+	},
 
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case SWAP: // ( a b -- b a )
-			// o1 = dataStack.pop();
-			// o2 = dataStack.pop();
-			// dataStack.push(o1);
-			// dataStack.push(o2);
-			// break;
+	new BaseWord("SWAP", "( a b -- b a )", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			Object o1 = interpreter.popData();
+			Object o2 = interpreter.popData();
+			interpreter.pushData(o1);
+			interpreter.pushData(o2);
+		}
+	},
 
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case TWOSWAP: // ( a b c d -- c d a b)
-			// o1 = dataStack.pop();
-			// o2 = dataStack.pop();
-			// o3 = dataStack.pop();
-			// o4 = dataStack.pop();
-			// dataStack.push(o2);
-			// dataStack.push(o1);
-			// dataStack.push(o4);
-			// dataStack.push(o3);
-			// break;
+	new BaseWord("2SWAP", "( a b c d -- c d a b)", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			Object o1 = interpreter.popData();
+			Object o2 = interpreter.popData();
+			Object o3 = interpreter.popData();
+			Object o4 = interpreter.popData();
+			interpreter.pushData(o2);
+			interpreter.pushData(o1);
+			interpreter.pushData(o4);
+			interpreter.pushData(o3);
 
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			}
-	// case DROP: // ( n -- )
-	// dataStack.pop();
-	// break;
+		}
+	},
+
+	new BaseWord("DROP", "", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			interpreter.popData();
+		}
+	}
 
 	};
 

@@ -409,6 +409,10 @@ public class Interpreter implements ClickListener {
 		dataStack.push(obj);
 	}
 
+	public Object peekData() {
+		return dataStack.peek();
+	}
+
 	public Integer popReturn() {
 		return returnStack.pop();
 	}

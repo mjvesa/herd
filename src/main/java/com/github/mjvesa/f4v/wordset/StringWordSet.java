@@ -8,45 +8,32 @@ public class StringWordSet extends WordSet {
 
 	protected Word[] words = {
 
-	new BaseWord("", "", Word.POSTPONED) {
+	new BaseWord("STRTOINT", "", Word.POSTPONED) {
 
 		@Override
 		public void execute(Interpreter interpreter) {
+			String str = interpreter.popData().toString();
+			interpreter.pushData(str.isEmpty() ? 0 : Integer.parseInt(str));
 		}
 	},
-			// case STRTOINT:
-			// str = dataStack.pop().toString();
-			// dataStack.push(str.isEmpty() ? 0 : Integer.parseInt(str));
-			// break;
 
-			new BaseWord("", "", Word.POSTPONED) {
+	new BaseWord("TOSTR", "", Word.POSTPONED) {
 
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case INTTOSTR:
-			// a = (Integer) dataStack.pop();
-			// dataStack.push(a.toString());
-			// break;
+		@Override
+		public void execute(Interpreter interpreter) {
+			interpreter.pushData(interpreter.popData().toString());
+		}
+	},
 
-			new BaseWord("", "", Word.POSTPONED) {
+	new BaseWord("CAT", "", Word.POSTPONED) {
 
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-
-			// case CAT:
-			// str = (String) dataStack.pop();
-			// str2 = (String) dataStack.pop();
-			// dataStack.push(str2 + str);
-			// break;
-			new BaseWord("", "", Word.POSTPONED) {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			}
+		@Override
+		public void execute(Interpreter interpreter) {
+			String str1 = (String) interpreter.popData();
+			String str2 = (String) interpreter.popData();
+			interpreter.pushData(str2 + str1);
+		}
+	}
 
 	};
 }

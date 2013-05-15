@@ -471,4 +471,8 @@ public class Interpreter implements ClickListener {
 		return ((CompiledWord) getExecutedWord()).getParameter();
 	}
 
+	public SQL getSQL() {
+		return sql;
+	}
+
 }

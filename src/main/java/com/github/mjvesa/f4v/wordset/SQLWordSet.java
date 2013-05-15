@@ -3,60 +3,58 @@ package com.github.mjvesa.f4v.wordset;
 import com.github.mjvesa.f4v.BaseWord;
 import com.github.mjvesa.f4v.Interpreter;
 import com.github.mjvesa.f4v.Word;
+import com.vaadin.data.Item;
 
 public class SQLWordSet extends WordSet {
 
 	protected Word[] words = {
 
-	new BaseWord("", "") {
+	new BaseWord("CREATESQLCONTAINER", "", Word.POSTPONED) {
 		@Override
 		public void execute(Interpreter interpreter) {
+
+			String str = (String) interpreter.popData();
+			interpreter.pushData(interpreter.getSQL()
+					.createIndexedContainerFromQuery(str, false));
+
 		}
 	},
 
-			// /* Database stuff */
-			// case CREATESQLCONTAINER:
-			// str = (String) dataStack.pop();
-			// dataStack.push(sql.createIndexedContainerFromQuery(str, false));
-			// break;
+	new BaseWord("CREATEFILTEREDSQLCONTAINER", "", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			String str = (String) interpreter.popData();
+			interpreter.pushData(interpreter.getSQL()
+					.createIndexedContainerFromQuery(str, true));
+		}
+	},
 
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case CREATEFILTEREDSQLCONTAINER:
-			// str = (String) dataStack.pop();
-			// dataStack.push(sql.createIndexedContainerFromQuery(str, true));
-			// break;
-			// case DOQUERY:
-			// sql.doQuery((String) dataStack.pop());
-			// break;
+	new BaseWord("DOQUERY", "", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			interpreter.getSQL().doQuery((String) interpreter.popData());
+		}
+	},
 
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case GETPROPERTY:
-			// str = (String) dataStack.pop();
-			// item = (Item) dataStack.pop();
-			// dataStack.push(item);
-			// dataStack.push(item.getItemProperty(str).getValue());
-			// break;
+	new BaseWord("GETPROPERTY", "", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			String str = (String) interpreter.popData();
+			Item item = (Item) interpreter.popData();
+			interpreter.pushData(item);
+			interpreter.pushData(item.getItemProperty(str).getValue());
+		}
+	},
 
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			}
-	// case SETPROPERTY:
-	// str = (String) dataStack.pop();
-	// str2 = (String) dataStack.pop();
-	// item = (Item) dataStack.pop();
-	// item.getItemProperty(str2).setValue(str);
-	// break;
-	//
+	new BaseWord("SETPROPRETY", "", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			String value = (String) interpreter.popData();
+			String property = (String) interpreter.popData();
+			Item item = (Item) interpreter.popData();
+			item.getItemProperty(property).setValue(value);
+		}
+	}
 
 	};
 

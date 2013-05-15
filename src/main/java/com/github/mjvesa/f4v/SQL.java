@@ -60,7 +60,7 @@ public class SQL {
 	 * 
 	 * @return
 	 */
-	Object createIndexedContainerFromQuery(String query, boolean filtered) {
+	public Object createIndexedContainerFromQuery(String query, boolean filtered) {
 		IndexedContainer container = new IndexedContainer();
 		try {
 			Connection conn = getConnection();
@@ -120,7 +120,7 @@ public class SQL {
 	/*
 	 * Can be used to do updates and inserts.
 	 */
-	void doQuery(String sql) {
+	public void doQuery(String sql) {
 
 		try {
 			Connection conn = getConnection();

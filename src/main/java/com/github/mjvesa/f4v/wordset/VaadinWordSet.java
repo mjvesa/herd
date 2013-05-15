@@ -3,11 +3,28 @@ package com.github.mjvesa.f4v.wordset;
 import com.github.mjvesa.f4v.BaseWord;
 import com.github.mjvesa.f4v.Interpreter;
 import com.github.mjvesa.f4v.Word;
+import com.vaadin.data.Container;
+import com.vaadin.data.Item;
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ItemClickEvent.ItemClickListener;
+import com.vaadin.ui.AbstractSelect;
+import com.vaadin.ui.AbstractSelect.NewItemHandler;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.DateField;
+import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.ListSelect;
+import com.vaadin.ui.Select;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -114,353 +131,311 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("", "", Word.POSTPONED) {
+		new BaseWord("SETCAPTION", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
+				String s = (String) interpreter.popData();
+				Component c = (Component) interpreter.popData();
+				c.setCaption(s);
+				interpreter.pushData(c);
 			}
 		},
 
-				// case SETCAPTION:
-				// str = (String) dataStack.pop();
-				// comp = (Component) dataStack.pop();
-				// comp.setCaption(str);
-				// dataStack.push(comp);
-				// break;
+		new BaseWord("SETVALUE", "", Word.POSTPONED) {
 
-				new BaseWord("", "", Word.POSTPONED) {
+			@Override
+			public void execute(Interpreter interpreter) {
+				Object o = interpreter.popData();
+				Field f = (Field) interpreter.popData();
+				f.setValue(o);
+				interpreter.pushData(f);
+			}
+		},
 
-					@Override
-					public void execute(Interpreter interpreter) {
+		new BaseWord("GETVALUE", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(Interpreter interpreter) {
+				Field f = (Field) interpreter.popData();
+				interpreter.pushData(f);
+				interpreter.pushData(f.getValue());
+
+			}
+		},
+
+		new BaseWord("SETSIZEFULL", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(Interpreter interpreter) {
+				Component comp = (Component) interpreter.popData();
+				comp.setSizeFull();
+				interpreter.pushData(comp);
+			}
+		},
+
+		new BaseWord("SETSIZEUNDEFINED", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(Interpreter interpreter) {
+				Component comp = (Component) interpreter.popData();
+				comp.setSizeUndefined();
+				interpreter.pushData(comp);
+			}
+		},
+
+		new BaseWord("SETHEIGHT", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(Interpreter interpreter) {
+				String str = (String) interpreter.popData();
+				Component comp = (Component) interpreter.popData();
+				comp.setHeight(str);
+				interpreter.pushData(comp);
+			}
+		},
+
+		new BaseWord("SETWIDTH", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(Interpreter interpreter) {
+				String str = (String) interpreter.popData();
+				Component comp = (Component) interpreter.popData();
+				comp.setWidth(str);
+				interpreter.pushData(comp);
+			}
+		},
+
+		new BaseWord("CLEARCONTAINER", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(Interpreter interpreter) {
+				ComponentContainer cc = (ComponentContainer) interpreter
+						.popData();
+				cc.removeAllComponents();
+			}
+		},
+
+		new BaseWord("NEWCHECKBOX", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(Interpreter interpreter) {
+				interpreter.pushData(new CheckBox());
+			}
+		},
+
+		new BaseWord("NEWDATEFIELD", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(final Interpreter interpreter) {
+				interpreter.pushData(new DateField());
+				final String dfCommand = (String) interpreter.popData();
+				DateField df = new DateField();
+				df.setImmediate(true);
+				df.addValueChangeListener(new ValueChangeListener() {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1472139878970514093L;
+
+					public void valueChange(ValueChangeEvent event) {
+						interpreter.pushData(event.getProperty().getValue());
+						interpreter.interpret(dfCommand);
 					}
-				},
 
-				// case SETVALUE:
-				// o = dataStack.pop();
-				// f = (Field) dataStack.pop();
-				// f.setValue(o);
-				// dataStack.push(f);
-				// break;
+				});
+				interpreter.pushData(df);
+			}
+		},
 
-				new BaseWord("", "", Word.POSTPONED) {
+		new BaseWord("NEWLABEL", "", Word.POSTPONED) {
 
-					@Override
-					public void execute(Interpreter interpreter) {
+			@Override
+			public void execute(Interpreter interpreter) {
+				interpreter.pushData(new Label());
+			}
+		},
+
+		new BaseWord("NEWTEXTFIELD", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(final Interpreter interpreter) {
+				final String tfCommand = interpreter.getParser().getNextWord();
+				TextField tf = new TextField();
+				tf.setCaption((String) interpreter.popData());
+				tf.setValue("");
+				tf.setImmediate(true);
+				tf.addValueChangeListener(new ValueChangeListener() {
+					/**
+				 *
+				 */
+					private static final long serialVersionUID = 4325104922208051065L;
+
+					public void valueChange(ValueChangeEvent event) {
+						interpreter.pushData(event.getProperty().getValue());
+						interpreter.interpret(tfCommand);
 					}
-				},
+				});
+				interpreter.pushData(tf);
+			}
+		},
 
-				// case GETVALUE:
-				// f = (Field) dataStack.pop();
-				// dataStack.push(f);
-				// dataStack.push(f.getValue());
-				// break;
+		new BaseWord("NEWTABLE", "", Word.POSTPONED) {
 
-				new BaseWord("", "", Word.POSTPONED) {
+			@Override
+			public void execute(final Interpreter interpreter) {
+				final String tableCommand = interpreter.getParser()
+						.getNextWord();
+				Table table = new Table();
+				table.setCaption((String) interpreter.popData());
+				table.setImmediate(true);
+				table.setSelectable(true);
+				table.addItemClickListener(new ItemClickListener() {
 
-					@Override
-					public void execute(Interpreter interpreter) {
+					/**
+				 *
+				 */
+					private static final long serialVersionUID = 3585546076571010729L;
+
+					public void itemClick(ItemClickEvent event) {
+
+						interpreter.pushData(event.getItem());
+						interpreter.execute(interpreter.getDictionary().get(
+								tableCommand));
 					}
-				},
+				});
+				interpreter.pushData(table);
+			}
+		},
 
-				// case SETSIZEFULL:
-				// comp = (Component) dataStack.pop();
-				// comp.setSizeFull();
-				// dataStack.push(comp);
-				// break;
+		new BaseWord("NEWCOMBOBOX", "", Word.POSTPONED) {
 
-				new BaseWord("", "", Word.POSTPONED) {
+			@Override
+			public void execute(final Interpreter interpreter) {
+				final String newItemCommand = interpreter.getParser()
+						.getNextWord();
+				final String itemSelectedCommand = interpreter.getParser()
+						.getNextWord();
+				final ComboBox cb = new ComboBox();
+				cb.setImmediate(true);
+				String str = (String) interpreter.popData();
+				cb.setNullSelectionAllowed(false);
+				cb.setCaption(str);
+				cb.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
+				cb.setNewItemsAllowed(true);
+				cb.setNewItemHandler(new NewItemHandler() {
 
-					@Override
-					public void execute(Interpreter interpreter) {
+					/**
+				 *
+				 */
+					private static final long serialVersionUID = 3340658590351611289L;
+
+					public void addNewItem(String newItemCaption) {
+						cb.setImmediate(false);
+						interpreter.pushData(newItemCaption);
+						interpreter.interpret(newItemCommand);
+						cb.setImmediate(true);
 					}
-				},
+				});
 
-				// case SETSIZEUNDEFINED:
-				// comp = (Component) dataStack.pop();
-				// comp.setSizeUndefined();
-				// dataStack.push(comp);
-				// break;
+				cb.addValueChangeListener(new ValueChangeListener() {
 
-				new BaseWord("", "", Word.POSTPONED) {
+					/**
+				 *
+				 */
+					private static final long serialVersionUID = 2706579869793251379L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
+					public void valueChange(ValueChangeEvent event) {
+						interpreter.pushData(cb.getContainerDataSource()
+								.getItem(event.getProperty().getValue()));
+						interpreter.interpret(itemSelectedCommand);
 					}
-				},
+				});
+				interpreter.pushData(cb);
+			}
+		},
 
-				// case SETHEIGHT:
-				// str = (String) dataStack.pop();
-				// comp = (Component) dataStack.pop();
-				// comp.setHeight(str);
-				// dataStack.push(comp);
-				// break;
+		new BaseWord("NEWSELECT", "", Word.POSTPONED) {
 
-				new BaseWord("", "", Word.POSTPONED) {
+			@Override
+			public void execute(final Interpreter interpreter) {
+				final String selCommand = interpreter.getParser().getNextWord();
+				final Select sel = new Select();
+				sel.setCaption((String) interpreter.popData());
+				sel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
+				sel.setNullSelectionAllowed(false);
+				sel.setImmediate(true);
+				sel.addValueChangeListener(new ValueChangeListener() {
+					/**
+				 *
+				 */
+					private static final long serialVersionUID = -7705548618092166199L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
+					public void valueChange(ValueChangeEvent event) {
+						Item item = sel.getContainerDataSource().getItem(
+								event.getProperty().getValue());
+						interpreter.pushData(item);
+						interpreter.interpret(selCommand);
 					}
-				},
+				});
+				interpreter.pushData(sel);
+			}
+		},
 
-				// case SETWIDTH:
-				// str = (String) dataStack.pop();
-				// comp = (Component) dataStack.pop();
-				// comp.setWidth(str);
-				// dataStack.push(comp);
-				// break;
+		new BaseWord("NEWLISTSELECT", "", Word.POSTPONED) {
+			@Override
+			public void execute(final Interpreter interpreter) {
+				final String lselCommand = interpreter.getParser()
+						.getNextWord();
+				final ListSelect lsel = new ListSelect();
+				lsel.setCaption((String) interpreter.popData());
+				lsel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
+				lsel.setNullSelectionAllowed(false);
+				lsel.setImmediate(true);
+				lsel.addValueChangeListener(new ValueChangeListener() {
+					/**
+				 *
+				 */
+					private static final long serialVersionUID = -5523488417834167806L;
 
-				new BaseWord("", "", Word.POSTPONED) {
-
-					@Override
-					public void execute(Interpreter interpreter) {
+					public void valueChange(ValueChangeEvent event) {
+						Item item = lsel.getContainerDataSource().getItem(
+								event.getProperty().getValue());
+						interpreter.pushData(item);
+						interpreter.interpret(lselCommand);
 					}
-				},
+				});
+				interpreter.pushData(lsel);
+			}
+		},
 
-				// case CLEARCONTAINER:
-				// cc = (ComponentContainer) dataStack.pop();
-				// cc.removeAllComponents();
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
+		new BaseWord("SETCONTAINERDATASOURCE", "", Word.POSTPONED) {
+			@Override
+			public void execute(Interpreter interpreter) {
+				Container cont = (Container) interpreter.popData();
+				AbstractSelect as = (AbstractSelect) interpreter.popData();
+				as.setContainerDataSource(cont);
+				interpreter.pushData(as);
+			}
+		},
 
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
+		new BaseWord("SETCOLUMHEADERS", "", Word.POSTPONED) {
+			@Override
+			public void execute(Interpreter interpreter) {
+				Table table = (Table) interpreter.popData();
+				table.setColumnHeaders((String[]) interpreter.getSQL()
+						.getArrayFromList(new String[0]));
+			}
+		},
 
-				// case NEWCHECKBOX:
-				// dataStack.push(new CheckBox());
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
-
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
-
-				// case NEWDATEFIELD:
-				// dataStack.push(new DateField());
-				// final String dfCommand = (String) dataStack.pop();
-				// DateField df = new DateField();
-				// df.setImmediate(true);
-				// df.addListener(new ValueChangeListener() {
-				// public void valueChange(ValueChangeEvent event) {
-				// dataStack.push(event.getProperty().getValue());
-				// interpret(dfCommand);
-				// }
-				// });
-				// dataStack.push(df);
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
-
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
-
-				// case NEWLABEL:
-				// dataStack.push(new Label());
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
-
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
-
-				// case NEWTEXTFIELD: // ( caption -- textfield)
-				// final String tfCommand = getNextNonNopWord();
-				// TextField tf = new TextField();
-				// tf.setCaption((String) dataStack.pop());
-				// tf.setValue("");
-				// tf.setImmediate(true);
-				// tf.addValueChangeListener(new ValueChangeListener() {
-				// /**
-				// *
-				// */
-				// private static final long serialVersionUID =
-				// 4325104922208051065L;
-				//
-				// public void valueChange(ValueChangeEvent event) {
-				// dataStack.push(event.getProperty().getValue());
-				// interpret(tfCommand);
-				// }
-				// });
-				// dataStack.push(tf);
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
-
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
-
-				// /* Tables */
-				// case NEWTABLE:
-				// final String tableCommand = getNextNonNopWord();
-				// table = new Table();
-				// table.setCaption((String) dataStack.pop());
-				// table.setImmediate(true);
-				// table.setSelectable(true);
-				// table.addListener(new ItemClickListener() {
-				//
-				// /**
-				// *
-				// */
-				// private static final long serialVersionUID =
-				// 3585546076571010729L;
-				//
-				// public void itemClick(ItemClickEvent event) {
-				//
-				// dataStack.push(event.getItem());
-				// executeDefinedWord(dictionary.get(tableCommand));
-				// }
-				// });
-				// dataStack.push(table);
-				// break;
-				//
-				new BaseWord("", "", Word.POSTPONED) {
-
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
-
-				// case NEWCOMBOBOX:
-				// final String newItemCommand = getNextNonNopWord();
-				// final String itemSelectedCommand = getNextNonNopWord();
-				// final ComboBox cb = new ComboBox();
-				// cb.setImmediate(true);
-				// str = (String) dataStack.pop();
-				// cb.setNullSelectionAllowed(false);
-				// cb.setCaption(str);
-				// cb.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
-				// cb.setNewItemsAllowed(true);
-				// cb.setNewItemHandler(new NewItemHandler() {
-				//
-				// /**
-				// *
-				// */
-				// private static final long serialVersionUID =
-				// 3340658590351611289L;
-				//
-				// public void addNewItem(String newItemCaption) {
-				// cb.setImmediate(false);
-				// dataStack.push(newItemCaption);
-				// interpret(newItemCommand);
-				// cb.setImmediate(true);
-				// }
-				// });
-				//
-				// cb.addValueChangeListener(new ValueChangeListener() {
-				//
-				// /**
-				// *
-				// */
-				// private static final long serialVersionUID =
-				// 2706579869793251379L;
-				//
-				// public void valueChange(ValueChangeEvent event) {
-				// dataStack.push(cb.getContainerDataSource().getItem(
-				// event.getProperty().getValue()));
-				// interpret(itemSelectedCommand);
-				// }
-				// });
-				// dataStack.push(cb);
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
-
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
-
-				// case NEWSELECT:
-				// final String selCommand = getNextNonNopWord();
-				// final Select sel = new Select();
-				// sel.setCaption((String) dataStack.pop());
-				// sel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
-				// sel.setNullSelectionAllowed(false);
-				// sel.setImmediate(true);
-				// sel.addValueChangeListener(new ValueChangeListener() {
-				// /**
-				// *
-				// */
-				// private static final long serialVersionUID =
-				// -7705548618092166199L;
-				//
-				// public void valueChange(ValueChangeEvent event) {
-				// Item item = sel.getContainerDataSource().getItem(
-				// event.getProperty().getValue());
-				// dataStack.push(item);
-				// interpret(selCommand);
-				// }
-				// });
-				// dataStack.push(sel);
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
-
-				// case NEWLISTSELECT:
-				// final String lselCommand = getNextNonNopWord();
-				// final ListSelect lsel = new ListSelect();
-				// lsel.setCaption((String) dataStack.pop());
-				// lsel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
-				// lsel.setNullSelectionAllowed(false);
-				// lsel.setImmediate(true);
-				// lsel.addValueChangeListener(new ValueChangeListener() {
-				// /**
-				// *
-				// */
-				// private static final long serialVersionUID =
-				// -5523488417834167806L;
-				//
-				// public void valueChange(ValueChangeEvent event) {
-				// Item item = lsel.getContainerDataSource().getItem(
-				// event.getProperty().getValue());
-				// dataStack.push(item);
-				// interpret(lselCommand);
-				// }
-				// });
-				// dataStack.push(lsel);
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
-
-				// case SETCONTAINERDATASOURCE:
-				// Container cont = (Container) dataStack.pop();
-				// AbstractSelect as = (AbstractSelect) dataStack.pop();
-				// as.setContainerDataSource(cont);
-				// dataStack.push(as);
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				},
-
-				// case SETCOLUMHEADERS:
-				// table = (Table) dataStack.pop();
-				// table.setColumnHeaders((String[]) sql
-				// .getArrayFromList(new String[0]));
-				// break;
-				new BaseWord("", "", Word.POSTPONED) {
-					@Override
-					public void execute(Interpreter interpreter) {
-					}
-				}
-
-		// case SETVISIBLECOLUMNS:
-		// table = (Table) dataStack.pop();
-		// table.setVisibleColumns((String[]) sql
-		// .getArrayFromList(new String[0]));
-		// break;
-		//
+		new BaseWord("SETVISIBLECOLUMNS", "", Word.POSTPONED) {
+			@Override
+			public void execute(Interpreter interpreter) {
+				Table table = (Table) interpreter.popData();
+				table.setVisibleColumns((String[]) interpreter.getSQL()
+						.getArrayFromList(new String[0]));
+			}
+		}
 
 		};
 	}

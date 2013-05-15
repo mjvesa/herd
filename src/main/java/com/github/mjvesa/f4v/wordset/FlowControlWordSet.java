@@ -45,11 +45,8 @@ public class FlowControlWordSet extends WordSet {
 					Boolean bool = (Boolean) interpreter.popData();
 					// If false, skip to endif
 					if (!bool) {
-						// TODO The same thing is done in ELSE, could it be
-						// moved to Interpreter?
 						interpreter.setIp(interpreter.getIp()
-								+ (Integer) ((CompiledWord) interpreter
-										.getExecutedWord()).getParameter());
+								+ (Integer) interpreter.getCurrentParam());
 					}
 				}
 			},
@@ -59,8 +56,7 @@ public class FlowControlWordSet extends WordSet {
 				@Override
 				public void execute(Interpreter interpreter) {
 					interpreter.setIp(interpreter.getIp()
-							+ (Integer) ((CompiledWord) interpreter
-									.getExecutedWord()).getParameter());
+							+ (Integer) interpreter.getCurrentParam());
 				}
 			},
 

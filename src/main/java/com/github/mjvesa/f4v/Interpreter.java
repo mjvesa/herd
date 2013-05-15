@@ -355,7 +355,7 @@ public class Interpreter implements ClickListener {
 		}
 	}
 
-	private void print(String msg) {
+	public void print(String msg) {
 		guiEventListener.print(msg);
 	}
 
@@ -465,6 +465,10 @@ public class Interpreter implements ClickListener {
 
 	public DefinedWord getCurrentDefinition() {
 		return currentDefinition;
+	}
+
+	public Object getCurrentParam() {
+		return ((CompiledWord) getExecutedWord()).getParameter();
 	}
 
 }

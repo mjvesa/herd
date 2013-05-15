@@ -441,4 +441,12 @@ public class Interpreter implements ClickListener {
 		return code;
 	}
 
+	public Object peek(int index) {
+		return heap[index];
+	}
+
+	public void poke(int index, Object value) {
+		heap[index] = value;
+	}
+
 }

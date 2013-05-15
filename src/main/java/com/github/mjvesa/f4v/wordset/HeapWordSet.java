@@ -8,29 +8,23 @@ public class HeapWordSet extends WordSet {
 
 	protected Word[] words = {
 
-	new BaseWord("", "", false) {
+	new BaseWord("!", "STORE", Word.POSTPONED) {
 		@Override
 		public void execute(Interpreter interpreter) {
+			Integer address = (Integer) interpreter.popData();
+			Object value = interpreter.popData();
+			interpreter.poke(address, value);
+
 		}
 	},
 
-			// case STORE:
-			// o1 = dataStack.pop();
-			// address = (Integer) o1;
-			// value = dataStack.pop();
-			// heap[address] = value;
-			// break;
-
-			new BaseWord("", "", false) {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			}
-	// case LOAD:
-	// address = (Integer) dataStack.pop();
-	// dataStack.push(heap[address]);
-	// break;
+	new BaseWord("@", "LOAD", Word.POSTPONED) {
+		@Override
+		public void execute(Interpreter interpreter) {
+			Integer address = (Integer) interpreter.popData();
+			interpreter.pushData(interpreter.peek(address));
+		}
+	}
 
 	};
-
 }

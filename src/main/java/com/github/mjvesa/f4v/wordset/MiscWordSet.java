@@ -54,17 +54,6 @@ public class MiscWordSet extends WordSet {
 				}
 			},
 
-			// case CAT:
-			// str = (String) dataStack.pop();
-			// str2 = (String) dataStack.pop();
-			// dataStack.push(str2 + str);
-			// break;
-			new BaseWord("", "") {
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-
 			// case NULL:
 			// dataStack.push(Util.NULL_OBJECT);
 			// break;

@@ -1,6 +1,8 @@
 package com.github.mjvesa.f4v.wordset;
 
 import com.github.mjvesa.f4v.BaseWord;
+import com.github.mjvesa.f4v.CompiledWord;
+import com.github.mjvesa.f4v.DefinedWord;
 import com.github.mjvesa.f4v.Interpreter;
 import com.github.mjvesa.f4v.Word;
 
@@ -8,251 +10,183 @@ public class InterpreterWordSet extends WordSet {
 
 	protected Word[] words = {
 
-	new BaseWord("", "") {
-
-		@Override
-		public void execute(Interpreter interpreter) {
-		}
-	},
-
-			// case BEGININTERPRET:
-			// isCompiling = false;
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord("[", "BEGININTERPRET", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.setCompiling(false);
 				}
 			},
-			// case ENDINTERPRET:
-			// isCompiling = true;
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("]", "ENDINTERPRET", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.setCompiling(true);
 				}
 			},
-			// case STRTOINT:
-			// str = dataStack.pop().toString();
-			// dataStack.push(str.isEmpty() ? 0 : Integer.parseInt(str));
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord(
+					"'",
+					"Resolves the next word in the stream to a word in the dictionary",
+					Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					String s = interpreter.getParser().getNextWord();
+					Word word = interpreter.getDictionary().get(s);
+					interpreter.pushData(word);
 				}
 			},
-			// case INTTOSTR:
-			// a = (Integer) dataStack.pop();
-			// dataStack.push(a.toString());
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord(
+					"[']",
+					"Resolves the next word in the stream to a word in the dictionary. Immediate version of ' (TICK)",
+					Word.IMMEDIATE) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					String s = interpreter.getParser().getNextWord();
+					Word word = interpreter.getDictionary().get(s);
+					interpreter.pushData(word);
 				}
 			},
-			// case TICK: // ( str -- xt )
-			// // wrd = dictionary.get(parser.getNextWord());
-			// str = (String) dataStack.pop();
-			// wrd = dictionary.get(str);
-			// dataStack.push(wrd);
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("FIND",
+					"Resolves the word defined by the string at TOS",
+					Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					String s = (String) interpreter.popData();
+					Word word = interpreter.getDictionary().get(s);
+					interpreter.pushData(word);
 				}
 			},
-			// case BRACKETTICK:
-			// str = (String) dataStack.pop();
-			// wrd = dictionary.get(str);
-			// currentDefinitionWords.add(wrd);
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("EXECUTE", "Executes the word at TOS", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					Word word = (Word) interpreter.popData();
+					interpreter.execute(word);
 				}
 			},
-			// case FIND: // ( str -- xt )
-			// str = (String) dataStack.pop();
-			// wrd = dictionary.get(str);
-			// if (wrd == null) {
-			// print("FIND did not find word " + str);
-			// }
-			// dataStack.push(wrd);
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("WORD", "Parses the next word in the stream",
+					Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					String s = interpreter.getParser().getNextWord();
+					interpreter.pushData(s);
 				}
 			},
-			// case EXECUTE:
-			// wrd = (DefinedWord) dataStack.pop();
-			// returnStack.push(ip);
-			// codeStack.push(this.code);
-			// execute(wrd);
-			// ip = returnStack.pop();
-			// this.code = codeStack.pop();
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("CREATE", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.create();
 				}
 			},
-			// case WORD:
-			// dataStack.push(parser.getNextWord());
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("STACKCREATE", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.createFromStack();
 				}
 			},
-			// case CREATE:
-			// create();
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("DOES>", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					CompiledWord[] code = interpreter.getCode();
+
+					// Find where DOES> is
+					int i = code.length - 1;
+					while (!"DOES>".equals(code[i].getName())) {
+						i--;
+					}
+					i++; // We don't want to copy DOES> now do we
+					// Copy words over TODO use array stuff for this?
+					for (; i < code.length; i++) {
+						interpreter.addToCurrentDefinition(code[i]);
+					}
+					interpreter.finishCompilation();
+					interpreter.setIp(code.length); // Don't execute stuff after
+													// DOES>
 				}
 			},
-			// case STACKCREATE:
-			// createFromStack();
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("IMMEDIATE",
+					"Marks the current definition as immediate", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.getCurrentDefinition().setImmediate(true);
 				}
 			},
-			// case CREATENOP:
-			// DefinedWord nop = new DefinedWord();
-			// nop.setType(DefinedWord.Type.NOP);
-			// String name = parser.getNextWord();
-			// dictionary.put(name, nop);
-			// guiEventListener.newWord(name);
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord(
+					"COMPILE",
+					"When executed, adds the compiled word at TOS to the current definition",
+					Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter
+							.addToCurrentDefinition((CompiledWord) interpreter
+									.popData());
 				}
 			},
-			// case DOES:
-			// code = this.code;
-			//
-			// // Find where DOES> is
-			// int i = code.length - 1;
-			// while (code[i].getBaseWord() != BaseWord.DOES) {
-			// i--;
-			// }
-			// i++; // We don't want to copy DOES> now do we
-			// // Copy words over TODO use array stuff for this?
-			// for (; i < code.length; i++) {
-			// currentDefinitionWords.add(code[i]);
-			// }
-			// finishCompilation();
-			// ip = code.length; // Don't execute stuff after DOES>
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord(":", "Creates a new definition", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.create();
 				}
 			},
-			// case IMMEDIATE:
-			// currentDefinition.setImmediate(true);
-			// break;
 
-			new BaseWord("", "") {
-
+			new BaseWord(
+					"ANONCREATE",
+					"Creates a definition without a name, an anonymous definition",
+					Word.POSTPONED) {
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.anonCreate();
 				}
 			},
-			// case COMPILE:
-			// wrd = getNextExecutableWord();
-			// currentDefinitionWords.add(wrd);
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord(";", "Finished compilation", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.finishCompilation();
 				}
 			},
-			// case COLONCREATE:
-			// create();
-			// break;
 
-			new BaseWord("", "") {
+			new BaseWord("ISXT", "", Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter
+							.pushData(interpreter.popData() instanceof DefinedWord);
 				}
 			},
-			// case ANONCREATE:
-			// anonCreate();
-			// break;
 
-			new BaseWord("", "") {
-
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case FINISHCOMPILATION:
-			// finishCompilation();
-			// break;
-
-			new BaseWord("", "") {
+			new BaseWord(
+					",",
+					"Generates a literal word into the current definition from a value at TOS",
+					Word.POSTPONED) {
 
 				@Override
 				public void execute(Interpreter interpreter) {
+					interpreter.generateLiteral(interpreter.popData());
 				}
-			},
-			// case ISXT: // ( XT? -- Boolean )
-			// dataStack.push(dataStack.pop() instanceof DefinedWord);
-			// break;
-
-			new BaseWord("", "") {
-
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			},
-			// case WORDS:
-			// printWords();
-			// break;
-
-			new BaseWord("", "") {
-
-				@Override
-				public void execute(Interpreter interpreter) {
-				}
-			}
-	// case GENLITERAL:
-	// generateLiteral(dataStack.pop());
-	// break;
-	};
+			} };
 
 }

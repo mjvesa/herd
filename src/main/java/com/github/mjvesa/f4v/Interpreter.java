@@ -281,21 +281,21 @@ public class Interpreter implements ClickListener {
 	}
 
 	/* Generates a word which pushes a literal onto the stack */
-	private void generateLiteral(Object value) {
+	public void generateLiteral(Object value) {
 		Word w = dictionary.get("GENLITERAL");
 		CompiledWord cw = new CompiledWord(w, value);
 		currentDefinitionWords.add(cw);
 	}
 
-	private void create() {
+	public void create() {
 		createNewWord(parser.getNextWord());
 	}
 
-	private void createFromStack() {
+	public void createFromStack() {
 		createNewWord((String) dataStack.pop());
 	}
 
-	private void anonCreate() {
+	public void anonCreate() {
 		createNewWord("_anonymous_");
 	}
 
@@ -317,7 +317,7 @@ public class Interpreter implements ClickListener {
 	 * Used to finish compilation of either colon definitions or stuff made with
 	 * CREATE. Or anonymous colon definition.
 	 */
-	private void finishCompilation() {
+	public void finishCompilation() {
 		String name = currentDefinition.getName();
 		currentDefinition.setCode(currentDefinitionWords.toArray(new Word[1]));
 		if (logNewWords) {
@@ -437,6 +437,11 @@ public class Interpreter implements ClickListener {
 		return currentDefinitionWords.get(index);
 	}
 
+	public void addToCurrentDefinition(CompiledWord word) {
+		currentDefinitionWords.add(word);
+
+	}
+
 	public CompiledWord[] getCode() {
 		return code;
 	}
@@ -447,6 +452,19 @@ public class Interpreter implements ClickListener {
 
 	public void poke(int index, Object value) {
 		heap[index] = value;
+	}
+
+	public void setCompiling(boolean b) {
+		isCompiling = b;
+
+	}
+
+	public Parser getParser() {
+		return parser;
+	}
+
+	public DefinedWord getCurrentDefinition() {
+		return currentDefinition;
 	}
 
 }

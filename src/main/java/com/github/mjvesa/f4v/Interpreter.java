@@ -92,6 +92,10 @@ public class Interpreter implements ClickListener {
 		mainComponentContainer = listener.getMainComponentContainer();
 	}
 
+	public GuiEventListener getGuiEventListener() {
+		return guiEventListener;
+	}
+
 	private void loadBuffers() {
 		blocks = new Blocks();
 		source = blocks.loadBuffers();
@@ -477,6 +481,10 @@ public class Interpreter implements ClickListener {
 
 	public SQL getSQL() {
 		return sql;
+	}
+
+	public ComponentContainer getMainPanel() {
+		return mainComponentContainer;
 	}
 
 }

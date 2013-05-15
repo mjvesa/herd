@@ -7,55 +7,58 @@ import com.vaadin.data.Item;
 
 public class SQLWordSet extends WordSet {
 
-	protected Word[] words = {
+	@Override
+	public Word[] getWords() {
+		return new Word[] {
 
-	new BaseWord("CREATESQLCONTAINER", "", Word.POSTPONED) {
-		@Override
-		public void execute(Interpreter interpreter) {
+		new BaseWord("CREATESQLCONTAINER", "", Word.POSTPONED) {
+			@Override
+			public void execute(Interpreter interpreter) {
 
-			String str = (String) interpreter.popData();
-			interpreter.pushData(interpreter.getSQL()
-					.createIndexedContainerFromQuery(str, false));
+				String str = (String) interpreter.popData();
+				interpreter.pushData(interpreter.getSQL()
+						.createIndexedContainerFromQuery(str, false));
 
+			}
+		},
+
+		new BaseWord("CREATEFILTEREDSQLCONTAINER", "", Word.POSTPONED) {
+			@Override
+			public void execute(Interpreter interpreter) {
+				String str = (String) interpreter.popData();
+				interpreter.pushData(interpreter.getSQL()
+						.createIndexedContainerFromQuery(str, true));
+			}
+		},
+
+		new BaseWord("DOQUERY", "", Word.POSTPONED) {
+			@Override
+			public void execute(Interpreter interpreter) {
+				interpreter.getSQL().doQuery((String) interpreter.popData());
+			}
+		},
+
+		new BaseWord("GETPROPERTY", "", Word.POSTPONED) {
+			@Override
+			public void execute(Interpreter interpreter) {
+				String str = (String) interpreter.popData();
+				Item item = (Item) interpreter.popData();
+				interpreter.pushData(item);
+				interpreter.pushData(item.getItemProperty(str).getValue());
+			}
+		},
+
+		new BaseWord("SETPROPRETY", "", Word.POSTPONED) {
+			@Override
+			public void execute(Interpreter interpreter) {
+				String value = (String) interpreter.popData();
+				String property = (String) interpreter.popData();
+				Item item = (Item) interpreter.popData();
+				item.getItemProperty(property).setValue(value);
+			}
 		}
-	},
 
-	new BaseWord("CREATEFILTEREDSQLCONTAINER", "", Word.POSTPONED) {
-		@Override
-		public void execute(Interpreter interpreter) {
-			String str = (String) interpreter.popData();
-			interpreter.pushData(interpreter.getSQL()
-					.createIndexedContainerFromQuery(str, true));
-		}
-	},
-
-	new BaseWord("DOQUERY", "", Word.POSTPONED) {
-		@Override
-		public void execute(Interpreter interpreter) {
-			interpreter.getSQL().doQuery((String) interpreter.popData());
-		}
-	},
-
-	new BaseWord("GETPROPERTY", "", Word.POSTPONED) {
-		@Override
-		public void execute(Interpreter interpreter) {
-			String str = (String) interpreter.popData();
-			Item item = (Item) interpreter.popData();
-			interpreter.pushData(item);
-			interpreter.pushData(item.getItemProperty(str).getValue());
-		}
-	},
-
-	new BaseWord("SETPROPRETY", "", Word.POSTPONED) {
-		@Override
-		public void execute(Interpreter interpreter) {
-			String value = (String) interpreter.popData();
-			String property = (String) interpreter.popData();
-			Item item = (Item) interpreter.popData();
-			item.getItemProperty(property).setValue(value);
-		}
+		};
 	}
-
-	};
 
 }

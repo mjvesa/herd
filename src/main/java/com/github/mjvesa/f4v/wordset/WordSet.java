@@ -11,13 +11,15 @@ import com.github.mjvesa.f4v.Word;
  */
 public class WordSet {
 
-	protected static Word[] words;
+	public void install(Interpreter interpreter) {
 
-	public static void install(Interpreter interpreter) {
-
-		for (Word word : words) {
+		for (Word word : getWords()) {
 			interpreter.getDictionary().put(word.getName(), word);
 		}
+	}
+
+	public Word[] getWords() {
+		return null;
 	}
 
 }

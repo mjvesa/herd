@@ -6,34 +6,37 @@ import com.github.mjvesa.f4v.Word;
 
 public class StringWordSet extends WordSet {
 
-	protected Word[] words = {
+	@Override
+	public Word[] getWords() {
+		return new Word[] {
 
-	new BaseWord("STRTOINT", "", Word.POSTPONED) {
+		new BaseWord("STRTOINT", "", Word.POSTPONED) {
 
-		@Override
-		public void execute(Interpreter interpreter) {
-			String str = interpreter.popData().toString();
-			interpreter.pushData(str.isEmpty() ? 0 : Integer.parseInt(str));
+			@Override
+			public void execute(Interpreter interpreter) {
+				String str = interpreter.popData().toString();
+				interpreter.pushData(str.isEmpty() ? 0 : Integer.parseInt(str));
+			}
+		},
+
+		new BaseWord("TOSTR", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(Interpreter interpreter) {
+				interpreter.pushData(interpreter.popData().toString());
+			}
+		},
+
+		new BaseWord("CAT", "", Word.POSTPONED) {
+
+			@Override
+			public void execute(Interpreter interpreter) {
+				String str1 = (String) interpreter.popData();
+				String str2 = (String) interpreter.popData();
+				interpreter.pushData(str2 + str1);
+			}
 		}
-	},
 
-	new BaseWord("TOSTR", "", Word.POSTPONED) {
-
-		@Override
-		public void execute(Interpreter interpreter) {
-			interpreter.pushData(interpreter.popData().toString());
-		}
-	},
-
-	new BaseWord("CAT", "", Word.POSTPONED) {
-
-		@Override
-		public void execute(Interpreter interpreter) {
-			String str1 = (String) interpreter.popData();
-			String str2 = (String) interpreter.popData();
-			interpreter.pushData(str2 + str1);
-		}
+		};
 	}
-
-	};
 }

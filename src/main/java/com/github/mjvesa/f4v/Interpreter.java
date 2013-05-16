@@ -21,6 +21,15 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.Stack;
 
+import com.github.mjvesa.f4v.wordset.ArithmeticWordSet;
+import com.github.mjvesa.f4v.wordset.FlowControlWordSet;
+import com.github.mjvesa.f4v.wordset.HeapWordSet;
+import com.github.mjvesa.f4v.wordset.InterpreterWordSet;
+import com.github.mjvesa.f4v.wordset.MiscWordSet;
+import com.github.mjvesa.f4v.wordset.SQLWordSet;
+import com.github.mjvesa.f4v.wordset.StackWordSet;
+import com.github.mjvesa.f4v.wordset.StringWordSet;
+import com.github.mjvesa.f4v.wordset.VaadinWordSet;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -28,8 +37,16 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
 /**
- * Meat of the program. This contains the outer and inner interpreters and
- * actually pretty much all of the logic.
+ * Core interpreter. The outer interpreter reads words from the input stream
+ * (source file) and parses them into executable words. The inner interpreter
+ * simply executes defined words by executing their constituent words in
+ * sequence.
+ * 
+ * Words execute themselves, which allows for installable WordSets. Defined
+ * words are executed in the interpreter, which is called by the defined words
+ * execute() method.
+ * 
+ * Dictionary and heap space are separate.
  * 
  * @author mjvesa@vaadin.com
  * 
@@ -51,7 +68,7 @@ public class Interpreter implements ClickListener {
 	private ArrayList<CompiledWord> currentDefinitionWords;
 	private boolean isCompiling;
 
-	// ip and code are the defined word currently being executed
+	// ip and code represent the defined word currently being executed
 	private int ip;
 	private CompiledWord[] code;
 
@@ -76,10 +93,8 @@ public class Interpreter implements ClickListener {
 	 */
 	public void setup() {
 		setUpStorage();
-		fillDictionary();
+		installWordSets();
 		loadBuffers();
-		print("<b>Executing core buffer...</b>");
-		executeCore();
 
 		sql = new SQL();
 		sql.setDictionary(dictionary);
@@ -109,10 +124,6 @@ public class Interpreter implements ClickListener {
 		return source.keySet();
 	}
 
-	private void executeCore() {
-		runBuffer(source.get("Core"));
-	}
-
 	/**
 	 * Initializes stacks, dictionary and heap
 	 */
@@ -126,29 +137,19 @@ public class Interpreter implements ClickListener {
 	}
 
 	/**
-	 * Pulls basic words from the list and
+	 * Installs all the built-in wordsets.
 	 */
-	private void fillDictionary() {
+	private void installWordSets() {
 
-		// TODO install words instead
-
-		// for (BaseWord bw : BaseWord.values()) {
-		// DefinedWord word = new DefinedWord();
-		// word.setType(DefinedWord.Type.BASE);
-		// word.setBaseWord(bw);
-		// word.setName(bw.getString());
-		// guiEventListener.newWord(bw.getString());
-		// dictionary.put(bw.getString(), word);
-		// }
-
-		// Set some words to be executed immediately when compiling
-		dictionary.get("ENDIF").setImmediate(true);
-		dictionary.get("(").setImmediate(true);
-		dictionary.get(")").setImmediate(true);
-		dictionary.get(":").setImmediate(true);
-		dictionary.get(";").setImmediate(true);
-		dictionary.get("[").setImmediate(true);
-		dictionary.get("]").setImmediate(true);
+		new ArithmeticWordSet().install(this);
+		new FlowControlWordSet().install(this);
+		new HeapWordSet().install(this);
+		new InterpreterWordSet().install(this);
+		new MiscWordSet().install(this);
+		new SQLWordSet().install(this);
+		new StackWordSet().install(this);
+		new StringWordSet().install(this);
+		new VaadinWordSet().install(this);
 	}
 
 	public void runBuffer(String command) {
@@ -464,7 +465,6 @@ public class Interpreter implements ClickListener {
 
 	public void setCompiling(boolean b) {
 		isCompiling = b;
-
 	}
 
 	public Parser getParser() {

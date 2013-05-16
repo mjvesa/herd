@@ -12,7 +12,7 @@ public class InterpreterWordSet extends WordSet {
 	public Word[] getWords() {
 		return new Word[] {
 
-				new BaseWord("[", "BEGININTERPRET", Word.POSTPONED) {
+				new BaseWord("[", "BEGININTERPRET", Word.IMMEDIATE) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -20,7 +20,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("]", "ENDINTERPRET", Word.POSTPONED) {
+				new BaseWord("]", "ENDINTERPRET", Word.IMMEDIATE) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -148,7 +148,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord(":", "Creates a new definition", Word.POSTPONED) {
+				new BaseWord(":", "Creates a new definition", Word.IMMEDIATE) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -166,7 +166,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord(";", "Finished compilation", Word.POSTPONED) {
+				new BaseWord(";", "Finish compilation", Word.IMMEDIATE) {
 
 					@Override
 					public void execute(Interpreter interpreter) {

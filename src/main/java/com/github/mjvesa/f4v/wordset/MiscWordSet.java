@@ -29,7 +29,7 @@ public class MiscWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("(", "Begins a comment", Word.POSTPONED) {
+				new BaseWord("(", "Begins a comment", Word.IMMEDIATE) {
 					@Override
 					public void execute(Interpreter interpreter) {
 						Parser parser = interpreter.getParser();

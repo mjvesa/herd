@@ -13,7 +13,7 @@ public class MiscWordSet extends WordSet {
 		return new Word[] {
 
 				new BaseWord(
-						"LITERAL",
+						"literal",
 						"Literal, which simply pushes its parameter field onto the data stack.",
 						Word.POSTPONED) {
 					@Override
@@ -22,7 +22,7 @@ public class MiscWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("PRINT", "", Word.POSTPONED) {
+				new BaseWord("print", "", Word.POSTPONED) {
 					@Override
 					public void execute(Interpreter interpreter) {
 						interpreter.print(interpreter.popData().toString());
@@ -40,7 +40,7 @@ public class MiscWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("NULL", "Pushes null onto the stack",
+				new BaseWord("null", "Pushes null onto the stack",
 						Word.POSTPONED) {
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -48,7 +48,7 @@ public class MiscWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("EQUALS", "Checks the equality of two objects",
+				new BaseWord("equals", "Checks the equality of two objects",
 						Word.POSTPONED) {
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -59,14 +59,14 @@ public class MiscWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("LIST_TERMINATOR", "", Word.POSTPONED) {
+				new BaseWord("list-terminator", "", Word.POSTPONED) {
 					@Override
 					public void execute(Interpreter interpreter) {
 						interpreter.pushData(Util.LIST_TERMINATOR);
 					}
 				},
 
-				new BaseWord("REQUIRE", "Loads a source file and executes it",
+				new BaseWord("require", "Loads a source file and executes it",
 						Word.POSTPONED) {
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -75,12 +75,12 @@ public class MiscWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("PRINTSTACK", "", Word.POSTPONED) {
+				new BaseWord("print-stack", "", Word.POSTPONED) {
 					@Override
 					public void execute(Interpreter interpreter) {
 						interpreter.printStack();
 					}
-				}, new BaseWord("LOG", "", Word.POSTPONED) {
+				}, new BaseWord("log", "", Word.POSTPONED) {
 					@Override
 					public void execute(Interpreter interpreter) {
 						interpreter.print((String) interpreter.popData());

@@ -10,7 +10,7 @@ public class StackWordSet extends WordSet {
 	public Word[] getWords() {
 		return new Word[] {
 
-		new BaseWord("DUP", "( a -- a a )", Word.POSTPONED) {
+		new BaseWord("dup", "( a -- a a )", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o = interpreter.peekData();
@@ -18,7 +18,7 @@ public class StackWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("OVER", "( a b -- a b a )", Word.POSTPONED) {
+		new BaseWord("over", "( a b -- a b a )", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -29,7 +29,7 @@ public class StackWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("ROT", "( a b c -- b c a )", Word.POSTPONED) {
+		new BaseWord("rot", "( a b c -- b c a )", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -41,7 +41,7 @@ public class StackWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("-ROT", "( a b c -- c a b )", Word.POSTPONED) {
+		new BaseWord("-rot", "( a b c -- c a b )", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -53,7 +53,7 @@ public class StackWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NIP", "( a b -- b )", Word.POSTPONED) {
+		new BaseWord("nip", "( a b -- b )", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o = interpreter.popData();
@@ -62,7 +62,7 @@ public class StackWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("TUCK", "( a b -- b a b )", Word.POSTPONED) {
+		new BaseWord("tuck", "( a b -- b a b )", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -74,7 +74,7 @@ public class StackWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SWAP", "( a b -- b a )", Word.POSTPONED) {
+		new BaseWord("swap", "( a b -- b a )", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -84,7 +84,7 @@ public class StackWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("2SWAP", "( a b c d -- c d a b)", Word.POSTPONED) {
+		new BaseWord("2swap", "( a b c d -- c d a b)", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -99,7 +99,7 @@ public class StackWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("DROP", "", Word.POSTPONED) {
+		new BaseWord("drop", "", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				interpreter.popData();

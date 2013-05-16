@@ -37,8 +37,32 @@ public class CompiledWord extends Word {
 
 	@Override
 	public void execute(Interpreter interpreter) {
-		// TODO Auto-generated method stub
+		word.execute(interpreter);
 
+	}
+
+	public boolean isImmediate() {
+		return word.isImmediate();
+	}
+
+	public void setImmediate(boolean immediate) {
+		word.setImmediate(immediate);
+	}
+
+	public String getName() {
+		return word.getName();
+	}
+
+	public void setName(String name) {
+		word.setName(name);
+	}
+
+	public String getDescription() {
+		return word.getDescription();
+	}
+
+	public void setDescription(String description) {
+		word.setDescription(description);
 	}
 
 }

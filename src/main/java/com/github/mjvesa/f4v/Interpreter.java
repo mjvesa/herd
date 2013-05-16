@@ -61,7 +61,7 @@ public class Interpreter implements ClickListener {
 	private HashMap<String, String> source;
 	private Stack<Object> dataStack;
 	private Stack<Integer> returnStack;
-	private Stack<Word[]> codeStack;
+	private Stack<CompiledWord[]> codeStack;
 	private Object[] heap;
 	private DefinedWord currentDefinition; // These two are used to define new
 											// words
@@ -131,7 +131,7 @@ public class Interpreter implements ClickListener {
 
 		dataStack = new Stack<Object>();
 		returnStack = new Stack<Integer>();
-		codeStack = new Stack<Word[]>();
+		codeStack = new Stack<CompiledWord[]>();
 		heap = new Object[2000];
 		dictionary = new HashMap<String, Word>();
 	}
@@ -194,7 +194,7 @@ public class Interpreter implements ClickListener {
 					} else if (Character.isDigit(word.charAt(0))) {
 						dataStack.push(new Integer(Integer.parseInt(word)));
 					} else {
-						print("ERROR: didn't quite get this: " + word);
+						print("INTERPRETER ERROR: Could not resolve: " + word);
 					}
 				}
 			}
@@ -223,7 +223,7 @@ public class Interpreter implements ClickListener {
 			} else if (Character.isDigit(word.charAt(0))) {
 				generateLiteral(new Integer(Integer.parseInt(word)));
 			} else {
-				print("COMPILER ERROR: didn't quite get this: " + word
+				print("COMPILER ERROR: Could not resolve: " + word + " "
 						+ parser.getPosition());
 			}
 		}
@@ -260,8 +260,18 @@ public class Interpreter implements ClickListener {
 	 * 
 	 * @param word
 	 */
-	public void executeDefinedWord(DefinedWord word) {
-		// TODO implement
+	public void executeDefinedWord(DefinedWord definedWord) {
+
+		returnStack.push(ip);
+		codeStack.push(code);
+		code = definedWord.getCode();
+		ip = 0;
+		while (ip < code.length) {
+			code[ip].execute(this);
+			ip++;
+		}
+		ip = returnStack.pop();
+		code = codeStack.pop();
 	}
 
 	/* Gets the next executable word and skips it in execution */
@@ -324,7 +334,8 @@ public class Interpreter implements ClickListener {
 	 */
 	public void finishCompilation() {
 		String name = currentDefinition.getName();
-		currentDefinition.setCode(currentDefinitionWords.toArray(new Word[1]));
+		currentDefinition.setCode(currentDefinitionWords
+				.toArray(new CompiledWord[1]));
 		if (logNewWords) {
 			print("ADDED: " + name);
 		}

@@ -12,7 +12,7 @@ public class FlowControlWordSet extends WordSet {
 		return new Word[] {
 
 				new BaseWord(
-						"DO",
+						"do",
 						"Beginning of DO loop. (n1 n2 -- ) Expects begin and end counter values to be at TOS and NOS",
 						Word.POSTPONED) {
 
@@ -22,7 +22,7 @@ public class FlowControlWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("LOOP", "", Word.POSTPONED) {
+				new BaseWord("loop", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -40,7 +40,7 @@ public class FlowControlWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("IF", "", Word.POSTPONED) {
+				new BaseWord("if", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -53,7 +53,7 @@ public class FlowControlWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("ELSE", "", Word.POSTPONED) {
+				new BaseWord("else", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -62,7 +62,7 @@ public class FlowControlWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("ENDIF", "", Word.IMMEDIATE) {
+				new BaseWord("endif", "", Word.IMMEDIATE) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -70,12 +70,12 @@ public class FlowControlWordSet extends WordSet {
 						// set current address minus one as parameter
 						int i = interpreter.getCurrentDefinitionSize() - 1;
 						int jumpDest = i;
-						while (!"IF".equals(interpreter
+						while (!"if".equals(interpreter
 								.getFromCurrentDefinition(i).getName())
 								&& (i >= 0)) {
 							CompiledWord word = interpreter
 									.getFromCurrentDefinition(i);
-							if ("ELSE".equals(word.getName())) {
+							if ("else".equals(word.getName())) {
 								word.setParameter(jumpDest - i);
 								jumpDest = i; // IF jumps to word after else
 							}
@@ -89,7 +89,7 @@ public class FlowControlWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("BEGIN", "", Word.POSTPONED) {
+				new BaseWord("begin", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -97,7 +97,7 @@ public class FlowControlWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("WHILE", "", Word.POSTPONED) {
+				new BaseWord("while", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -105,7 +105,7 @@ public class FlowControlWordSet extends WordSet {
 						if (!bool) {
 							Word[] code = interpreter.getCode();
 							int ip = interpreter.getIp();
-							while (!"REPEAT".equals(code[ip].getName())) {
+							while (!"repeat".equals(code[ip].getName())) {
 								ip++;
 							}
 							interpreter.setIp(ip);
@@ -114,7 +114,7 @@ public class FlowControlWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("REPEAT", "", Word.IMMEDIATE) {
+				new BaseWord("repeat", "", Word.IMMEDIATE) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -180,7 +180,7 @@ public class FlowControlWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("NOT", "NOT", Word.POSTPONED) {
+				new BaseWord("not", "NOT", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {

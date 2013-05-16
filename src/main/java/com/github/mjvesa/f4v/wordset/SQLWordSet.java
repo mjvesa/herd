@@ -11,7 +11,7 @@ public class SQLWordSet extends WordSet {
 	public Word[] getWords() {
 		return new Word[] {
 
-		new BaseWord("CREATESQLCONTAINER", "", Word.POSTPONED) {
+		new BaseWord("create-SQL-container", "", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 
@@ -22,7 +22,7 @@ public class SQLWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("CREATEFILTEREDSQLCONTAINER", "", Word.POSTPONED) {
+		new BaseWord("create-filtered-SQL-container", "", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				String str = (String) interpreter.popData();
@@ -31,14 +31,14 @@ public class SQLWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("DOQUERY", "", Word.POSTPONED) {
+		new BaseWord("do-query", "", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				interpreter.getSQL().doQuery((String) interpreter.popData());
 			}
 		},
 
-		new BaseWord("GETPROPERTY", "", Word.POSTPONED) {
+		new BaseWord("get-property", "", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				String str = (String) interpreter.popData();
@@ -48,7 +48,7 @@ public class SQLWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETPROPRETY", "", Word.POSTPONED) {
+		new BaseWord("set-property", "", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				String value = (String) interpreter.popData();

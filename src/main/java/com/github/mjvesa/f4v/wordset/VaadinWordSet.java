@@ -34,7 +34,7 @@ public class VaadinWordSet extends WordSet {
 	public Word[] getWords() {
 		return new Word[] {
 
-		new BaseWord("NEWBUTTON", "", Word.POSTPONED) {
+		new BaseWord("new-button", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -43,7 +43,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETCLICKLISTENER", "", Word.POSTPONED) {
+		new BaseWord("set-click-listener", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -54,7 +54,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWHL", "", Word.POSTPONED) {
+		new BaseWord("new-hl", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -64,7 +64,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWVL", "", Word.POSTPONED) {
+		new BaseWord("new-vl", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -74,7 +74,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWGL", "( x y - gl )", Word.POSTPONED) {
+		new BaseWord("new-gl", "( x y - gl )", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -84,7 +84,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("GLNEWLINE", "", Word.POSTPONED) {
+		new BaseWord("gl-new-line", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -92,7 +92,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWWINDOW", "", Word.POSTPONED) {
+		new BaseWord("new-window", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -102,7 +102,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("MAINPANEL", "", Word.POSTPONED) {
+		new BaseWord("main-panel", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -110,7 +110,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("ADDWINDOW", "", Word.POSTPONED) {
+		new BaseWord("add-window", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -119,7 +119,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("ADDCOMPONENT", "", Word.POSTPONED) {
+		new BaseWord("add-component", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -131,7 +131,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETCAPTION", "", Word.POSTPONED) {
+		new BaseWord("set-caption", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -142,7 +142,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETVALUE", "", Word.POSTPONED) {
+		new BaseWord("set-value", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -153,7 +153,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("GETVALUE", "", Word.POSTPONED) {
+		new BaseWord("get-value", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -164,7 +164,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETSIZEFULL", "", Word.POSTPONED) {
+		new BaseWord("set-size-full", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -174,7 +174,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETSIZEUNDEFINED", "", Word.POSTPONED) {
+		new BaseWord("set-size-undefined", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -184,7 +184,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETHEIGHT", "", Word.POSTPONED) {
+		new BaseWord("set-height", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -195,7 +195,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETWIDTH", "", Word.POSTPONED) {
+		new BaseWord("set-width", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -206,7 +206,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("CLEARCONTAINER", "", Word.POSTPONED) {
+		new BaseWord("clear-container", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -216,7 +216,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWCHECKBOX", "", Word.POSTPONED) {
+		new BaseWord("new-check-box", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -224,7 +224,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWDATEFIELD", "", Word.POSTPONED) {
+		new BaseWord("new-date-field", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(final Interpreter interpreter) {
@@ -248,7 +248,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWLABEL", "", Word.POSTPONED) {
+		new BaseWord("new-label", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -256,7 +256,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWTEXTFIELD", "", Word.POSTPONED) {
+		new BaseWord("new-text-field", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(final Interpreter interpreter) {
@@ -280,7 +280,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWTABLE", "", Word.POSTPONED) {
+		new BaseWord("new-table", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(final Interpreter interpreter) {
@@ -308,7 +308,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWCOMBOBOX", "", Word.POSTPONED) {
+		new BaseWord("new-combo-box", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(final Interpreter interpreter) {
@@ -355,7 +355,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWSELECT", "", Word.POSTPONED) {
+		new BaseWord("new-select", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(final Interpreter interpreter) {
@@ -382,7 +382,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("NEWLISTSELECT", "", Word.POSTPONED) {
+		new BaseWord("new-list-select", "", Word.POSTPONED) {
 			@Override
 			public void execute(final Interpreter interpreter) {
 				final String lselCommand = interpreter.getParser()
@@ -409,7 +409,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETCONTAINERDATASOURCE", "", Word.POSTPONED) {
+		new BaseWord("set-container-data-source", "", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Container cont = (Container) interpreter.popData();
@@ -419,7 +419,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETCOLUMHEADERS", "", Word.POSTPONED) {
+		new BaseWord("set-column-headers", "", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Table table = (Table) interpreter.popData();
@@ -428,7 +428,7 @@ public class VaadinWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("SETVISIBLECOLUMNS", "", Word.POSTPONED) {
+		new BaseWord("set-visible-columns", "", Word.POSTPONED) {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Table table = (Table) interpreter.popData();

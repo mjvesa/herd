@@ -22,7 +22,7 @@ package com.github.mjvesa.f4v;
 public class DefinedWord extends Word {
 
 	private String name;
-	private Word[] code;
+	private CompiledWord[] code;
 
 	public String getName() {
 		return name;
@@ -32,11 +32,11 @@ public class DefinedWord extends Word {
 		this.name = name;
 	}
 
-	public Word[] getCode() {
+	public CompiledWord[] getCode() {
 		return code;
 	}
 
-	public void setCode(Word[] code) {
+	public void setCode(CompiledWord[] code) {
 		this.code = code;
 	}
 
@@ -46,8 +46,7 @@ public class DefinedWord extends Word {
 
 	@Override
 	public void execute(Interpreter interpreter) {
-		// TODO Auto-generated method stub
-
+		interpreter.executeDefinedWord(this);
 	}
 
 }

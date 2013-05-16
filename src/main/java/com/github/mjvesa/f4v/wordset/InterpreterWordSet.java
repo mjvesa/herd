@@ -54,7 +54,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("FIND",
+				new BaseWord("find",
 						"Resolves the word defined by the string at TOS",
 						Word.POSTPONED) {
 
@@ -66,7 +66,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("EXECUTE", "Executes the word at TOS",
+				new BaseWord("execute", "Executes the word at TOS",
 						Word.POSTPONED) {
 
 					@Override
@@ -76,7 +76,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("WORD", "Parses the next word in the stream",
+				new BaseWord("word", "Parses the next word in the stream",
 						Word.POSTPONED) {
 
 					@Override
@@ -86,7 +86,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("CREATE", "", Word.POSTPONED) {
+				new BaseWord("create", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -94,7 +94,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("STACKCREATE", "", Word.POSTPONED) {
+				new BaseWord("stack-create", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -102,7 +102,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("DOES>", "", Word.POSTPONED) {
+				new BaseWord("does>", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -110,7 +110,7 @@ public class InterpreterWordSet extends WordSet {
 
 						// Find where DOES> is
 						int i = code.length - 1;
-						while (!"DOES>".equals(code[i].getName())) {
+						while (!"does>".equals(code[i].getName())) {
 							i--;
 						}
 						i++; // We don't want to copy DOES> now do we
@@ -125,7 +125,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("IMMEDIATE",
+				new BaseWord("immediate",
 						"Marks the current definition as immediate",
 						Word.POSTPONED) {
 
@@ -157,7 +157,7 @@ public class InterpreterWordSet extends WordSet {
 				},
 
 				new BaseWord(
-						"ANONCREATE",
+						"anon-create",
 						"Creates a definition without a name, an anonymous definition",
 						Word.POSTPONED) {
 					@Override
@@ -174,7 +174,7 @@ public class InterpreterWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("ISXT", "", Word.POSTPONED) {
+				new BaseWord("xt?", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {

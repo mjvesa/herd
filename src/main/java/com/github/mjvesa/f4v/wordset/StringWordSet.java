@@ -10,7 +10,7 @@ public class StringWordSet extends WordSet {
 	public Word[] getWords() {
 		return new Word[] {
 
-		new BaseWord("STRTOINT", "", Word.POSTPONED) {
+		new BaseWord("str-to-int", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -19,7 +19,7 @@ public class StringWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("TOSTR", "", Word.POSTPONED) {
+		new BaseWord("to-str", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -27,7 +27,7 @@ public class StringWordSet extends WordSet {
 			}
 		},
 
-		new BaseWord("CAT", "", Word.POSTPONED) {
+		new BaseWord("cat", "", Word.POSTPONED) {
 
 			@Override
 			public void execute(Interpreter interpreter) {

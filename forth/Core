@@ -1,116 +1,117 @@
+( Creates words that do nothing )
+: createnop word create does> ;
+
 ( NOPS for making some stuff more obvious )
-CREATENOP listensTo
-CREATENOP listenedBy
+createnop listens-to
+createnop listened-by
 
 ( set up variables )
 500 0 !
-: VAR CREATE 0 @ 1 + DUP 0 ! DUP NULL SWAP ! , DOES> ;
+: var create 0 @ 1 + dup 0 ! dup null swap ! , does> ;
 ( Move the storage pointer the amount of places on stack )
-: ALLOT 0 @ + 0 ! ;
+: allot 0 @ + 0 ! ;
 
 ( Insert one value into the list we're creating )
 : |  ( addr value -- addr+1 )
-  OVER ! 1 + 
+  over ! 1 + 
 ;
 
 ( )
 : ||  ( addr value1 value2 -- addr+2 )
-  ROT TUCK ! TUCK 1 + ! 2 + 
+  rot tuck ! tuck 1 + ! 2 + 
 ;
 
-: STACKVAR STACKCREATE 0 @ 1 + DUP 0 ! DUP NULL SWAP ! , DOES> ;
-: RECORD 
-  WORD "." CAT 
-  BEGIN 
-    DUP WORD DUP "ENDRECORD" EQUALS NOT 
-  WHILE 
-    CAT STACKVAR 
-  REPEAT 
-  DROP DROP DROP  
+: stackvar stack-create 0 @ 1 + dup 0 ! dup null swap ! , does> ;
+: record 
+  word "." cat
+  begin 
+    dup word dup "endrecord" equals not 
+  while 
+    cat stackvar 
+  repeat 
+  drop drop drop  
 ;
-
 
 ( Attempt at something smalltalkish )
-: insideIt addComponent ;
-: asColumnNames setColumnHeaders ;
-: asVisibleColumns setVisibleColumns ;
-: asCaption setCaption ;
-: asValue setValue ;
-: asClickListener FIND setClickListener ;
-: createASQLContainer createSQLContainer ;
-: createAFilteredSQLContainer createFilteredSQLContainer ;
-: asContainerDatasource setContainerDatasource DROP ;
-: asName ! ;
-: asWidth setWidth ;
-: asHeight setHeight ;
-: usesIt @ SWAP ;
-: addIt addComponent ;
+: inside-it add-component ;
+: as-column-names set-column-headers ;
+: as-visible-columns set-visible-columns ;
+: as-caption set-caption ;
+: as-value set-value ;
+: as-click-listener find set-click-listener ;
+: create-a-SQL-container create-SQL-container ;
+: create-a-filtered-SQL-container create-filtered-SQL-container ;
+: as-container-data-source set-container-data-source drop ;
+: as-name ! ;
+: as-width set-width ;
+: as-height set-height ;
+: uses-it @ swap ;
+: add-it add-component ;
 ( caption -- Button )
-: aButton newButton SWAP setCaption ;
-: aLabel newLabel ;
-: aTextField newTextField ;
-: aComboBox newComboBox ;
-: aTable newTable ;
-: aSelect newSelect ;
-: aWindow newWindow ;
+: a-button new-button swap set-caption ;
+: a-label new-label ;
+: a-text-field new-text-field ;
+: a-combo-box new-combo-box ;
+: a-table new-table ;
+: a-select new-select ;
+: a-window new-window ;
 ( : -> ' EXECUTE , COMPILE ! ; IMMEDIATE )
-: prop getProperty ;
-: fromStack SWAP ;
+: prop get-property ;
+: from-stack swap ;
 
 ( Space for lists )
-VAR list[ 100 ALLOT
+var list-[ 100 allot
 
 ( Stuff to do with lists )
-: ]asParamsForQuery | LIST_TERMINATOR | DROP ;
-: ]isUsedBy | LIST_TERMINATOR | DROP ;
+: ]-as-params-for-query | list-terminator | drop ;
+: ]-is-used-by | list-terminator | drop ;
 
 
 ( Adds buttons in a list to a layout )
 
 ( executes a token for each entry in a list )
 
-: forList 
+: map
  ( TODO do this sometime )
 ;
 
 ( Loads a list of buttons and clicklisteners to )
 (  a layout )
 : ]addButtonsToLayout
-  || LIST_TERMINATOR | DROP
-  list[
-  BEGIN
-    DUP @ LIST_TERMINATOR EQUALS NOT
-  WHILE  ( layout addr ) 
-    DUP DUP @ SWAP 1 + @ aButton SWAP setClickListener 
-    ROT SWAP addIt SWAP 2 + 
-  REPEAT
-  DROP
+  || list-terminator | drop
+  list-[
+  begin
+    dup @ list-terminator equals not
+  while  ( layout addr ) 
+    dup dup @ swap 1 + @ a-button swap set-click-listener 
+    rot swap add-it swap 2 + 
+  repeat
+  drop
 ;
 
 ( loads a list of properties to an item)
 ( item record_name -- )
 : loadProps
   "." CAT
-  list[
-  BEGIN
-    DUP @ LIST_TERMINATOR EQUALS NOT
-  WHILE
-    ROT SWAP TUCK @ getProperty
-    2SWAP DUP @ ROT DUP ROT
-    CAT 2SWAP -ROT
-    SWAP FIND EXECUTE !
+  list-[
+  begin
+    dup @ list-terminator equals not
+  while
+    rot swap tuck @ get-property
+    2swap dup @ rot dup rot
+    cat 2swap -rot
+    swap find execute !
     1 +
-  REPEAT
-  DROP DROP DROP
+  repeat
+  drop drop drop
 ;
 
 ( addr record_name -- record_name )
-: ]loadPropsTo | LIST_TERMINATOR | DROP WORD loadProps ;
+: ]-load-props-to | list-terminator | drop word load-props ;
   
 ( These words are more filling and less taste )
-CREATENOP has CREATENOP a
-CREATENOP the CREATENOP with
-CREATENOP and CREATENOP or
-CREATENOP is  CREATENOP to
-CREATENOP use CREATENOP contains:
-
+createnop has createnop a
+createnop the createnop with
+createnop and createnop or
+createnop is  createnop to
+createnop use createnop contains:

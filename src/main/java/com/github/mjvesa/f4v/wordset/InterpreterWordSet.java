@@ -136,7 +136,7 @@ public class InterpreterWordSet extends WordSet {
 				},
 
 				new BaseWord(
-						"COMPILE",
+						"compile",
 						"When executed, adds the compiled word at TOS to the current definition",
 						Word.POSTPONED) {
 

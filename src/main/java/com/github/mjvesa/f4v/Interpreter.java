@@ -194,7 +194,8 @@ public class Interpreter implements ClickListener {
 					} else if (Character.isDigit(word.charAt(0))) {
 						dataStack.push(new Integer(Integer.parseInt(word)));
 					} else {
-						print("INTERPRETER ERROR: Could not resolve: " + word);
+						print("INTERPRETER ERROR: Could not resolve: " + word
+								+ " " + parser.getPosition());
 					}
 				}
 			}

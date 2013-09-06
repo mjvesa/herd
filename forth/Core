@@ -61,7 +61,7 @@ createnop listened-by
 : from-stack swap ;
 
 ( Space for lists )
-var list-[ 100 allot
+var list[ 100 allot
 
 ( Stuff to do with lists )
 : ]-as-params-for-query | list-terminator | drop ;

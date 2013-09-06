@@ -16,7 +16,6 @@ public class HeapWordSet extends WordSet {
 				Integer address = (Integer) interpreter.popData();
 				Object value = interpreter.popData();
 				interpreter.poke(address, value);
-
 			}
 		},
 

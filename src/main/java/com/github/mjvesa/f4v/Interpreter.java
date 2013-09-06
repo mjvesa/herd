@@ -154,7 +154,8 @@ public class Interpreter {
 			print("OK");
 		} catch (Exception e) {
 			print("ERROR: " + e.getClass().toString() + " -- Current word: "
-			 + code[ip].getName() + " Location of error: line: " + parser.getLine() + " column: " + parser.getCol());
+					+ code[ip].getName() + " Location of error: line: "
+					+ parser.getLine() + " column: " + parser.getCol());
 			e.printStackTrace();
 		}
 
@@ -182,9 +183,7 @@ public class Interpreter {
 
 				if (dictionary.containsKey(word)) {
 					Word w = dictionary.get(word);
-					if (logExecutedWords) {
-						logExecutedWord(w);
-					}
+					logExecutedWord(w);
 					w.execute(this);
 				} else {
 					if (word.charAt(0) == '"') {
@@ -199,7 +198,7 @@ public class Interpreter {
 			}
 			word = parser.getNextWord();
 		}
-		
+
 		parser = parsers.pop();
 	}
 
@@ -249,10 +248,7 @@ public class Interpreter {
 			return;
 			// TODO return to main loop or stop interpreting when this happens.
 		}
-
-		if (logExecutedWords) {
-			logExecutedWord(word);
-		}
+		logExecutedWord(word);
 
 		word.execute(this);
 
@@ -271,23 +267,22 @@ public class Interpreter {
 		code = definedWord.getCode();
 		ip = 0;
 		while (ip < code.length) {
-			if (logExecutedWords) {
-				logExecutedWord(code[ip]);
-			}
+			logExecutedWord(code[ip]);
 			code[ip].execute(this);
 			ip++;
 		}
 		ip = returnStack.pop();
 		code = codeStack.pop();
 	}
-	
-	
+
 	private void logExecutedWord(Word word) {
-		print("Executing: " + word.getName());
+		if (logExecutedWords) {
+			print("Executing: " + word.getName());
+		}
 	}
 
 	public Word getNextWord() {
-		
+
 		String s = getParser().getNextWord();
 		Word word = getDictionary().get(s);
 		if (word == null) {
@@ -303,7 +298,8 @@ public class Interpreter {
 		String word = parser.getNextWord();
 		while (!word.isEmpty()) {
 			Word w = dictionary.get(word);
-			if (w instanceof DefinedWord && ((DefinedWord)w).getCode().length > 0) {
+			if (w instanceof DefinedWord
+					&& ((DefinedWord) w).getCode().length > 0) {
 				return word;
 			}
 			word = parser.getNextWord();
@@ -363,7 +359,6 @@ public class Interpreter {
 		}
 	}
 
-	
 	public void printStack() {
 
 		ListIterator<Object> iterator = dataStack.listIterator();

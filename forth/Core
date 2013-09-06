@@ -1,5 +1,5 @@
 ( Creates words that do nothing )
-: createnop word create does> ;
+: createnop create does> ;
 
 ( NOPS for making some stuff more obvious )
 createnop listens-to
@@ -55,6 +55,7 @@ createnop listened-by
 : a-table new-table ;
 : a-select new-select ;
 : a-window new-window ;
+: a-text-field new-text-field ;
 ( : -> ' EXECUTE , COMPILE ! ; IMMEDIATE )
 : prop get-property ;
 : from-stack swap ;
@@ -91,8 +92,8 @@ var list-[ 100 allot
 
 ( loads a list of properties to an item)
 ( item record_name -- )
-: loadProps
-  "." CAT
+: load-props
+  "." cat
   list-[
   begin
     dup @ list-terminator equals not

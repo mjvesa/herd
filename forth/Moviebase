@@ -11,13 +11,13 @@ RECORD Movie
 ENDRECORD
 
 ( A table for movies ) 
-VAR movieTable
+VAR movie-table
 
-: setTableHeaders
+: set-table-headers
   list[ "name" | "duration" | "prodyear" | "genres" ]isUsedBy
-    movieTable @ asVisibleColumns
+    movieTable @ as-visible-columns
   list[ "Name" | "Duration" | "Production year" | "Genres" ]isUsedBy
-    movieTable @ asColumnNames
+    movie-table @ as-column-names
 ;
 
 ( Attach '%' to the beginning and end of a string )
@@ -153,10 +153,10 @@ mainPanel contains:
   movieTable @ addIt
   fillMovieList
 
-  a newHl
-   "Delete" is aButton with "deleteSelection" asClickListener addIt
-   "Edit selection" is aButton with "showEditWindow" asClickListener addIt
-   "Add New Movie" is aButton with "showEditWindow" asClickListener addIt 
+  a new-hl
+   "Delete" is a-button with "deleteSelection" as-clicklistener add-it
+   "Edit selection" is aButton with "showEditWindow" asClickListener add-it
+   "Add New Movie" is aButton with "showEditWindow" asClickListener add-it 
   addIt
 
 DROP

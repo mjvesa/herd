@@ -30,10 +30,8 @@ import com.github.mjvesa.f4v.wordset.SQLWordSet;
 import com.github.mjvesa.f4v.wordset.StackWordSet;
 import com.github.mjvesa.f4v.wordset.StringWordSet;
 import com.github.mjvesa.f4v.wordset.VaadinWordSet;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 
 /**
@@ -51,12 +49,8 @@ import com.vaadin.ui.UI;
  * @author mjvesa@vaadin.com
  * 
  */
-public class Interpreter implements ClickListener {
+public class Interpreter {
 
-	/**
-     * 
-     */
-	private static final long serialVersionUID = -8695295335619892044L;
 	private HashMap<String, Word> dictionary;
 	private HashMap<String, String> source;
 	private Stack<Object> dataStack;
@@ -72,6 +66,7 @@ public class Interpreter implements ClickListener {
 	private int ip;
 	private CompiledWord[] code;
 
+	private Stack<Parser> parsers;
 	private Parser parser;
 	private ComponentContainer mainComponentContainer;
 	private Blocks blocks;
@@ -99,7 +94,6 @@ public class Interpreter implements ClickListener {
 		sql = new SQL();
 		sql.setDictionary(dictionary);
 		sql.setHeap(heap);
-
 	}
 
 	public void setGuiEventListener(GuiEventListener listener) {
@@ -133,6 +127,7 @@ public class Interpreter implements ClickListener {
 		codeStack = new Stack<CompiledWord[]>();
 		heap = new Object[2000];
 		dictionary = new HashMap<String, Word>();
+		parsers = new Stack<Parser>();
 	}
 
 	/**
@@ -158,8 +153,8 @@ public class Interpreter implements ClickListener {
 			interpret(command);
 			print("OK");
 		} catch (Exception e) {
-			// print("ERROR: " + e.getClass().toString() + " -- Current word: "
-			// + code[ip].getName());
+			print("ERROR: " + e.getClass().toString() + " -- Current word: "
+			 + code[ip].getName() + " Location of error: line: " + parser.getLine() + " column: " + parser.getCol());
 			e.printStackTrace();
 		}
 
@@ -172,6 +167,7 @@ public class Interpreter implements ClickListener {
 	 */
 	public void interpret(String str) {
 
+		parsers.push(parser);
 		isCompiling = false;
 		parser = new Parser();
 		parser.setString(str);
@@ -186,12 +182,15 @@ public class Interpreter implements ClickListener {
 
 				if (dictionary.containsKey(word)) {
 					Word w = dictionary.get(word);
+					if (logExecutedWords) {
+						logExecutedWord(w);
+					}
 					w.execute(this);
 				} else {
 					if (word.charAt(0) == '"') {
 						dataStack.push(word.substring(1, word.length() - 1));
 					} else if (Character.isDigit(word.charAt(0))) {
-						dataStack.push(new Integer(Integer.parseInt(word)));
+						dataStack.push(Integer.valueOf(word));
 					} else {
 						print("INTERPRETER ERROR: Could not resolve: " + word
 								+ " " + parser.getPosition());
@@ -200,6 +199,8 @@ public class Interpreter implements ClickListener {
 			}
 			word = parser.getNextWord();
 		}
+		
+		parser = parsers.pop();
 	}
 
 	/**
@@ -244,10 +245,13 @@ public class Interpreter implements ClickListener {
 	public void execute(Word word) {
 
 		if (word == null) {
-			guiEventListener.getUI().showNotification(
-					"Attempted to excute undefined word!");
+			Notification.show("Attempted to excute undefined word!");
 			return;
 			// TODO return to main loop or stop interpreting when this happens.
+		}
+
+		if (logExecutedWords) {
+			logExecutedWord(word);
 		}
 
 		word.execute(this);
@@ -267,27 +271,39 @@ public class Interpreter implements ClickListener {
 		code = definedWord.getCode();
 		ip = 0;
 		while (ip < code.length) {
+			if (logExecutedWords) {
+				logExecutedWord(code[ip]);
+			}
 			code[ip].execute(this);
 			ip++;
 		}
 		ip = returnStack.pop();
 		code = codeStack.pop();
 	}
+	
+	
+	private void logExecutedWord(Word word) {
+		print("Executing: " + word.getName());
+	}
 
-	/* Gets the next executable word and skips it in execution */
-	private Word getNextExecutableWord() {
-		CompiledWord[] words = this.code;
-		CompiledWord w = words[ip + 1];
-		ip++;
-		return w;
+	public Word getNextWord() {
+		
+		String s = getParser().getNextWord();
+		Word word = getDictionary().get(s);
+		if (word == null) {
+			print("The word \"" + s + "\" has not been defined!");
+			return null;
+		}
+		return word;
 	}
 
 	/* This can be used to skip filling words */
-	private String getNextNonNopWord() {
+	public String getNextNonNopWord() {
 
 		String word = parser.getNextWord();
 		while (!word.isEmpty()) {
-			if (!"nop".equals(dictionary.get(word).getName())) {
+			Word w = dictionary.get(word);
+			if (w instanceof DefinedWord && ((DefinedWord)w).getCode().length > 0) {
 				return word;
 			}
 			word = parser.getNextWord();
@@ -335,7 +351,7 @@ public class Interpreter implements ClickListener {
 	public void finishCompilation() {
 		String name = currentDefinition.getName();
 		currentDefinition.setCode(currentDefinitionWords
-				.toArray(new CompiledWord[1]));
+				.toArray(new CompiledWord[0]));
 		if (logNewWords) {
 			print("ADDED: " + name);
 		}
@@ -347,27 +363,13 @@ public class Interpreter implements ClickListener {
 		}
 	}
 
-	/*
-	 * Prints all the words in the dictionary
-	 */
-	private void printWords() {
-		print(dictionary.keySet().toString());
-	}
-
+	
 	public void printStack() {
 
 		ListIterator<Object> iterator = dataStack.listIterator();
 		while (iterator.hasNext()) {
 			Object o = iterator.next();
 			print("Class: " + o.getClass() + " -- [" + o.toString() + "]");
-		}
-	}
-
-	public void buttonClick(ClickEvent event) {
-		Button b = event.getButton();
-		DefinedWord command = (DefinedWord) b.getData();
-		if (command != null) {
-			execute(command);
 		}
 	}
 

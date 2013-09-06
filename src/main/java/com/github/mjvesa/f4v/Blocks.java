@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,11 +32,11 @@ import java.util.regex.Pattern;
  * @author mjvesa@vaadin.com
  * 
  */
-public class Blocks {
+public class Blocks implements Serializable {
 
 	
 	// This needs to be the directory Forth files are stored in
-    public static final String BLOCK_DIRECTORY = "/home/mjvesa/forth/";
+    public static final String BLOCK_DIRECTORY = "/home/mjvesa/f4v/forth/";
 
     public HashMap<String, String> loadBuffers() {
         HashMap<String, String> blocks = new HashMap<String, String>();

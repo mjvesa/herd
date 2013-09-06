@@ -181,12 +181,12 @@ public class Gui extends HorizontalSplitPanel implements GuiEventListener {
         hl.setSpacing(true);
         Button b = new Button("Execute");
         b.setImmediate(true);
-        b.addListener(runListener);
+        b.addClickListener(runListener);
         hl.addComponent(b);
 
         b = new Button("Clear and execute");
         b.setImmediate(true);
-        b.addListener(clearAndRunListener);
+        b.addClickListener(clearAndRunListener);
         hl.addComponent(b);
 
         clearConsoleButton = new Button("Clear console");

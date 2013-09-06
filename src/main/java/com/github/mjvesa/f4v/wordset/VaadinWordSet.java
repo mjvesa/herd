@@ -1,6 +1,7 @@
 package com.github.mjvesa.f4v.wordset;
 
 import com.github.mjvesa.f4v.BaseWord;
+import com.github.mjvesa.f4v.DefinedWord;
 import com.github.mjvesa.f4v.Interpreter;
 import com.github.mjvesa.f4v.Word;
 import com.vaadin.data.Container;
@@ -11,6 +12,7 @@ import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.ui.AbstractSelect;
 import com.vaadin.ui.AbstractSelect.NewItemHandler;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.ComboBox;
@@ -37,8 +39,19 @@ public class VaadinWordSet extends WordSet {
 		new BaseWord("new-button", "", Word.POSTPONED) {
 
 			@Override
-			public void execute(Interpreter interpreter) {
-				Button b = new Button("", interpreter);
+			public void execute(final Interpreter interpreter) {
+				
+				Button b = new Button("", new Button.ClickListener() {
+					
+					@Override
+					public void buttonClick(ClickEvent event) {
+						Button b = event.getButton();
+						DefinedWord command = (DefinedWord) b.getData();
+						if (command != null) {
+							interpreter.execute(command);
+						}
+					}
+				});
 				interpreter.pushData(b);
 			}
 		},
@@ -260,7 +273,7 @@ public class VaadinWordSet extends WordSet {
 
 			@Override
 			public void execute(final Interpreter interpreter) {
-				final String tfCommand = interpreter.getParser().getNextWord();
+				final String tfCommand = interpreter.getNextNonNopWord();
 				TextField tf = new TextField();
 				tf.setCaption((String) interpreter.popData());
 				tf.setValue("");

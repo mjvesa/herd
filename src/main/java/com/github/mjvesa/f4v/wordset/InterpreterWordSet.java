@@ -35,9 +35,7 @@ public class InterpreterWordSet extends WordSet {
 
 					@Override
 					public void execute(Interpreter interpreter) {
-						String s = interpreter.getParser().getNextWord();
-						Word word = interpreter.getDictionary().get(s);
-						interpreter.pushData(word);
+						interpreter.pushData(interpreter.getNextWord());
 					}
 				},
 
@@ -48,9 +46,7 @@ public class InterpreterWordSet extends WordSet {
 
 					@Override
 					public void execute(Interpreter interpreter) {
-						String s = interpreter.getParser().getNextWord();
-						Word word = interpreter.getDictionary().get(s);
-						interpreter.pushData(word);
+						interpreter.pushData(interpreter.getNextWord());
 					}
 				},
 

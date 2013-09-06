@@ -1,23 +1,25 @@
 ( Vaadin calculator example )
-VAR tf
-VAR tfValue "" tfValue ! 
-VAR value 0 value !
+require Core
+
+var tf
+var tfValue "" tfValue ! 
+var value 0 value !
 
 : clearTf
- tf @ "" setValue
+ tf @ "" set-value
 ;
 
 : val ( str -- str xt )
   ( Append a value to the textfield )
-  ANONCREATE DUP , DOES> tfValue @ SWAP CAT tf @ SWAP setValue DROP
+  anon-create dup , does> tfValue @ swap cat tf @ swap set-value drop
 ;
 
 : calculate ( xt -- result in tf and value )
   ( calculate value using value on stack and value in textfield
     using previously entered operation )
-  value @ tfValue @ STRTOINT ROT EXECUTE ( value )
-  DUP value !  ( to value )
-  INTTOSTR tf @ SWAP setValue DROP  ( to textfield )
+  value @ tfValue @ str-to-int rot execute ( value )
+  dup value !  ( to value )
+  to-str tf @ swap set-value drop  ( to textfield )
 ;
 
 : clearTfValue
@@ -26,33 +28,33 @@ VAR value 0 value !
 
 : cmd ( str -- str xt )
   ( Store value from textfield on stack and perform operation on it )
-  DUP ANONCREATE ' , DOES> 
-  SWAP
-  PRINTSTACK "mitä nyt taas" LOG
-  value @ 0 = NOT 
-  IF
+  dup anon-create ' , does> 
+  swap
+  print-stack "mitä nyt taas" log
+  value @ 0 = not
+  if
     calculate clearTfValue
-  ELSE
-    tfValue @ STRTOINT value ! SWAP  clearTfValue
-  ENDIF
+  else
+    tfValue @ str-to-int value ! swap  clearTfValue
+  endif
 ;
 
 : equals calculate ; 
-: C 0 value ! tf @ "" setValue ;
+: C 0 value ! tf @ "" set-value ;
 
-: newValue tfValue ! ;
-: storeIt DUP tf ! ;
+: new-value tfValue ! ;
+: store-it dup tf ! ;
 
 ( Main part of the program )
-mainPanel contains:
-  "" aTextField listenedBy newValue storeIt addIt
-  4 4 a newGl contains:  
+main-panel contains:
+  "" a-text-field listened-by new-value store-it add-it
+  4 4 a new-gl contains:  
   list[ "7" val || "8" val || "9" val || "/" cmd || 
         "4" val || "5" val || "6" val || "*" cmd || 
         "1" val || "2" val || "3" val || "-" cmd || 
-        "0" val || "=" "equals" ' || "C" DUP ' || "+" cmd 
+        "0" val || "=" "equals" ' || "C" dup ' || "+" cmd 
       ]addButtonsToLayout
-  addIt
-DROP
+  add-it
+drop
 
-NULL
+null

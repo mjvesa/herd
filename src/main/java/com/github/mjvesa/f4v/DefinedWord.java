@@ -21,16 +21,7 @@ package com.github.mjvesa.f4v;
  */
 public class DefinedWord extends Word {
 
-	private String name;
 	private CompiledWord[] code;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public CompiledWord[] getCode() {
 		return code;

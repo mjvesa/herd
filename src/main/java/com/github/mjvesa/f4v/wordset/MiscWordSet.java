@@ -66,14 +66,14 @@ public class MiscWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("require", "Loads a source file and executes it",
-						Word.POSTPONED) {
-					@Override
-					public void execute(Interpreter interpreter) {
-						String str = (String) interpreter.popData();
-						interpreter.interpret(interpreter.getSource(str));
-					}
-				},
+//				new BaseWord("require", "Loads a source file and executes it",
+//						Word.POSTPONED) {
+//					@Override
+//					public void execute(Interpreter interpreter) {
+//						String str = (String) interpreter.popData();
+//						interpreter.interpret(interpreter.getSource(str));
+//					}
+//				},
 
 				new BaseWord("print-stack", "", Word.POSTPONED) {
 					@Override

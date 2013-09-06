@@ -179,7 +179,7 @@ public class InterpreterWordSet extends WordSet {
 					@Override
 					public void execute(Interpreter interpreter) {
 						interpreter
-								.pushData(interpreter.popData() instanceof DefinedWord);
+								.pushData(interpreter.popData() instanceof Word);
 					}
 				},
 
@@ -191,6 +191,19 @@ public class InterpreterWordSet extends WordSet {
 					@Override
 					public void execute(Interpreter interpreter) {
 						interpreter.generateLiteral(interpreter.popData());
+					}
+				},
+				
+				new BaseWord(
+						"require",
+						"Executes the buffer defined by the next word in the stream",
+						Word.POSTPONED) {
+
+					@Override
+					public void execute(Interpreter interpreter) {
+						String bufferName = interpreter.getParser().getNextWord();
+						String source = interpreter.getSource(bufferName);
+						interpreter.interpret(source);
 					}
 				} };
 

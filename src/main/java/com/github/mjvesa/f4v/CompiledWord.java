@@ -38,7 +38,6 @@ public class CompiledWord extends Word {
 	@Override
 	public void execute(Interpreter interpreter) {
 		word.execute(interpreter);
-
 	}
 
 	public boolean isImmediate() {

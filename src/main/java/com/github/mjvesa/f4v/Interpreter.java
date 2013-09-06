@@ -42,9 +42,9 @@ import com.vaadin.ui.UI;
  * simply executes defined words by executing their constituent words in
  * sequence.
  * 
- * Words execute themselves, which allows for installable WordSets. Defined
- * words are executed in the interpreter, which is called by the defined words
- * execute() method.
+ * Words execute themselves, which allows for WordSets that can be installed
+ * dynamically. Defined words are executed in the interpreter, which is called
+ * by the defined words execute() method.
  * 
  * Dictionary and heap space are separate.
  * 
@@ -128,7 +128,6 @@ public class Interpreter implements ClickListener {
 	 * Initializes stacks, dictionary and heap
 	 */
 	private void setUpStorage() {
-
 		dataStack = new Stack<Object>();
 		returnStack = new Stack<Integer>();
 		codeStack = new Stack<CompiledWord[]>();
@@ -222,7 +221,7 @@ public class Interpreter implements ClickListener {
 			if (word.charAt(0) == '"') {
 				generateLiteral(word.substring(1, word.length() - 1));
 			} else if (Character.isDigit(word.charAt(0))) {
-				generateLiteral(new Integer(Integer.parseInt(word)));
+				generateLiteral(Integer.valueOf(word));
 			} else {
 				print("COMPILER ERROR: Could not resolve: " + word + " "
 						+ parser.getPosition());
@@ -288,7 +287,7 @@ public class Interpreter implements ClickListener {
 
 		String word = parser.getNextWord();
 		while (!word.isEmpty()) {
-			if (!"NOP".equals(dictionary.get(word).getName())) {
+			if (!"nop".equals(dictionary.get(word).getName())) {
 				return word;
 			}
 			word = parser.getNextWord();
@@ -298,7 +297,7 @@ public class Interpreter implements ClickListener {
 
 	/* Generates a word which pushes a literal onto the stack */
 	public void generateLiteral(Object value) {
-		Word w = dictionary.get("GENLITERAL");
+		Word w = dictionary.get("literal");
 		CompiledWord cw = new CompiledWord(w, value);
 		currentDefinitionWords.add(cw);
 	}

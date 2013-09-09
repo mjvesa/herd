@@ -11,13 +11,13 @@ var value 0 value !
 
 : val ( str -- str xt )
   ( Append a value to the textfield )
-  anon-create dup , does> tfValue @ swap cat tf @ swap set-value drop
+  anon-create over , does> tfValue @ swap cat tf @ swap set-value drop
 ;
 
 : calculate ( xt -- result in tf and value )
   ( calculate value using value on stack and value in textfield
     using previously entered operation )
-  value @ tfValue @ str-to-int rot execute ( value )
+  value @ tfValue @ str-to-int rot find execute ( value )
   dup value !  ( to value )
   to-str tf @ swap set-value drop  ( to textfield )
 ;
@@ -28,7 +28,7 @@ var value 0 value !
 
 : cmd ( str -- str xt )
   ( Store value from textfield on stack and perform operation on it )
-  dup anon-create , does> 
+  anon-create over , does> 
   swap
   value @ 0 = not
   if

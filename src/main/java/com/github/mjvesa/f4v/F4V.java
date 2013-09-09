@@ -32,5 +32,4 @@ public class F4V extends VerticalLayout {
         ide = new ForthIDE();
         addComponent(ide);
     }
-
 }

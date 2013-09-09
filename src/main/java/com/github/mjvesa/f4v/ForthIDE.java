@@ -122,7 +122,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View  {
         bufferSelect.setImmediate(true);
         bufferSelect.addListener(new ValueChangeListener() {
 
-            /**
+        /**
 	     * 
 	     */
             private static final long serialVersionUID = 2450173366304389892L;

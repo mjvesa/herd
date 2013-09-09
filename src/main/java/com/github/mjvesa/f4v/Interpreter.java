@@ -255,7 +255,6 @@ public class Interpreter implements Presenter {
 	 * @param word
 	 */
 	public void executeDefinedWord(DefinedWord definedWord) {
-
 		returnStack.push(ip);
 		codeStack.push(code);
 		code = definedWord.getCode();

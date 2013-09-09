@@ -1,163 +1,164 @@
 ( Test app dear chap )
+require Core
   
 ( Filter attribs ) 
-RECORD Filter
+record Filter
  name beginYear endYear beginDuration endDuration genres
-ENDRECORD
+endrecord
 
 ( Movie attributes ) 
-RECORD Movie
+record Movie
  id name duration prodyear genres
-ENDRECORD
+endrecord
 
 ( A table for movies ) 
-VAR movie-table
+var movie-table
 
 : set-table-headers
-  list[ "name" | "duration" | "prodyear" | "genres" ]isUsedBy
-    movieTable @ as-visible-columns
-  list[ "Name" | "Duration" | "Production year" | "Genres" ]isUsedBy
+  list[ "name" | "duration" | "prodyear" | "genres" ]-is-used-by
+    movie-table @ as-visible-columns
+  list[ "Name" | "Duration" | "Production year" | "Genres" ]-is-used-by
     movie-table @ as-column-names
 ;
 
 ( Attach '%' to the beginning and end of a string )
 : wildcard
-  "%" CAT "%" SWAP CAT
+  "%" cat "%" swap cat
 ;
 
 ( Form field listeners )
 : setNameFilter Filter.name ! ;
-: setDurationBegin STRTOINT Filter.beginDuration ! ;
-: setDurationEnd STRTOINT Filter.endDuration ! ;
-: setProdYearBegin STRTOINT Filter.beginYear ! ;
-: setProdYearEnd STRTOINT Filter.endYear ! ;
+: setDurationBegin str-to-int Filter.beginDuration ! ;
+: setDurationEnd str-to-int Filter.endDuration ! ;
+: setProdYearBegin str-to-int Filter.beginYear ! ;
+: setProdYearEnd str-to-int Filter.endYear ! ;
 : setGenresFilter "name" prop wildcard  Filter.genres ! ;
 
 ( This stuff is for the window )
 : setName Movie.name ! ;
-: setDuration STRTOINT Movie.duration ! ;
-: setProdYear STRTOINT Movie.prodyear ! ;
+: setDuration str-to-int Movie.duration ! ;
+: setProdYear str-to-int Movie.prodyear ! ;
 : setGenres Movie.genres ! ;
 
 : filterList
   use list[ Filter.name @ | Filter.beginYear @ | 
     Filter.endYear @ | Filter.beginDuration @ |
-  Filter.endDuration @ | Filter.genres @ ]asParamsForQuery
+  Filter.endDuration @ | Filter.genres @ ]-as-params-for-query
   "SELECT id, name, duration, prodyear, genres FROM movie WHERE "
   "name like ? OR (prodyear >= ? AND prodYear <= ?) OR (duration >= ? AND "
-  " duration <= ?) OR genres like ?" CAT CAT to createAFilteredSQLContainer
-  movieTable usesIt asContainerDatasource
-  setTableHeaders
+  " duration <= ?) OR genres like ?" cat cat to create-a-filtered-SQL-container
+  movie-table uses-it as-container-datasource
+  set-table-headers
 ;
 
 : fillMovieList
   use "SELECT id, name, duration, prodyear, genres FROM movie"
-  to createASQLContainer
-  movieTable usesIt asContainerDatasource
-  setTableHeaders
+  to create-a-SQL-container
+  movie-table uses-it as-container-datasource
+  set-table-headers
 ;
 
 : addMovie
   use list[ Movie.name @ | Movie.prodyear @ | Movie.duration @ |
-    Movie.genres @ ]asParamsForQuery
-  "INSERT INTO movie VALUES (?,?,?,?, NULL)" doQuery
+    Movie.genres @ ]-as-params-for-query
+  "INSERT INTO movie VALUES (?,?,?,?, NULL)" do-query
   fillMovieList
 ;
 
-VAR genreTextField
-VAR genreComboBox
+var genreTextField
+var genreComboBox
 
 : makeGenreContainer
-   use "SELECT name FROM genre" to createASQLContainer
+   use "SELECT name FROM genre" to create-a-SQL-container
 ;
 
 : fillGenreComboBox
-   makeGenreContainer genreComboBox @ SWAP asContainerDatasource
+   makeGenreContainer genreComboBox @ swap as-container-datasource
 ;
 
 : newGenre
-  use list[ fromStack ]asParamsForQuery "INSERT INTO genre VALUES (NULL, ?)" 
-  doQuery
+  use list[ from-stack ]-as-params-for-query "INSERT INTO genre VALUES (NULL, ?)" 
+  do-query
   fillGenreComboBox
 ;
 
 ( TODO this can be optimized )
 : genreSelected
-   "name" prop NIP 
-   genreTextField @ getValue NIP  " " CAT
-   SWAP CAT
-   genreTextField @ SWAP setValue
-   DROP
+   "name" prop nip
+   genreTextField @ get-value nip  " " cat
+   swap cat
+   genreTextField @ swap set-value
+   drop
 ;
 
 ( a combobox for genres )  
-"Choose a genre" is aComboBox listenedBy newGenre and genreSelected
-genreComboBox asName
+"Choose a genre" is a-combo-box listened-by newGenre and genreSelected
+genreComboBox as-name
 
 
 : showEditWindow
-  aWindow with "Edit movie" asCaption "40em" asWidth contains:
+  a-window with "Edit movie" as-caption "40em" as-width contains:
     [ "Name" is aTextField listenedBy setName , ] Movie.name @ asValue 
-    "30em" asWidth
-    addIt
-    [ "Production year" is aTextField listenedBy setProdYear , ]
-    Movie.prodyear @ asValue "5em" asWidth
-    addIt
-    [ "Duration" is aTextField listenedBy setDuration , ] Movie.duration @ asValue
-    "5em" asWidth
-    addIt
+    "30em" as-width
+    add-it
+    [ "Production year" is a-text-field listened-by setProdYear , ]
+    Movie.prodyear @ as-value "5em" as-width
+    add-it
+    [ "Duration" is a-text-field listened-by setDuration , ] Movie.duration @ as-value
+    "5em" as-width
+    add-it
  
-    [ "Genres" is aTextField listenedBy setGenres , ] Movie.genres @ asValue
-    "30em" asWidth genreTextField asName
+    [ "Genres" is aTextField listenedBy setGenres , ] Movie.genres @ as-value
+    "30em" asWidth genreTextField as-name
     genreTextField @ addIt
     fillGenreComboBox
     genreComboBox @ addIt
     "Add movie" is aButton with "addMovie" asClickListener
-    addIt
+    add-it
 
-  addWindow
+  add-window
 ;
 
 : deleteSelection
-  use list[ Movie.id @ ]asParamsForQuery "DELETE FROM movie WHERE id = ?" doQuery
+  use list[ Movie.id @ ]as-params-for-query "DELETE FROM movie WHERE id = ?" do-query
   fillMovieList
 ;
 
 ( This listener gets the properties of the selected movie )
 : movieSelected
-  list[ "id" | "name" | "duration" | "prodyear" | "genres" ]loadPropsTo Movie
+  list[ "id" | "name" | "duration" | "prodyear" | "genres" ]load-props-to Movie
 ;
 
 
 ( Fill main panel with components )
 mainPanel contains:
 
-  "name" is aTextField listenedBy setNameFilter addIt
-  a newHl
-    "Duration begin" is aTextField listenedBy setDurationBegin addIt
-    "Duration end" is aTextField listenedBy setDurationEnd addIt
-  addIt
-  a newHl
-    "Prod. year begin" is aTextField listenedBy setProdYearBegin addIt
-    "Prod. year end" is aTextField listenedBy setProdYearEnd addIt
-  addIt
+  "name" is a-text-field listened-by setNameFilter add-it
+  a new-hl
+    "Duration begin" is a-text-field listened-by setDurationBegin add-it
+    "Duration end" is a-text-field listened-by setDurationEnd add-it
+  add-it
+  a new-hl
+    "Prod. year begin" is a-text-field listened-by setProdYearBegin add-it
+    "Prod. year end" is a-text-field listened-by setProdYearEnd add-it
+  add-it
   
-  "Genre" is aSelect listenedBy setGenresFilter DUP
-   makeGenreContainer asContainerDatasource 
-  addIt
+  "Genre" is a-select listened-by setGenresFilter dup
+   makeGenreContainer as-container-datasource 
+  add-it
 
-  "Filter list" is aButton with "filterList" asClickListener addIt
+  "Filter list" is a-button with "filterList" as-click-listener add-it
 
   ( Create movie table and fill with content from DB )
-  "Movies" is aTable listenedBy movieSelected with movieTable asName
-  movieTable @ addIt
+  "Movies" is a-table listened-by movieSelected with movieTable as-name
+  movieTable @ add-it
   fillMovieList
 
   a new-hl
    "Delete" is a-button with "deleteSelection" as-clicklistener add-it
    "Edit selection" is aButton with "showEditWindow" asClickListener add-it
    "Add New Movie" is aButton with "showEditWindow" asClickListener add-it 
-  addIt
+  add-it
 
-DROP
+drop
  

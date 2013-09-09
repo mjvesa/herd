@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import com.github.mjvesa.f4v.BaseWord;
 import com.github.mjvesa.f4v.CompiledWord;

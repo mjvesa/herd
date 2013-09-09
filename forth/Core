@@ -16,7 +16,7 @@ createnop listened-by
   over ! 1 + 
 ;
 
-( )
+( Appends another pair into a list of pair )
 : ||  ( addr value1 value2 -- addr+2 )
   rot tuck ! tuck 1 + ! 2 + 
 ;
@@ -41,7 +41,7 @@ createnop listened-by
 : as-click-listener find set-click-listener ;
 : create-a-SQL-container create-SQL-container ;
 : create-a-filtered-SQL-container create-filtered-SQL-container ;
-: as-container-data-source set-container-data-source drop ;
+: as-container-datasource set-container-data-source drop ;
 : as-name ! ;
 : as-width set-width ;
 : as-height set-height ;

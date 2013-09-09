@@ -1,8 +1,12 @@
 package com.github.mjvesa.f4v.wordset;
 
+import java.util.ArrayList;
+
 import com.github.mjvesa.f4v.BaseWord;
+import com.github.mjvesa.f4v.CompiledWord;
 import com.github.mjvesa.f4v.DefinedWord;
 import com.github.mjvesa.f4v.Interpreter;
+import com.github.mjvesa.f4v.Util;
 import com.github.mjvesa.f4v.Word;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
@@ -436,8 +440,8 @@ public class VaadinWordSet extends WordSet {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Table table = (Table) interpreter.popData();
-				table.setColumnHeaders((String[]) interpreter.getSQL()
-						.getArrayFromList(new String[0]));
+				table.setColumnHeaders((String[]) 
+						getArrayFromList(interpreter, new String[0]));
 			}
 		},
 
@@ -445,11 +449,37 @@ public class VaadinWordSet extends WordSet {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Table table = (Table) interpreter.popData();
-				table.setVisibleColumns((String[]) interpreter.getSQL()
-						.getArrayFromList(new String[0]));
+				table.setVisibleColumns((String[]) 
+						getArrayFromList(interpreter, new String[0]));
 			}
 		}
 
 		};
 	}
+	
+	/**
+	 * Constructs an array from a list on the stack.
+	 * 
+	 * @param array
+	 *            Array whose type will be nicked.
+	 * 
+	 * @return
+	 */
+	public <T> T[] getArrayFromList(Interpreter interpreter, T[] array) {
+
+		ArrayList<Object> list = new ArrayList<Object>();
+
+		// The first word of 'list[' is a literal with the address of our
+		// list as parameter
+		Word[] code = ((DefinedWord) interpreter.getDictionary().get("list[")).getCode();
+		int addr = (Integer) ((CompiledWord) code[0]).getParameter();
+
+		while (interpreter.getHeap()[addr] != Util.LIST_TERMINATOR) {
+			list.add(interpreter.getHeap()[addr]);
+			addr++;
+		}
+		return list.toArray(array);
+	}
+
+
 }

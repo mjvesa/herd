@@ -71,7 +71,6 @@ public class Interpreter implements Presenter {
 	private Parser parser;
 	private ComponentContainer mainComponentContainer;
 	private Blocks blocks;
-	private SQL sql;
 	private boolean logNewWords;
 	private boolean logExecutedWords;
 	
@@ -92,10 +91,6 @@ public class Interpreter implements Presenter {
 		setUpStorage();
 		installWordSets();
 		loadBuffers();
-
-		sql = new SQL();
-		sql.setDictionary(dictionary);
-		sql.setHeap(heap);
 	}
 
 
@@ -466,12 +461,13 @@ public class Interpreter implements Presenter {
 		return ((CompiledWord) getExecutedWord()).getParameter();
 	}
 
-	public SQL getSQL() {
-		return sql;
-	}
-
 	public ComponentContainer getMainPanel() {
 		return view.getMainComponentContainer();
+	}
+	
+
+	public Object[] getHeap() {
+		return heap;
 	}
 
 	public void setView(View view) {

@@ -25,14 +25,12 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class F4V extends VerticalLayout {
 
-    Interpreter interpreter;
-    Gui gui;
+    ForthIDE ide;
 
     public F4V() {
         setSizeFull();
-        interpreter = new Interpreter();
-        gui = new Gui(interpreter);
-        addComponent(gui);
+        ide = new ForthIDE();
+        addComponent(ide);
     }
 
 }

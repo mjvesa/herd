@@ -80,7 +80,7 @@ var list[ 100 allot
 (  a layout )
 : ]addButtonsToLayout
   || list-terminator | drop
-  list-[
+  list[
   begin
     dup @ list-terminator equals not
   while  ( layout addr ) 
@@ -94,7 +94,7 @@ var list[ 100 allot
 ( item record_name -- )
 : load-props
   "." cat
-  list-[
+  list[
   begin
     dup @ list-terminator equals not
   while

@@ -18,7 +18,6 @@ package com.github.mjvesa.f4v;
 import org.vaadin.aceeditor.AceEditor;
 import org.vaadin.aceeditor.AceTheme;
 
-import com.github.mjvesa.f4v.Interpreter.GuiEventListener;
 import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -41,7 +40,7 @@ import com.vaadin.ui.VerticalSplitPanel;
  * @author mjvesa@vaadin.com
  * 
  */
-public class Gui extends HorizontalSplitPanel implements GuiEventListener {
+public class ForthIDE extends HorizontalSplitPanel implements View  {
 
     /**
      * 
@@ -68,12 +67,13 @@ public class Gui extends HorizontalSplitPanel implements GuiEventListener {
 
     private Interpreter interpreter;
 
-    public Gui(Interpreter interpreter) {
+    public ForthIDE() {
         setSizeFull();
         this.interpreter = interpreter;
         constructBuffersAndStatus();
         constructEditorAndLayout();
-        interpreter.setGuiEventListener(this);
+        interpreter = new Interpreter();
+        interpreter.setView(this);
         interpreter.setup();
         fillBufferSelect();
     }
@@ -330,7 +330,7 @@ public class Gui extends HorizontalSplitPanel implements GuiEventListener {
         console.setValue(consoleString.toString());
     }
 
-    public void newWord(String word) {
+    public void showNewWord(String word) {
         wordListSelect.addItem(word);
     }
 

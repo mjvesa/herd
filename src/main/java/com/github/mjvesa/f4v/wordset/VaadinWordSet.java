@@ -128,7 +128,7 @@ public class VaadinWordSet extends WordSet {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Window w = (Window) interpreter.popData();
-				interpreter.getGuiEventListener().getUI().addWindow(w);
+				interpreter.getView().getUI().addWindow(w);
 			}
 		},
 

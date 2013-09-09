@@ -49,7 +49,7 @@ import com.vaadin.ui.UI;
  * @author mjvesa@vaadin.com
  * 
  */
-public class Interpreter {
+public class Interpreter implements Presenter {
 
 	private HashMap<String, Word> dictionary;
 	private HashMap<String, String> source;
@@ -70,10 +70,11 @@ public class Interpreter {
 	private Parser parser;
 	private ComponentContainer mainComponentContainer;
 	private Blocks blocks;
-	private GuiEventListener guiEventListener;
 	private SQL sql;
 	private boolean logNewWords;
 	private boolean logExecutedWords;
+	
+	private View view;
 
 	/**
 	 * Default constructor
@@ -96,14 +97,7 @@ public class Interpreter {
 		sql.setHeap(heap);
 	}
 
-	public void setGuiEventListener(GuiEventListener listener) {
-		guiEventListener = listener;
-		mainComponentContainer = listener.getMainComponentContainer();
-	}
 
-	public GuiEventListener getGuiEventListener() {
-		return guiEventListener;
-	}
 
 	private void loadBuffers() {
 		blocks = new Blocks();
@@ -332,7 +326,7 @@ public class Interpreter {
 			finishCompilation();
 		}
 		currentDefinition = new DefinedWord();
-		guiEventListener.newWord(name);
+		view.showNewWord(name);
 		// wordListSelect.addItem();
 		currentDefinition.setName(name);
 		dictionary.put(name, currentDefinition);
@@ -369,22 +363,9 @@ public class Interpreter {
 	}
 
 	public void print(String msg) {
-		guiEventListener.print(msg);
+		view.print(msg);
 	}
 
-	public interface GuiEventListener {
-		public void print(String msg);
-
-		public UI getUI();
-
-		public void newWord(String word);
-
-		public ComponentContainer getMainComponentContainer();
-
-		public void disableContinueButton();
-
-		public void enableContinueButton();
-	}
 
 	public void addSource(String name, String code) {
 
@@ -492,7 +473,15 @@ public class Interpreter {
 	}
 
 	public ComponentContainer getMainPanel() {
-		return mainComponentContainer;
+		return view.getMainComponentContainer();
+	}
+
+	public void setView(View view) {
+		this.view = view;
+	}
+	
+	public View getView() {
+		return this.view;
 	}
 
 }

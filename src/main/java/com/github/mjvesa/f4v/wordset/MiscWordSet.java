@@ -66,7 +66,6 @@ public class MiscWordSet extends WordSet {
 					}
 				},
 
-
 				new BaseWord("print-stack", "", Word.POSTPONED) {
 					@Override
 					public void execute(Interpreter interpreter) {

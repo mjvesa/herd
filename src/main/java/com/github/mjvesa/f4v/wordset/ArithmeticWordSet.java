@@ -52,10 +52,9 @@ public class ArithmeticWordSet extends WordSet {
 					public void execute(Interpreter interpreter) {
 						Integer a = (Integer) interpreter.popData();
 						Integer b = (Integer) interpreter.popData();
-						interpreter.pushData(a / b);
+						interpreter.pushData(b / a);
 					}
 				}
-
 		};
 	}
 }

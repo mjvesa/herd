@@ -33,6 +33,7 @@ import com.github.mjvesa.f4v.wordset.VaadinWordSet;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.Notification.Type;
 
 /**
  * Core interpreter. The outer interpreter reads words from the input stream
@@ -238,7 +239,7 @@ public class Interpreter implements Presenter {
 	public void execute(Word word) {
 
 		if (word == null) {
-			Notification.show("Attempted to excute undefined word!");
+			Notification.show("Attempted to excute undefined word!", Type.ERROR_MESSAGE);
 			return;
 			// TODO return to main loop or stop interpreting when this happens.
 		}

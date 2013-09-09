@@ -38,7 +38,7 @@ var value 0 value !
   endif
 ;
 
-: equals calculate ; 
+: equals calculate 0 value ! ; 
 : C 0 value ! tf @ "" set-value ;
 
 : new-value tfValue ! ;

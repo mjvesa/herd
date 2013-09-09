@@ -10,7 +10,7 @@ public interface View {
 
 	public UI getUI();
 
-	public void showNewWord(String word);
+	public void addNewWord(String word);
 
 	public ComponentContainer getMainComponentContainer();
 

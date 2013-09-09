@@ -67,25 +67,39 @@ var list[ 100 allot
 : ]-as-params-for-query | list-terminator | drop ;
 : ]-is-used-by | list-terminator | drop ;
 
-
-( Adds buttons in a list to a layout )
-
 ( executes a token for each entry in a list )
-
 : map
  ( TODO do this sometime )
 ;
 
-( Loads a list of buttons and clicklisteners to )
-(  a layout )
+( Takes the list being defined and adds a terminator to its end )
+: terminate-list
+  || list-terminator | drop ;
+
+( Checks to see if the list we are traversing has a terminator )
+( and is terminated at the current point )
+: check-for-list-terminator 
+ dup @ list-terminator = not ;
+
+: load-caption-and-click-listener
+ dup dup @ swap 1 + @  ;
+
+: create-button-and-add-to-layout
+ a-button swap set-click-listener rot swap add-it swap ;
+
+: go-to-next-item
+ 2 + ;
+
+( Fills a layout with a list of pairs: buttons and their click listeners )
 : ]addButtonsToLayout
-  || list-terminator | drop
+  terminate-list
   list[
   begin
-    dup @ list-terminator equals not
+    check-for-list-terminator
   while  ( layout addr ) 
-    dup dup @ swap 1 + @ a-button swap set-click-listener 
-    rot swap add-it swap 2 + 
+    load-caption-and-click-listener
+    create-button-and-add-to-layout
+    go-to-next-item
   repeat
   drop
 ;

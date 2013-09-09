@@ -114,11 +114,12 @@ public class FlowControlWordSet extends WordSet {
 					}
 				},
 
-				new BaseWord("repeat", "", Word.IMMEDIATE) {
+				new BaseWord("repeat", "", Word.POSTPONED) {
 
 					@Override
 					public void execute(Interpreter interpreter) {
-						interpreter.pushReturn(interpreter.getIp());
+						//interpreter.pushReturn(interpreter.getIp());
+						interpreter.setIp(interpreter.peekReturn());
 					}
 				},
 
@@ -164,8 +165,8 @@ public class FlowControlWordSet extends WordSet {
 
 					@Override
 					public void execute(Interpreter interpreter) {
-						Integer a = (Integer) interpreter.popData();
-						Integer b = (Integer) interpreter.popData();
+						Object a = interpreter.popData();
+						Object b = interpreter.popData();
 						interpreter.pushData((Boolean) (b.equals(a)));
 					}
 				},

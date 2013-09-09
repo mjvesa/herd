@@ -217,7 +217,7 @@ public class Interpreter implements Presenter {
 			} else if (Character.isDigit(word.charAt(0))) {
 				generateLiteral(Integer.valueOf(word));
 			} else {
-				print("COMPILER ERROR: Could not resolve: " + word + " "
+				print("COMPILER ERROR: Could not resolve: \"" + word + "\" "
 						+ parser.getPosition());
 			}
 		}
@@ -317,6 +317,7 @@ public class Interpreter implements Presenter {
 
 	public void anonCreate() {
 		createNewWord("_anonymous_");
+		dataStack.push(currentDefinition);
 	}
 
 	private void createNewWord(String name) {
@@ -325,8 +326,7 @@ public class Interpreter implements Presenter {
 			finishCompilation();
 		}
 		currentDefinition = new DefinedWord();
-		view.showNewWord(name);
-		// wordListSelect.addItem();
+		view.addNewWord(name);
 		currentDefinition.setName(name);
 		dictionary.put(name, currentDefinition);
 		currentDefinitionWords = new ArrayList<CompiledWord>();
@@ -345,15 +345,9 @@ public class Interpreter implements Presenter {
 			print("ADDED: " + name);
 		}
 		isCompiling = false;
-
-		// if we just created an anonymous word, push it
-		if ("_anonymous_".equals(name)) {
-			dataStack.push(currentDefinition);
-		}
 	}
 
 	public void printStack() {
-
 		ListIterator<Object> iterator = dataStack.listIterator();
 		while (iterator.hasNext()) {
 			Object o = iterator.next();
@@ -406,6 +400,10 @@ public class Interpreter implements Presenter {
 		return dataStack.peek();
 	}
 
+	public Integer peekReturn() {
+		return returnStack.peek();
+	}
+	
 	public Integer popReturn() {
 		return returnStack.pop();
 	}

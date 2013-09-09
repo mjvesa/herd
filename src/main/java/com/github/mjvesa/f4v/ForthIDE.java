@@ -330,7 +330,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View  {
         console.setValue(consoleString.toString());
     }
 
-    public void showNewWord(String word) {
+    public void addNewWord(String word) {
         wordListSelect.addItem(word);
     }
 

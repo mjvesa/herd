@@ -5,27 +5,19 @@ var tf
 var tfValue "" tfValue ! 
 var value 0 value !
 
-: clearTf
- tf @ "" set-value
-;
-
+: clearTf tf @ "" set-value ;
 : val ( str -- str xt )
   ( Append a value to the textfield )
-  anon-create over , does> tfValue @ swap cat tf @ swap set-value drop
-;
+  anon-create over , does> tfValue @ swap cat tf @ swap set-value drop ;
 
 : calculate ( xt -- result in tf and value )
   ( calculate value using value on stack and value in textfield
     using previously entered operation )
   value @ tfValue @ str-to-int rot find execute ( value )
   dup value !  ( to value )
-  to-str tf @ swap set-value drop  ( to textfield )
-;
+  to-str tf @ swap set-value drop  ( to textfield ) ;
 
-: clearTfValue
-  "" tfValue !
-;
-
+: clearTfValue "" tfValue ! ;
 : cmd ( str -- str xt )
   ( Store value from textfield on stack and perform operation on it )
   anon-create over , does> 
@@ -35,12 +27,10 @@ var value 0 value !
     calculate clearTfValue
   else
     tfValue @ str-to-int value ! swap  clearTfValue
-  endif
-;
+  endif ;
 
 : equals calculate 0 value ! ; 
 : C 0 value ! tf @ "" set-value ;
-
 : new-value tfValue ! ;
 : store-it dup tf ! ;
 
@@ -54,6 +44,4 @@ main-panel contains:
         "0" val || "=" "equals" find || "C" dup find || "+" cmd 
       ]addButtonsToLayout
   add-it
-drop
-
-null
+drop null

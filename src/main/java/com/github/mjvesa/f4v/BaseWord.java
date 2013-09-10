@@ -8,6 +8,11 @@ package com.github.mjvesa.f4v;
  */
 public abstract class BaseWord extends Word {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -859780963869165962L;
+
 	public BaseWord(String name, String description, boolean immediate) {
 		this.name = name;
 		this.description = description;

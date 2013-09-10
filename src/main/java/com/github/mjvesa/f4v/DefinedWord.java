@@ -21,6 +21,10 @@ package com.github.mjvesa.f4v;
  */
 public class DefinedWord extends Word {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2156541692487054647L;
 	private CompiledWord[] code;
 
 	public CompiledWord[] getCode() {

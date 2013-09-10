@@ -15,6 +15,7 @@
  */
 package com.github.mjvesa.f4v;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
@@ -50,8 +51,12 @@ import com.vaadin.ui.Notification.Type;
  * @author mjvesa@vaadin.com
  * 
  */
-public class Interpreter implements Presenter {
+public class Interpreter implements Presenter, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3847825662484445132L;
 	private HashMap<String, Word> dictionary;
 	private HashMap<String, String> source;
 	private Stack<Object> dataStack;
@@ -69,7 +74,6 @@ public class Interpreter implements Presenter {
 
 	private Stack<Parser> parsers;
 	private Parser parser;
-	private ComponentContainer mainComponentContainer;
 	private Blocks blocks;
 	private boolean logNewWords;
 	private boolean logExecutedWords;

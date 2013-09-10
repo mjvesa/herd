@@ -30,6 +30,7 @@ public class FlowControlWordSet extends WordSet {
 						"do",
 						"Beginning of DO loop. (n1 n2 -- ) Expects begin and end counter values to be at TOS and NOS",
 						Word.POSTPONED) {
+							private static final long serialVersionUID = 725553921951475444L;
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -38,7 +39,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("loop", "", Word.POSTPONED) {
-
+					private static final long serialVersionUID = 1257742702701648281L;
 					@Override
 					public void execute(Interpreter interpreter) {
 						Integer a = (Integer) interpreter.popData();
@@ -56,7 +57,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("if", "", Word.POSTPONED) {
-
+					private static final long serialVersionUID = 5644346296894935281L;
 					@Override
 					public void execute(Interpreter interpreter) {
 						Boolean bool = (Boolean) interpreter.popData();
@@ -69,7 +70,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("else", "", Word.POSTPONED) {
-
+					private static final long serialVersionUID = -3423294489661624665L;
 					@Override
 					public void execute(Interpreter interpreter) {
 						interpreter.setIp(interpreter.getIp()
@@ -78,6 +79,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("endif", "", Word.IMMEDIATE) {
+					private static final long serialVersionUID = -2009086460982378869L;
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -105,6 +107,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("begin", "", Word.POSTPONED) {
+					private static final long serialVersionUID = -7691980134445081893L;
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -113,6 +116,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("while", "", Word.POSTPONED) {
+					private static final long serialVersionUID = -3955102690779725873L;
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -130,6 +134,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("repeat", "", Word.POSTPONED) {
+					private static final long serialVersionUID = -5679551839132929519L;
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -139,6 +144,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("<0", "LESSTHANZERO", Word.POSTPONED) {
+					private static final long serialVersionUID = 2150333302093966728L;
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -148,7 +154,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("=0", "ZERO", Word.POSTPONED) {
-
+					private static final long serialVersionUID = -2667702245481974238L;
 					@Override
 					public void execute(Interpreter interpreter) {
 						interpreter.pushData((Boolean) ((Integer) interpreter
@@ -158,7 +164,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord(">0", "GREATERTHANZERO", Word.POSTPONED) {
-
+					private static final long serialVersionUID = 1053257668863792784L;
 					@Override
 					public void execute(Interpreter interpreter) {
 						interpreter.pushData((Boolean) ((Integer) interpreter
@@ -167,7 +173,7 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("<", "LESSTHAN", Word.POSTPONED) {
-
+					private static final long serialVersionUID = 8109822200287698995L;
 					@Override
 					public void execute(Interpreter interpreter) {
 						Integer a = (Integer) interpreter.popData();
@@ -177,6 +183,8 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("=", "EQUALS", Word.POSTPONED) {
+
+					private static final long serialVersionUID = 4583316207346834874L;
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -188,6 +196,8 @@ public class FlowControlWordSet extends WordSet {
 
 				new BaseWord(">", "GREATERTHAN", Word.POSTPONED) {
 
+					private static final long serialVersionUID = -1794024576694925712L;
+
 					@Override
 					public void execute(Interpreter interpreter) {
 						Integer a = (Integer) interpreter.popData();
@@ -197,6 +207,8 @@ public class FlowControlWordSet extends WordSet {
 				},
 
 				new BaseWord("not", "NOT", Word.POSTPONED) {
+
+					private static final long serialVersionUID = 7816554427553408531L;
 
 					@Override
 					public void execute(Interpreter interpreter) {

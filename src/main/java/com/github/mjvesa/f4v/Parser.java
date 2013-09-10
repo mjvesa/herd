@@ -15,14 +15,20 @@
  */
 package com.github.mjvesa.f4v;
 
+import java.io.Serializable;
+
 /*
  * Parser that reads input word or character at a time. Has special handling
  * for strings and for definitions.
  * 
  */
-public class Parser {
+public class  Parser implements Serializable {
 
-    private String string;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5089380317630429856L;
+	private String string;
     private int pos;
     private int line;
     private int col;
@@ -46,7 +52,7 @@ public class Parser {
             return "";
         }
 
-        String word = "";
+        StringBuilder word = new StringBuilder();
 
         // This is the only place there should be newlines
         while (pos < string.length()
@@ -65,22 +71,22 @@ public class Parser {
 
         if (string.charAt(pos) == '"') {
             do {
-                word = word + string.charAt(pos);
+                word.append(string.charAt(pos));
                 pos++;
             } while (pos < string.length() && string.charAt(pos) != '"');
-            word = word + '"';
+            word.append('"');
             pos++;
             col++;
         } else {
             while (pos < string.length()
                     && !Character.isWhitespace(string.charAt(pos))) {
-                word = word + string.charAt(pos);
+                word.append(string.charAt(pos));
                 pos++;
                 col++;
             }
         }
 
-        return word;
+        return word.toString();
     }
 
     public String getString() {

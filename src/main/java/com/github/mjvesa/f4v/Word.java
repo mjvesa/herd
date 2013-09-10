@@ -1,13 +1,19 @@
 package com.github.mjvesa.f4v;
 
+import java.io.Serializable;
+
 /**
  * Interface for all kinds of Words
  * 
  * @author mjvesa@vaadin.com
  * 
  */
-public abstract class Word {
+public abstract class Word implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8847395418769164593L;
 	public static final boolean IMMEDIATE = true;
 	public static final boolean POSTPONED = false;
 

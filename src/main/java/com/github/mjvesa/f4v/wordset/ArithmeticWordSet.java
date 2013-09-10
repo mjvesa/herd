@@ -28,6 +28,11 @@ public class ArithmeticWordSet extends WordSet {
 				new BaseWord("+", "( n1 n2 -- n1 + n2 ) Adds TOS to NOS",
 						Word.POSTPONED) {
 
+					/**
+							 * 
+							 */
+							private static final long serialVersionUID = 7532548718246139262L;
+
 					@Override
 					public void execute(Interpreter interpreter) {
 						Integer a = (Integer) interpreter.popData();
@@ -39,6 +44,11 @@ public class ArithmeticWordSet extends WordSet {
 				new BaseWord("-",
 						"( n1 n2 -- n1 - n2 ) Substracts TOS from NOS",
 						Word.POSTPONED) {
+
+					/**
+							 * 
+							 */
+							private static final long serialVersionUID = -3716555841893556413L;
 
 					@Override
 					public void execute(Interpreter interpreter) {
@@ -52,6 +62,11 @@ public class ArithmeticWordSet extends WordSet {
 						"( n1 n2 -- n1 * n2 ) Multiplies TOS with NOS",
 						Word.POSTPONED) {
 
+					/**
+							 * 
+							 */
+							private static final long serialVersionUID = 3043022843877114055L;
+
 					@Override
 					public void execute(Interpreter interpreter) {
 						Integer a = (Integer) interpreter.popData();
@@ -62,6 +77,11 @@ public class ArithmeticWordSet extends WordSet {
 
 				new BaseWord("/", "( n1  n2 -- n1 / n2 ) Divides NOS by TOS",
 						Word.POSTPONED) {
+
+					/**
+							 * 
+							 */
+							private static final long serialVersionUID = 3806523703688323839L;
 
 					@Override
 					public void execute(Interpreter interpreter) {

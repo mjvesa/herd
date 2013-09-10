@@ -200,7 +200,6 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 		consoleString = new StringBuffer();
 		TextArea ta = new TextArea();
 		ta.setSizeFull();
-		print("Yes. This is Forth. Welcome!");
 		return ta;
 	}
 

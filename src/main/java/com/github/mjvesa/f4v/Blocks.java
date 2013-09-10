@@ -35,6 +35,10 @@ import java.util.regex.Pattern;
 public class Blocks implements Serializable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2085093837272288299L;
 	// This needs to be the directory Forth files are stored in
     public static final String BLOCK_DIRECTORY = "/home/mjvesa/f4v/forth/";
 

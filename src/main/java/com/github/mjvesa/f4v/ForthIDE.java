@@ -16,6 +16,7 @@
 package com.github.mjvesa.f4v;
 
 import org.vaadin.aceeditor.AceEditor;
+import org.vaadin.aceeditor.AceMode;
 import org.vaadin.aceeditor.AceTheme;
 
 import com.vaadin.data.Property;
@@ -69,7 +70,6 @@ public class ForthIDE extends HorizontalSplitPanel implements View  {
 
     public ForthIDE() {
         setSizeFull();
-        this.interpreter = interpreter;
         constructBuffersAndStatus();
         constructEditorAndLayout();
         interpreter = new Interpreter();
@@ -120,7 +120,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View  {
         bufferSelect.setSizeFull();
         bufferSelect.setNullSelectionAllowed(false);
         bufferSelect.setImmediate(true);
-        bufferSelect.addListener(new ValueChangeListener() {
+        bufferSelect.addValueChangeListener(new ValueChangeListener() {
 
         /**
 	     * 
@@ -190,7 +190,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View  {
         hl.addComponent(b);
 
         clearConsoleButton = new Button("Clear console");
-        clearConsoleButton.addListener(clearConsoleListener);
+        clearConsoleButton.addClickListener(clearConsoleListener);
         hl.addComponent(clearConsoleButton);
 
         CheckBox cb = new CheckBox("log executed words");
@@ -272,7 +272,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View  {
 
     public AceEditor createEditor() {
         AceEditor editor = new AceEditor();
-        editor.setMode("Forth");
+        editor.setMode(AceMode.);
         editor.setTheme(AceTheme.vibrant_ink);
         editor.setSizeFull();
         return editor;

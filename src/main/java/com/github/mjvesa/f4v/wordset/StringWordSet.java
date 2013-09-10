@@ -27,6 +27,8 @@ public class StringWordSet extends WordSet {
 
 		new BaseWord("str-to-int", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = -5368861544287003785L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				String str = interpreter.popData().toString();
@@ -36,6 +38,8 @@ public class StringWordSet extends WordSet {
 
 		new BaseWord("to-str", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = -2488778642720482057L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				interpreter.pushData(interpreter.popData().toString());
@@ -43,6 +47,8 @@ public class StringWordSet extends WordSet {
 		},
 
 		new BaseWord("cat", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = 6048687003225519704L;
 
 			@Override
 			public void execute(Interpreter interpreter) {

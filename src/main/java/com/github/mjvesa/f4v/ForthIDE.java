@@ -53,7 +53,6 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 	private Panel panel;
 	private ListSelect blockSelect;
 	private TextField bufferName;
-	private Button clearConsoleButton;
 	private ListSelect wordListSelect;
 	private AceEditor editor;
 
@@ -376,13 +375,4 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 	public ComponentContainer getMainComponentContainer() {
 		return (ComponentContainer) panel.getContent();
 	}
-
-	public void disableContinueButton() {
-		clearConsoleButton.setEnabled(false);
-	}
-
-	public void enableContinueButton() {
-		clearConsoleButton.setEnabled(true);
-	}
-
 }

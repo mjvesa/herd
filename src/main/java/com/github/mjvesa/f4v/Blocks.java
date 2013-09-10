@@ -91,10 +91,11 @@ public class Blocks implements Serializable {
     	
 		try {
 			File file = new File(BLOCK_DIRECTORY + cleanName.toString());
-			file.createNewFile();
-			FileWriter fw = new FileWriter(file);
-			fw.write(content);
-			fw.close();
+			if (file.createNewFile()) {
+				FileWriter fw = new FileWriter(file);
+				fw.write(content);
+				fw.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,9 +1,11 @@
 package com.github.mjvesa.f4v;
 
+import java.io.Serializable;
+
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.UI;
 
-public interface View {
+public interface View extends Serializable{
 
 	
 	public void print(String msg);
@@ -13,9 +15,4 @@ public interface View {
 	public void addNewWord(String word);
 
 	public ComponentContainer getMainComponentContainer();
-
-	public void disableContinueButton();
-
-	public void enableContinueButton();
-
 }

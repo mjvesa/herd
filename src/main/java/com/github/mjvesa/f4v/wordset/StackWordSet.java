@@ -26,6 +26,8 @@ public class StackWordSet extends WordSet {
 		return new Word[] {
 
 		new BaseWord("dup", "( a -- a a )", Word.POSTPONED) {
+			private static final long serialVersionUID = 7581220925840087455L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o = interpreter.peekData();
@@ -34,6 +36,8 @@ public class StackWordSet extends WordSet {
 		},
 
 		new BaseWord("over", "( a b -- a b a )", Word.POSTPONED) {
+			private static final long serialVersionUID = 3356922048167743848L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -45,6 +49,8 @@ public class StackWordSet extends WordSet {
 		},
 
 		new BaseWord("rot", "( a b c -- b c a )", Word.POSTPONED) {
+			private static final long serialVersionUID = -5794391128365800716L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -57,6 +63,8 @@ public class StackWordSet extends WordSet {
 		},
 
 		new BaseWord("-rot", "( a b c -- c a b )", Word.POSTPONED) {
+			private static final long serialVersionUID = 1977717043072701579L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -69,6 +77,8 @@ public class StackWordSet extends WordSet {
 		},
 
 		new BaseWord("nip", "( a b -- b )", Word.POSTPONED) {
+			private static final long serialVersionUID = -4453916323211210875L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o = interpreter.popData();
@@ -78,6 +88,8 @@ public class StackWordSet extends WordSet {
 		},
 
 		new BaseWord("tuck", "( a b -- b a b )", Word.POSTPONED) {
+			private static final long serialVersionUID = -8145371490716158988L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -90,6 +102,8 @@ public class StackWordSet extends WordSet {
 		},
 
 		new BaseWord("swap", "( a b -- b a )", Word.POSTPONED) {
+			private static final long serialVersionUID = 2863339348428400228L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -100,6 +114,8 @@ public class StackWordSet extends WordSet {
 		},
 
 		new BaseWord("2swap", "( a b c d -- c d a b)", Word.POSTPONED) {
+			private static final long serialVersionUID = -7371046091113465540L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o1 = interpreter.popData();
@@ -115,6 +131,8 @@ public class StackWordSet extends WordSet {
 		},
 
 		new BaseWord("drop", "", Word.POSTPONED) {
+			private static final long serialVersionUID = 1207531900617799757L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				interpreter.popData();

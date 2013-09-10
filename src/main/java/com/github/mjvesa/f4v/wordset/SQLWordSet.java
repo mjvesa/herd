@@ -38,6 +38,8 @@ public class SQLWordSet extends WordSet {
 		return new Word[] {
 
 		new BaseWord("create-SQL-container", "", Word.POSTPONED) {
+			private static final long serialVersionUID = -8555637158184948846L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 
@@ -48,6 +50,8 @@ public class SQLWordSet extends WordSet {
 		},
 
 		new BaseWord("create-filtered-SQL-container", "", Word.POSTPONED) {
+			private static final long serialVersionUID = 3651759768848932939L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				String str = (String) interpreter.popData();
@@ -56,6 +60,8 @@ public class SQLWordSet extends WordSet {
 		},
 
 		new BaseWord("do-query", "", Word.POSTPONED) {
+			private static final long serialVersionUID = 7935650989639855151L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				doQuery(interpreter, (String) interpreter.popData());
@@ -63,6 +69,8 @@ public class SQLWordSet extends WordSet {
 		},
 
 		new BaseWord("get-property", "", Word.POSTPONED) {
+			private static final long serialVersionUID = -2919657094395490760L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				String str = (String) interpreter.popData();
@@ -73,6 +81,8 @@ public class SQLWordSet extends WordSet {
 		},
 
 		new BaseWord("set-property", "", Word.POSTPONED) {
+			private static final long serialVersionUID = 2414557842750730115L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				String value = (String) interpreter.popData();
@@ -147,6 +157,7 @@ public class SQLWordSet extends WordSet {
 					}
 				}
 			}
+			st.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -168,10 +179,10 @@ public class SQLWordSet extends WordSet {
 			throws SQLException {
 
 		Word[] code = ((DefinedWord) interpreter.getDictionary().get("list[")).getCode();
-		int addr = (Integer) ((CompiledWord) interpreter.getCode()[0]).getParameter();
+		int addr = (Integer) ((CompiledWord) code[0]).getParameter();
 		int i = 1;
-		while (interpreter.getHeap()[addr] != Util.LIST_TERMINATOR) {
-			st.setObject(i, interpreter.getHeap()[addr]);
+		while (interpreter.peekHeap(addr) != Util.LIST_TERMINATOR) {
+			st.setObject(i, interpreter.peekHeap(addr));
 			addr++;
 			i++;
 		}

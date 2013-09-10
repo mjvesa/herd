@@ -122,9 +122,8 @@ public class FlowControlWordSet extends WordSet {
 					public void execute(Interpreter interpreter) {
 						Boolean bool = (Boolean) interpreter.popData();
 						if (!bool) {
-							Word[] code = interpreter.getCode();
 							int ip = interpreter.getIp();
-							while (!"repeat".equals(code[ip].getName())) {
+							while (!"repeat".equals(interpreter.peekCode(ip).getName())) {
 								ip++;
 							}
 							interpreter.setIp(ip);
@@ -138,7 +137,6 @@ public class FlowControlWordSet extends WordSet {
 
 					@Override
 					public void execute(Interpreter interpreter) {
-						//interpreter.pushReturn(interpreter.getIp());
 						interpreter.setIp(interpreter.peekReturn());
 					}
 				},

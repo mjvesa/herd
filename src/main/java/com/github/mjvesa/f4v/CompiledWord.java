@@ -2,6 +2,7 @@ package com.github.mjvesa.f4v;
 
 public class CompiledWord extends Word {
 
+	private static final long serialVersionUID = 348059460007992869L;
 	private Word word;
 	private Object parameter;
 

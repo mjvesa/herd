@@ -56,6 +56,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("new-button", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = -2492817908731559368L;
+
 			@Override
 			public void execute(final Interpreter interpreter) {
 				
@@ -81,6 +83,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("set-click-listener", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = 5749856686458297558L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o = interpreter.popData();
@@ -92,6 +96,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("new-hl", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = 8813556668649386248L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				HorizontalLayout hl = new HorizontalLayout();
@@ -101,6 +107,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("new-vl", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = -1848213448504804229L;
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -112,6 +120,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("new-gl", "( x y - gl )", Word.POSTPONED) {
 
+			private static final long serialVersionUID = 4079634885691605257L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Integer height = (Integer) interpreter.popData();
@@ -122,6 +132,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("gl-new-line", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = 975877390052961807L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				((GridLayout) interpreter.peekData()).newLine();
@@ -129,6 +141,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("new-window", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = -6887364362728545090L;
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -140,6 +154,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("main-panel", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = -8622281600566696475L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				interpreter.pushData(interpreter.getMainPanel());
@@ -147,6 +163,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("add-window", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = 7106029415576813922L;
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -156,6 +174,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("add-component", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = 5640824046985354091L;
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -169,6 +189,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("set-caption", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = 5497598050469462487L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				String s = (String) interpreter.popData();
@@ -179,6 +201,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("set-value", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = -1769743552659215058L;
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -191,6 +215,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("get-value", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = 8445550546521886374L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Field f = (Field) interpreter.popData();
@@ -202,6 +228,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("set-size-full", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = -1206491811133054467L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Component comp = (Component) interpreter.popData();
@@ -212,6 +240,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("set-size-undefined", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = -3450618729379622987L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Component comp = (Component) interpreter.popData();
@@ -221,6 +251,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("set-height", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = -8426734568403715950L;
 
 			@Override
 			public void execute(Interpreter interpreter) {
@@ -233,6 +265,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("set-width", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = -4558264143049463814L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				String str = (String) interpreter.popData();
@@ -244,6 +278,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("clear-container", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = 1070175466682034329L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				ComponentContainer cc = (ComponentContainer) interpreter
@@ -254,6 +290,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("new-check-box", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = 4018632924389912599L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				interpreter.pushData(new CheckBox());
@@ -261,6 +299,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("new-date-field", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = 6313296566085274642L;
 
 			@Override
 			public void execute(final Interpreter interpreter) {
@@ -286,6 +326,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("new-label", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = -2825285195439247251L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				interpreter.pushData(new Label());
@@ -293,6 +335,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("new-text-field", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = -1064489458253275380L;
 
 			@Override
 			public void execute(final Interpreter interpreter) {
@@ -317,6 +361,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("new-table", "", Word.POSTPONED) {
+
+			private static final long serialVersionUID = -5052653341575232035L;
 
 			@Override
 			public void execute(final Interpreter interpreter) {
@@ -346,6 +392,8 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("new-combo-box", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = 3881577354424928897L;
+
 			@Override
 			public void execute(final Interpreter interpreter) {
 				final String newItemCommand = interpreter.getParser()
@@ -356,7 +404,7 @@ public class VaadinWordSet extends WordSet {
 				String str = (String) interpreter.popData();
 				cb.setNullSelectionAllowed(false);
 				cb.setCaption(str);
-				cb.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
+				cb.setItemCaptionMode(AbstractSelect.ItemCaptionMode.ITEM);
 				cb.setNewItemsAllowed(true);
 				cb.setNewItemHandler(new NewItemHandler() {
 
@@ -393,12 +441,14 @@ public class VaadinWordSet extends WordSet {
 
 		new BaseWord("new-select", "", Word.POSTPONED) {
 
+			private static final long serialVersionUID = -6142351970812196488L;
+
 			@Override
 			public void execute(final Interpreter interpreter) {
 				final String selCommand = interpreter.getParser().getNextWord();
 				final ComboBox sel = new ComboBox();
 				sel.setCaption((String) interpreter.popData());
-				sel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
+				sel.setItemCaptionMode(AbstractSelect.ItemCaptionMode.ITEM);
 				sel.setNullSelectionAllowed(false);
 				sel.setImmediate(true);
 				sel.addValueChangeListener(new ValueChangeListener() {
@@ -419,13 +469,15 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("new-list-select", "", Word.POSTPONED) {
+			private static final long serialVersionUID = 8686093227035249035L;
+
 			@Override
 			public void execute(final Interpreter interpreter) {
 				final String lselCommand = interpreter.getParser()
 						.getNextWord();
 				final ListSelect lsel = new ListSelect();
 				lsel.setCaption((String) interpreter.popData());
-				lsel.setItemCaptionMode(AbstractSelect.ITEM_CAPTION_MODE_ITEM);
+				lsel.setItemCaptionMode(AbstractSelect.ItemCaptionMode.ITEM);
 				lsel.setNullSelectionAllowed(false);
 				lsel.setImmediate(true);
 				lsel.addValueChangeListener(new ValueChangeListener() {
@@ -446,6 +498,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("set-container-data-source", "", Word.POSTPONED) {
+			private static final long serialVersionUID = 8644721936358613031L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Container cont = (Container) interpreter.popData();
@@ -456,6 +510,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("set-column-headers", "", Word.POSTPONED) {
+			private static final long serialVersionUID = -7296881714369214846L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Table table = (Table) interpreter.popData();
@@ -465,6 +521,8 @@ public class VaadinWordSet extends WordSet {
 		},
 
 		new BaseWord("set-visible-columns", "", Word.POSTPONED) {
+			private static final long serialVersionUID = 5674765074478598320L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Table table = (Table) interpreter.popData();
@@ -493,8 +551,8 @@ public class VaadinWordSet extends WordSet {
 		Word[] code = ((DefinedWord) interpreter.getDictionary().get("list[")).getCode();
 		int addr = (Integer) ((CompiledWord) code[0]).getParameter();
 
-		while (interpreter.getHeap()[addr] != Util.LIST_TERMINATOR) {
-			list.add(interpreter.getHeap()[addr]);
+		while (interpreter.peekHeap(addr) != Util.LIST_TERMINATOR) {
+			list.add(interpreter.peekHeap(addr));
 			addr++;
 		}
 		return list.toArray(array);

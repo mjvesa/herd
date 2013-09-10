@@ -26,6 +26,8 @@ public class HeapWordSet extends WordSet {
 		return new Word[] {
 
 		new BaseWord("!", "STORE", Word.POSTPONED) {
+			private static final long serialVersionUID = 862230778092694578L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Integer address = (Integer) interpreter.popData();
@@ -35,6 +37,8 @@ public class HeapWordSet extends WordSet {
 		},
 
 		new BaseWord("@", "LOAD", Word.POSTPONED) {
+			private static final long serialVersionUID = -3546157881639146300L;
+
 			@Override
 			public void execute(Interpreter interpreter) {
 				Integer address = (Integer) interpreter.popData();

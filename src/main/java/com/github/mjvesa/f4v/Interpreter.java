@@ -33,7 +33,6 @@ import com.github.mjvesa.f4v.wordset.StringWordSet;
 import com.github.mjvesa.f4v.wordset.VaadinWordSet;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.UI;
 import com.vaadin.ui.Notification.Type;
 
 /**
@@ -112,7 +111,7 @@ public class Interpreter implements Presenter, Serializable {
 		return source.keySet();
 	}
 
-	/**
+	/**Serializable
 	 * Initializes stacks, dictionary and heap
 	 */
 	private void setUpStorage() {
@@ -436,10 +435,21 @@ public class Interpreter implements Presenter, Serializable {
 		currentDefinitionWords.add(word);
 
 	}
-
-	public CompiledWord[] getCode() {
-		return code;
+	
+	
+	public CompiledWord peekCode(int i) {
+		return code[i];
 	}
+	
+
+	public int getCodeLength() {
+		return code.length;
+	}
+
+
+//	public CompiledWord[] getCode() {
+//		return code;
+//	}
 
 	public Object peek(int index) {
 		return heap[index];
@@ -470,8 +480,13 @@ public class Interpreter implements Presenter, Serializable {
 	}
 	
 
-	public Object[] getHeap() {
-		return heap;
+
+//	public Object[] getHeap() {
+//		return heap;
+//	}
+	
+	public Object peekHeap(int i) {
+		return heap[i];
 	}
 
 	public void setView(View view) {

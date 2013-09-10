@@ -51,8 +51,8 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 	private TextArea console;
 	private StringBuffer consoleString;
 	private Panel panel;
-	private ListSelect blockSelect;
-	private TextField bufferName;
+	private ListSelect fileSelect;
+	private TextField fileName;
 	private ListSelect wordListSelect;
 	private AceEditor editor;
 
@@ -60,29 +60,29 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 
 	public ForthIDE() {
 		setSizeFull();
-		addComponent(constructBuffersAndStatus());
+		addComponent(constructFilesAndStatus());
 		addComponent(constructEditorAndLayoutPanel());
 		setSplitPosition(15);
 
 		interpreter = new Interpreter();
 		interpreter.setView(this);
 		interpreter.setup();
-		fillBufferSelect();
+		fillFileSelect();
 	}
 
 	/**
-	 * Fills the select for buffers with their filenames
+	 * Fills the select for files with their filenames
 	 */
-	private void fillBufferSelect() {
-		for (String s : interpreter.getBufferList()) {
-			blockSelect.addItem(s);
+	private void fillFileSelect() {
+		for (String s : interpreter.getFileList()) {
+			fileSelect.addItem(s);
 		}
 	}
 
-	private TabSheet constructBuffersAndStatus() {
+	private TabSheet constructFilesAndStatus() {
 		TabSheet tabs = new TabSheet();
 		tabs.setSizeFull();
-		tabs.addTab(constructBuffersTab(), "Buffers", null);
+		tabs.addTab(constructFilesTab(), "Files", null);
 		tabs.addTab(constructStatusTab(), "Status", null);
 		return tabs;
 	}
@@ -97,24 +97,24 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 		return vl;
 	}
 
-	private Component constructBuffersTab() {
+	private Component constructFilesTab() {
 		VerticalLayout vl = new VerticalLayout();
 		vl.setSpacing(true);
 		vl.setSizeFull();
-		vl.addComponent(constructBufferNameAndSaveButton());
-		blockSelect = createBlockSelect();
-		vl.addComponent(blockSelect);
-		vl.setExpandRatio(blockSelect, 1);
+		vl.addComponent(constructFileNameAndSaveButton());
+		fileSelect = createFileSelect();
+		vl.addComponent(fileSelect);
+		vl.setExpandRatio(fileSelect, 1);
 		return vl;
 	}
 
-	private Component constructBufferNameAndSaveButton() {
+	private Component constructFileNameAndSaveButton() {
 
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSpacing(true);
-		bufferName = createBufferName();
-		hl.addComponent(bufferName);
-		hl.addComponent(createSaveBlockButton());
+		fileName = createFileName();
+		hl.addComponent(fileName);
+		hl.addComponent(createSaveFileButton());
 		return hl;
 	}
 
@@ -140,9 +140,9 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 		return b;
 	}
 
-	private ListSelect createBlockSelect() {
+	private ListSelect createFileSelect() {
 
-		final ListSelect ls = new ListSelect("Blocks");
+		final ListSelect ls = new ListSelect("Files");
 		ls.setSizeFull();
 		ls.setNullSelectionAllowed(false);
 		ls.setImmediate(true);
@@ -156,31 +156,31 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 			public void valueChange(ValueChangeEvent event) {
 				String value = (String) ls.getValue();
 				editor.setValue(interpreter.getSource(value));
-				bufferName.setValue(value);
+				fileName.setValue(value);
 			}
 		});
 		return ls;
 	}
 
-	private Button createSaveBlockButton() {
+	private Button createSaveFileButton() {
 
-		Button saveBlockButton = new Button("Save", new Button.ClickListener() {
+		Button saveFileButton = new Button("Save", new Button.ClickListener() {
 			/**
 		     * 
 		     */
 			private static final long serialVersionUID = -1273939649837923281L;
 
 			public void buttonClick(ClickEvent event) {
-				String name = (String) bufferName.getValue();
+				String name = (String) fileName.getValue();
 				String code = (String) editor.getValue();
 				interpreter.addSource(name, code);
-				blockSelect.addItem(name);
+				fileSelect.addItem(name);
 			}
 		});
-		return saveBlockButton;
+		return saveFileButton;
 	}
 
-	private TextField createBufferName() {
+	private TextField createFileName() {
 		final TextField tf = new TextField();
 		return tf;
 	}
@@ -330,7 +330,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 				String command = (String) editor.getValue();
 				if (!command.isEmpty()) {
 					((VerticalLayout) panel.getContent()).removeAllComponents();
-					interpreter.runBuffer(command);
+					interpreter.runFile(command);
 				}
 			}
 		});
@@ -348,7 +348,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 			public void buttonClick(ClickEvent event) {
 				String command = (String) editor.getValue();
 				if (!command.isEmpty()) {
-					interpreter.runBuffer(command);
+					interpreter.runFile(command);
 				}
 			}
 		});

@@ -134,6 +134,9 @@ public class SQLWordSet extends WordSet {
 				case java.sql.Types.INTEGER:
 					clazz = Integer.class;
 					break;
+				default:
+					clazz = String.class;
+					break;
 				}
 				container.addContainerProperty(name, clazz, null);
 			}

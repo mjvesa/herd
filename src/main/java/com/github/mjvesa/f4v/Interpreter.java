@@ -73,7 +73,7 @@ public class Interpreter implements Presenter, Serializable {
 
 	private Stack<Parser> parsers;
 	private Parser parser;
-	private Blocks blocks;
+	private Files files;
 	private boolean logNewWords;
 	private boolean logExecutedWords;
 	
@@ -93,21 +93,21 @@ public class Interpreter implements Presenter, Serializable {
 	public void setup() {
 		setUpStorage();
 		installWordSets();
-		loadBuffers();
+		loadFiles();
 	}
 
 
 
-	private void loadBuffers() {
-		blocks = new Blocks();
-		source = blocks.loadBuffers();
+	private void loadFiles() {
+		files = new Files();
+		source = files.loadFiles();
 	}
 
 	public Set<String> getWordList() {
 		return dictionary.keySet();
 	}
 
-	public Set<String> getBufferList() {
+	public Set<String> getFileList() {
 		return source.keySet();
 	}
 
@@ -139,7 +139,7 @@ public class Interpreter implements Presenter, Serializable {
 		new VaadinWordSet().install(this);
 	}
 
-	public void runBuffer(String command) {
+	public void runFile(String command) {
 		try {
 			dataStack.clear();
 			returnStack.clear();
@@ -361,7 +361,7 @@ public class Interpreter implements Presenter, Serializable {
 
 	public void addSource(String name, String code) {
 
-		blocks.saveBuffer(name, code);
+		files.saveFile(name, code);
 		source.put(name, code);
 
 	}

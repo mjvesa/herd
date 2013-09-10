@@ -239,15 +239,15 @@ public class InterpreterWordSet extends WordSet {
 				
 				new BaseWord(
 						"require",
-						"Executes the buffer defined by the next word in the stream",
+						"Executes the file defined by the next word in the stream",
 						Word.POSTPONED) {
 
 					private static final long serialVersionUID = 5575355458227239352L;
 
 					@Override
 					public void execute(Interpreter interpreter) {
-						String bufferName = interpreter.getParser().getNextWord();
-						String source = interpreter.getSource(bufferName);
+						String fileName = interpreter.getParser().getNextWord();
+						String source = interpreter.getSource(fileName);
 						interpreter.interpret(source);
 					}
 				} };

@@ -26,13 +26,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Manages blocks, which are regular files. This class is named blocks only for
- * amusement of the historical variety.
+ * Manages Forth source files. 
  * 
  * @author mjvesa@vaadin.com
  * 
  */
-public class Blocks implements Serializable {
+public class Files implements Serializable {
 
 	
 	/**
@@ -40,14 +39,14 @@ public class Blocks implements Serializable {
 	 */
 	private static final long serialVersionUID = -2085093837272288299L;
 	// This needs to be the directory Forth files are stored in
-    public static final String BLOCK_DIRECTORY = "/home/mjvesa/f4v/forth/";
+    public static final String FILE_DIRECTORY = "/home/mjvesa/f4v/forth/";
 
-    public HashMap<String, String> loadBuffers() {
-        HashMap<String, String> blocks = new HashMap<String, String>();
+    public HashMap<String, String> loadFiles() {
+        HashMap<String, String> files = new HashMap<String, String>();
 
-        File dir = new File(BLOCK_DIRECTORY);
-        File[] files = dir.listFiles();
-        for (File file : files) {
+        File dir = new File(FILE_DIRECTORY);
+        File[] fileNames = dir.listFiles();
+        for (File file : fileNames) {
             String name = file.getName();
             FileReader fr;
             try {
@@ -60,7 +59,7 @@ public class Blocks implements Serializable {
                     sb.append(chars, 0, count);
                 }
 
-                blocks.put(name, sb.toString());
+                files.put(name, sb.toString());
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -70,15 +69,15 @@ public class Blocks implements Serializable {
             }
 
         }
-        return blocks;
+        return files;
     }
 
     /**
-     * Saves a buffer by the specified name.
+     * Saves a file by the specified name.
      * @param name
      * @param content
      */
-    public void saveBuffer(String name, String content) {
+    public void saveFile(String name, String content) {
     	
     	StringBuffer cleanName = new StringBuffer();
     	
@@ -90,7 +89,7 @@ public class Blocks implements Serializable {
     	}
     	
 		try {
-			File file = new File(BLOCK_DIRECTORY + cleanName.toString());
+			File file = new File(FILE_DIRECTORY + cleanName.toString());
 			if (file.createNewFile()) {
 				FileWriter fw = new FileWriter(file);
 				fw.write(content);

@@ -272,7 +272,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View  {
 
     public AceEditor createEditor() {
         AceEditor editor = new AceEditor();
-        editor.setMode(AceMode.);
+        editor.setMode(AceMode.text);
         editor.setTheme(AceTheme.vibrant_ink);
         editor.setSizeFull();
         return editor;

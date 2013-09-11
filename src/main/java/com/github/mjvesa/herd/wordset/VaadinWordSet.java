@@ -25,6 +25,7 @@ import com.github.mjvesa.herd.Util;
 import com.github.mjvesa.herd.Word;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
+import com.vaadin.data.Property;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.event.ItemClickEvent;
@@ -147,8 +148,11 @@ public class VaadinWordSet extends WordSet {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Window w = new Window();
-				((VerticalLayout) w.getContent()).setSpacing(true);
+				VerticalLayout vl = new VerticalLayout();
+				vl.setSpacing(true);
+				w.setContent(vl);
 				interpreter.pushData(w);
+				interpreter.pushData(vl);
 			}
 		},
 
@@ -207,9 +211,9 @@ public class VaadinWordSet extends WordSet {
 			@Override
 			public void execute(Interpreter interpreter) {
 				Object o = interpreter.popData();
-				Field f = (Field) interpreter.popData();
-				f.setValue(o);
-				interpreter.pushData(f);
+				Property p = (Property) interpreter.popData();
+				p.setValue(o);
+				interpreter.pushData(p);
 			}
 		},
 

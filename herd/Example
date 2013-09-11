@@ -1,0 +1,9 @@
+require Core
+
+: show-window 
+  a-window swap "Hello there" as-caption swap contains:
+    a-label "I'm here" as-value pack drop
+  add-window ;
+
+main-panel contains:
+    "press me" a-button "show-window" as-click-listener pack

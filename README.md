@@ -1,8 +1,5 @@
-f4v
-===
-
-Forth interpreter written by a Forth beginner. Currently in intial stages of
-experimentation, but aims to be a reasonably complete Forth interpreter with
-easy access to Vaadin
-
-
+Herd
+====
+Herd is a concatenative programming language derived
+from Forth. Herd is intended to be quite compatible with Forth, although
+it does not strive to be 100% compatible

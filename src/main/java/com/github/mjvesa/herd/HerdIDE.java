@@ -270,9 +270,6 @@ public class HerdIDE extends HorizontalSplitPanel implements View {
 		CheckBox cb = new CheckBox("log added words");
 		cb.addValueChangeListener(new ValueChangeListener() {
 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 3555018128568837160L;
 
 			@Override
@@ -288,9 +285,7 @@ public class HerdIDE extends HorizontalSplitPanel implements View {
 		
 		CheckBox cb = new CheckBox("log executed words");
 		cb.addValueChangeListener(new ValueChangeListener() {
-			/**
-			 * 
-			 */
+
 			private static final long serialVersionUID = 8229355957367047681L;
 
 			@Override
@@ -305,9 +300,7 @@ public class HerdIDE extends HorizontalSplitPanel implements View {
 	private Component createClearConsoleButton() {
 		return new Button("Clear console",
 				new Button.ClickListener() {
-			/**
-		 * 
-		 */
+
 			private static final long serialVersionUID = -795270660017061409L;
 
 			public void buttonClick(ClickEvent event) {
@@ -321,9 +314,6 @@ public class HerdIDE extends HorizontalSplitPanel implements View {
 		return  new Button("Clear and execute",
 				new Button.ClickListener() {
 
-			/**
-		 * 
-		 */
 			private static final long serialVersionUID = 8556993951867295858L;
 
 			public void buttonClick(ClickEvent event) {
@@ -340,9 +330,6 @@ public class HerdIDE extends HorizontalSplitPanel implements View {
 
 		return new Button("Execute", new Button.ClickListener() {
 
-			/**
-    	 * 
-    	 */
 			private static final long serialVersionUID = -4517134025974358295L;
 
 			public void buttonClick(ClickEvent event) {

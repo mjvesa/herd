@@ -50,7 +50,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 
 	private TextArea console;
 	private StringBuffer consoleString;
-	private Panel panel;
+	private Panel mainPanel;
 	private ListSelect fileSelect;
 	private TextField fileName;
 	private ListSelect wordListSelect;
@@ -214,9 +214,9 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 		VerticalLayout vl = new VerticalLayout();
 		vl.setSizeFull();
 		vl.addComponent(createLayoutClearButton());
-		panel = createMainPanel();
-		vl.addComponent(panel);
-		vl.setExpandRatio(panel, 1);
+		mainPanel = createMainPanel();
+		vl.addComponent(mainPanel);
+		vl.setExpandRatio(mainPanel, 1);
 		return vl;
 	}
 
@@ -228,7 +228,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 			private static final long serialVersionUID = -7003358831608079032L;
 
 			public void buttonClick(ClickEvent event) {
-				((VerticalLayout) panel.getContent()).removeAllComponents();
+				((VerticalLayout) mainPanel.getContent()).removeAllComponents();
 			}
 		});
 	}
@@ -329,7 +329,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 			public void buttonClick(ClickEvent event) {
 				String command = (String) editor.getValue();
 				if (!command.isEmpty()) {
-					((VerticalLayout) panel.getContent()).removeAllComponents();
+					((VerticalLayout) mainPanel.getContent()).removeAllComponents();
 					interpreter.runFile(command);
 				}
 			}
@@ -373,6 +373,6 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 	}
 
 	public ComponentContainer getMainComponentContainer() {
-		return (ComponentContainer) panel.getContent();
+		return (ComponentContainer) mainPanel.getContent();
 	}
 }

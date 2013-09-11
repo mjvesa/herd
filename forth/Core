@@ -46,7 +46,7 @@ createnop listened-by
 : as-width set-width ;
 : as-height set-height ;
 : uses-it @ swap ;
-: add-it add-component ;
+: pack add-component ;
 ( caption -- Button )
 : a-button new-button swap set-caption ;
 : a-label new-label ;
@@ -85,7 +85,7 @@ var list[ 100 allot
  dup dup @ swap 1 + @  ;
 
 : create-button-and-add-to-layout
- a-button swap set-click-listener rot swap add-it swap ;
+ a-button swap set-click-listener rot swap pack swap ;
 
 : go-to-next-item
  2 + ;

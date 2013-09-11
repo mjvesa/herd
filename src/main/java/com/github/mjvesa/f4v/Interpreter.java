@@ -52,9 +52,6 @@ import com.vaadin.ui.Notification.Type;
  */
 public class Interpreter implements Presenter, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3847825662484445132L;
 	private HashMap<String, Word> dictionary;
 	private HashMap<String, String> source;
@@ -151,7 +148,6 @@ public class Interpreter implements Presenter, Serializable {
 					+ parser.getLine() + " column: " + parser.getCol());
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -242,9 +238,7 @@ public class Interpreter implements Presenter, Serializable {
 			// TODO return to main loop or stop interpreting when this happens.
 		}
 		logExecutedWord(word);
-
 		word.execute(this);
-
 	}
 
 	/**
@@ -370,11 +364,6 @@ public class Interpreter implements Presenter, Serializable {
 		return source.get(value);
 	}
 
-	public void continueExecution() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void setLogNewWords(boolean b) {
 		logNewWords = b;
 	}
@@ -436,20 +425,13 @@ public class Interpreter implements Presenter, Serializable {
 
 	}
 	
-	
 	public CompiledWord peekCode(int i) {
 		return code[i];
 	}
 	
-
 	public int getCodeLength() {
 		return code.length;
 	}
-
-
-//	public CompiledWord[] getCode() {
-//		return code;
-//	}
 
 	public Object peek(int index) {
 		return heap[index];
@@ -478,12 +460,6 @@ public class Interpreter implements Presenter, Serializable {
 	public ComponentContainer getMainPanel() {
 		return view.getMainComponentContainer();
 	}
-	
-
-
-//	public Object[] getHeap() {
-//		return heap;
-//	}
 	
 	public Object peekHeap(int i) {
 		return heap[i];

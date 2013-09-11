@@ -36,12 +36,12 @@ var value 0 value !
 
 ( Main part of the program )
 main-panel contains:
-  "" a-text-field listened-by new-value store-it add-it
+  "" a-text-field listened-by new-value store-it pack
   4 4 a new-gl contains:  
   list[ "7" val || "8" val || "9" val || "/" cmd || 
         "4" val || "5" val || "6" val || "*" cmd || 
         "1" val || "2" val || "3" val || "-" cmd || 
         "0" val || "=" "equals" find || "C" dup find || "+" cmd 
       ]addButtonsToLayout
-  add-it
+  pack
 drop null

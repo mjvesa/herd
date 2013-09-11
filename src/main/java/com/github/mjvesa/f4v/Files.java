@@ -90,11 +90,10 @@ public class Files implements Serializable {
     	
 		try {
 			File file = new File(FILE_DIRECTORY + cleanName.toString());
-			if (file.createNewFile()) {
-				FileWriter fw = new FileWriter(file);
-				fw.write(content);
-				fw.close();
-			}
+			file.createNewFile();
+			FileWriter fw = new FileWriter(file);
+			fw.write(content);
+			fw.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -13,35 +13,12 @@
  *  implied. See the License for the specific language governing
  *  permissions and limitations under the License.
  */
-package com.github.mjvesa.f4v;
+ package com.github.mjvesa.herd;
 
-/*
- * Forth Words. These can be built in atomic instructions or complex defined
- * words.
- */
-public class DefinedWord extends Word {
+public class Util {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2156541692487054647L;
-	private CompiledWord[] code;
-
-	public CompiledWord[] getCode() {
-		return code;
-	}
-
-	public void setCode(CompiledWord[] code) {
-		this.code = code;
-	}
-
-	public String toString() {
-		return name;
-	}
-
-	@Override
-	public void execute(Interpreter interpreter) {
-		interpreter.executeDefinedWord(this);
-	}
+    // Used to terminate lists put on stack
+    public static final Object LIST_TERMINATOR = new Object();
+    public static final Object NULL_OBJECT = "NULL object";
 
 }

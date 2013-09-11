@@ -1,4 +1,4 @@
-package com.github.mjvesa.f4v;
+package com.github.mjvesa.herd;
 
 /**
  * BaseWord is an atomic word that is installed into the interpreter state.

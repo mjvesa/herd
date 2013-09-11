@@ -13,7 +13,7 @@
  *  implied. See the License for the specific language governing
  *  permissions and limitations under the License.
  */
-package com.github.mjvesa.f4v;
+package com.github.mjvesa.herd;
 
 import org.vaadin.aceeditor.AceEditor;
 import org.vaadin.aceeditor.AceMode;
@@ -41,7 +41,7 @@ import com.vaadin.ui.VerticalSplitPanel;
  * @author mjvesa@vaadin.com
  * 
  */
-public class ForthIDE extends HorizontalSplitPanel implements View {
+public class HerdIDE extends HorizontalSplitPanel implements View {
 
 	/**
      * 
@@ -58,7 +58,7 @@ public class ForthIDE extends HorizontalSplitPanel implements View {
 
 	private Interpreter interpreter;
 
-	public ForthIDE() {
+	public HerdIDE() {
 		setSizeFull();
 		addComponent(constructFilesAndStatus());
 		addComponent(constructEditorAndLayoutPanel());

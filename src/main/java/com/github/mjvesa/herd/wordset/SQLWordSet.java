@@ -13,7 +13,7 @@
  *  implied. See the License for the specific language governing
  *  permissions and limitations under the License.
  */
-package com.github.mjvesa.f4v.wordset;
+package com.github.mjvesa.herd.wordset;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,12 +22,12 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-import com.github.mjvesa.f4v.BaseWord;
-import com.github.mjvesa.f4v.CompiledWord;
-import com.github.mjvesa.f4v.DefinedWord;
-import com.github.mjvesa.f4v.Interpreter;
-import com.github.mjvesa.f4v.Util;
-import com.github.mjvesa.f4v.Word;
+import com.github.mjvesa.herd.BaseWord;
+import com.github.mjvesa.herd.CompiledWord;
+import com.github.mjvesa.herd.DefinedWord;
+import com.github.mjvesa.herd.Interpreter;
+import com.github.mjvesa.herd.Util;
+import com.github.mjvesa.herd.Word;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 
@@ -198,8 +198,8 @@ public class SQLWordSet extends WordSet {
 	 * @throws SQLException
 	 */
 	private Connection getConnection() throws SQLException {
-		Connection conn = DriverManager.getConnection("jdbc:hsqldb:mem:forth",
-				"forth", "forth");
+		Connection conn = DriverManager.getConnection("jdbc:hsqldb:mem:herd",
+				"herd", "herd");
 		return conn;
 	}
 

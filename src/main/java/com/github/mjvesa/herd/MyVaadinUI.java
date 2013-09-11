@@ -1,4 +1,4 @@
-package com.github.mjvesa.f4v;
+package com.github.mjvesa.herd;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
@@ -13,7 +13,7 @@ public class MyVaadinUI extends UI
 
     @Override
     protected void init(VaadinRequest request) {
-        ForthIDE ide = new ForthIDE();
+        HerdIDE ide = new HerdIDE();
         VerticalLayout vl = new VerticalLayout();
         vl.addComponent(ide);
         vl.setSizeFull();

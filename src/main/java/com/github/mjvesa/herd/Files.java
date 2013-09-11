@@ -13,7 +13,7 @@
  *  implied. See the License for the specific language governing
  *  permissions and limitations under the License.
  */
-package com.github.mjvesa.f4v;
+package com.github.mjvesa.herd;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Manages Forth source files. 
+ * Manages Herd source files. 
  * 
  * @author mjvesa@vaadin.com
  * 
@@ -38,8 +38,8 @@ public class Files implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2085093837272288299L;
-	// This needs to be the directory Forth files are stored in
-    public static final String FILE_DIRECTORY = "/home/mjvesa/f4v/forth/";
+	// This needs to be the directory Herd files are stored in
+    public static final String FILE_DIRECTORY = "/home/mjvesa/f4v/herd/";
 
     public HashMap<String, String> loadFiles() {
         HashMap<String, String> files = new HashMap<String, String>();

@@ -1,7 +1,7 @@
-package com.github.mjvesa.f4v.wordset;
+package com.github.mjvesa.herd.wordset;
 
-import com.github.mjvesa.f4v.Interpreter;
-import com.github.mjvesa.f4v.Word;
+import com.github.mjvesa.herd.Interpreter;
+import com.github.mjvesa.herd.Word;
 
 /**
  * A set of words that is capable of installing itself.

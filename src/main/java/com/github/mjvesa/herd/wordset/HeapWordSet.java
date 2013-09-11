@@ -13,11 +13,11 @@
  *  implied. See the License for the specific language governing
  *  permissions and limitations under the License.
  */
-package com.github.mjvesa.f4v.wordset;
+package com.github.mjvesa.herd.wordset;
 
-import com.github.mjvesa.f4v.BaseWord;
-import com.github.mjvesa.f4v.Interpreter;
-import com.github.mjvesa.f4v.Word;
+import com.github.mjvesa.herd.BaseWord;
+import com.github.mjvesa.herd.Interpreter;
+import com.github.mjvesa.herd.Word;
 
 public class HeapWordSet extends WordSet {
 

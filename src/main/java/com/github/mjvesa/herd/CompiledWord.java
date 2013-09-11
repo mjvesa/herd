@@ -1,4 +1,4 @@
-package com.github.mjvesa.f4v;
+package com.github.mjvesa.herd;
 
 public class CompiledWord extends Word {
 

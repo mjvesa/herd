@@ -1,7 +1,7 @@
 require Core
 
 : show-window 
-  a-window swap "Hello there" as-caption swap contains:
+  a-window "Hello there" as-window-caption contains:
     a-label "I'm here" as-value pack drop
   add-window ;
 

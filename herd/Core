@@ -37,6 +37,7 @@ createnop listened-by
 : as-column-names set-column-headers ;
 : as-visible-columns set-visible-columns ;
 : as-caption set-caption ;
+: as-window-caption rot swap as-caption swap ;
 : as-value set-value ;
 : as-click-listener find set-click-listener ;
 : create-a-SQL-container create-SQL-container ;

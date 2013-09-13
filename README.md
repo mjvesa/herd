@@ -22,11 +22,33 @@ To build Herd and to fetch all its dependencies type this into a console:
 
 	mvn install
 
-After that is done running maven in a jetty instance can be done as follows:
+After that is done running Herd in a jetty instance can be done as follows:
 
 	mvn jetty:run
 
-herd can then be accessed by directing your favorite browser at `http://localhost:8080/Herd` Open a source file
-by clicking in the file list. Press the execute button to run it, and inspect the results in the Output tab
-next to the code editor.
+Herd can now be accessed by directing your favorite browser at `http://localhost:8080/Herd`
+
+
+Quick UI walktrough
+===================
+The UI is not very complex. When Herd first opens you can open a source file by clicking its name in the file list. The
+file can be saved by clicking the Save button. Change the name next to the Save button to save under a different name. 
+Press the execute button to run the currently open file, and inspect the results by clicking on the Output tab next to the
+Editor tab. When "Clear and execute" is used to execute the program instead then the previous output is first removed. The
+same effect can be achieved by clicking "Clear layout" in the Output tab.
+
+The console under the editor panel contains useful messages about program execution. It is filled bottom-to-top, so that
+the latest message is at the top. "Clear console" clears the console of previous output.
+
+The checkbox "log executed words" prints every executed word on the console. "log added words" prints every new word
+created by a colon definition.
+
+The Status tab shows a list of all defined words. When the "print stack" button above it is pressed, the contents of the
+data stack are printed onto the console.
+
+
+
+
+
+
 

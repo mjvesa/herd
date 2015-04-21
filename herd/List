@@ -1,0 +1,14 @@
+\ Space for lists
+var list[ 100 allot
+
+\ Insert one value into the list we're creating
+: |  \ addr value -- addr+1
+  over ! 1 + 
+;
+
+\ Appends another pair into a list of pair
+: ||  \ addr value1 value2 -- addr+2
+  rot tuck ! tuck 1 + ! 2 + 
+;
+
+

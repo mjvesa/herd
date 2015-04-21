@@ -3,14 +3,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.mjvesa</groupId>
-	<artifactId>F4V</artifactId>
+	<artifactId>Herd</artifactId>
 	<packaging>war</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.3.0</version>
 	<name>Vaadin Web Application</name>
+	
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<vaadin.version>7.1.5</vaadin.version>
+		<vaadin.version>7.4.3</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	</properties>
 	<repositories>
@@ -78,7 +79,7 @@
 		<dependency>
    			<groupId>org.vaadin.addons</groupId>
    			<artifactId>aceeditor</artifactId>
-   			<version>0.8.5</version>
+   			<version>0.8.11</version>
 		</dependency>
 	</dependencies>
 
@@ -120,7 +121,7 @@
 					</hostedWebapp>
 					<noServer>true</noServer>
 					<!-- Remove draftCompile when project is ready -->
-					<draftCompile>false</draftCompile>
+					<draftCompile>true</draftCompile>
 					<compileReport>true</compileReport>
 					<style>OBF</style>
 					<strict>true</strict>

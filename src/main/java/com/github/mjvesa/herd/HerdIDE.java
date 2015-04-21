@@ -26,6 +26,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
+import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.ListSelect;
@@ -43,323 +44,323 @@ import com.vaadin.ui.VerticalSplitPanel;
  */
 public class HerdIDE extends HorizontalSplitPanel implements View {
 
-	/**
+    /**
      * 
      */
-	private static final long serialVersionUID = -6911850470039819669L;
+    private static final long serialVersionUID = -6911850470039819669L;
 
-	private TextArea console;
-	private StringBuffer consoleString;
-	private Panel mainPanel;
-	private ListSelect fileSelect;
-	private TextField fileName;
-	private ListSelect wordListSelect;
-	private AceEditor editor;
+    private TextArea console;
+    private StringBuffer consoleString;
+    private Panel mainPanel;
+    private ListSelect fileSelect;
+    private TextField fileName;
+    private ListSelect wordListSelect;
+    private AceEditor editor;
 
-	private Interpreter interpreter;
+    private Interpreter interpreter;
 
-	public HerdIDE() {
-		setSizeFull();
-		addComponent(constructFilesAndStatus());
-		addComponent(constructEditorAndLayoutPanel());
-		setSplitPosition(15);
+    public HerdIDE() {
+        setSizeFull();
+        addComponent(constructFilesAndStatus());
+        addComponent(constructEditorAndLayoutPanel());
+        setSplitPosition(15);
 
-		interpreter = new Interpreter();
-		interpreter.setView(this);
-		interpreter.setup();
-		fillFileSelect();
-	}
+        interpreter = new Interpreter();
+        interpreter.setView(this);
+        interpreter.setup();
+        fillFileSelect();
+    }
 
-	/**
-	 * Fills the select for files with their filenames
-	 */
-	private void fillFileSelect() {
-		for (String s : interpreter.getFileList()) {
-			fileSelect.addItem(s);
-		}
-	}
+    /**
+     * Fills the select for files with their filenames
+     */
+    private void fillFileSelect() {
+        for (String s : interpreter.getFileList()) {
+            fileSelect.addItem(s);
+        }
+    }
 
-	private TabSheet constructFilesAndStatus() {
-		TabSheet tabs = new TabSheet();
-		tabs.setSizeFull();
-		tabs.addTab(constructFilesTab(), "Files", null);
-		tabs.addTab(constructStatusTab(), "Status", null);
-		return tabs;
-	}
+    private TabSheet constructFilesAndStatus() {
+        TabSheet tabs = new TabSheet();
+        tabs.setSizeFull();
+        tabs.addTab(constructFilesTab(), "Files", null);
+        tabs.addTab(constructStatusTab(), "Status", null);
+        return tabs;
+    }
 
-	private Component constructStatusTab() {
-		VerticalLayout vl = new VerticalLayout();
-		vl.setSizeFull();
-		vl.addComponent(createPrintStackButton());
-		wordListSelect = createWordListSelect();
-		vl.addComponent(wordListSelect);
-		vl.setExpandRatio(wordListSelect, 1);
-		return vl;
-	}
+    private Component constructStatusTab() {
+        VerticalLayout vl = new VerticalLayout();
+        vl.setSizeFull();
+        vl.addComponent(createPrintStackButton());
+        wordListSelect = createWordListSelect();
+        vl.addComponent(wordListSelect);
+        vl.setExpandRatio(wordListSelect, 1);
+        return vl;
+    }
 
-	private Component constructFilesTab() {
-		VerticalLayout vl = new VerticalLayout();
-		vl.setSpacing(true);
-		vl.setSizeFull();
-		vl.addComponent(constructFileNameAndSaveButton());
-		fileSelect = createFileSelect();
-		vl.addComponent(fileSelect);
-		vl.setExpandRatio(fileSelect, 1);
-		return vl;
-	}
+    private Component constructFilesTab() {
+        VerticalLayout vl = new VerticalLayout();
+        vl.setSpacing(true);
+        vl.setSizeFull();
+        vl.addComponent(constructFileNameAndSaveButton());
+        fileSelect = createFileSelect();
+        vl.addComponent(fileSelect);
+        vl.setExpandRatio(fileSelect, 1);
+        return vl;
+    }
 
-	private Component constructFileNameAndSaveButton() {
+    private Component constructFileNameAndSaveButton() {
 
-		HorizontalLayout hl = new HorizontalLayout();
-		hl.setSpacing(true);
-		fileName = createFileName();
-		hl.addComponent(fileName);
-		hl.addComponent(createSaveFileButton());
-		return hl;
-	}
+        CssLayout cl = new CssLayout();
+        fileName = createFileName();
+        cl.addComponent(fileName);
+        cl.addComponent(createSaveFileButton());
+        return cl;
+    }
 
-	private ListSelect createWordListSelect() {
-		ListSelect ls = new ListSelect("Wordlist");
-		ls.setSizeFull();
-		ls.addStyleName("wordlist");
-		return ls;
-	}
+    private ListSelect createWordListSelect() {
+        ListSelect ls = new ListSelect("Wordlist");
+        ls.setSizeFull();
+        ls.addStyleName("wordlist");
+        return ls;
+    }
 
-	private Component createPrintStackButton() {
-		Button b = new Button("printStack", new Button.ClickListener() {
+    private Component createPrintStackButton() {
+        Button b = new Button("printStack", new Button.ClickListener() {
 
-		/**
+            /**
 	     * 
 	     */
-			private static final long serialVersionUID = -7954166353532284682L;
+            private static final long serialVersionUID = -7954166353532284682L;
 
-			public void buttonClick(ClickEvent event) {
-				interpreter.printStack();
-			}
-		});
-		return b;
-	}
+            public void buttonClick(ClickEvent event) {
+                interpreter.printStack();
+            }
+        });
+        return b;
+    }
 
-	private ListSelect createFileSelect() {
+    private ListSelect createFileSelect() {
 
-		final ListSelect ls = new ListSelect("Files");
-		ls.setSizeFull();
-		ls.setNullSelectionAllowed(false);
-		ls.setImmediate(true);
-		ls.addValueChangeListener(new ValueChangeListener() {
+        final ListSelect ls = new ListSelect("Files");
+        ls.setSizeFull();
+        ls.setNullSelectionAllowed(false);
+        ls.setImmediate(true);
+        ls.addValueChangeListener(new ValueChangeListener() {
 
-			/**
+            /**
 	     * 
 	     */
-			private static final long serialVersionUID = 2450173366304389892L;
+            private static final long serialVersionUID = 2450173366304389892L;
 
-			public void valueChange(ValueChangeEvent event) {
-				String value = (String) ls.getValue();
-				editor.setValue(interpreter.getSource(value));
-				fileName.setValue(value);
-			}
-		});
-		return ls;
-	}
+            public void valueChange(ValueChangeEvent event) {
+                String value = (String) ls.getValue();
+                editor.setValue(interpreter.getSource(value));
+                fileName.setValue(value);
+            }
+        });
+        return ls;
+    }
 
-	private Button createSaveFileButton() {
+    private Button createSaveFileButton() {
 
-		Button saveFileButton = new Button("Save", new Button.ClickListener() {
-			/**
+        Button saveFileButton = new Button("Save",
+                new Button.ClickListener() {
+                    /**
 		     * 
 		     */
-			private static final long serialVersionUID = -1273939649837923281L;
+                    private static final long serialVersionUID = -1273939649837923281L;
 
-			public void buttonClick(ClickEvent event) {
-				String name = (String) fileName.getValue();
-				String code = (String) editor.getValue();
-				interpreter.addSource(name, code);
-				fileSelect.addItem(name);
-			}
-		});
-		return saveFileButton;
-	}
+                    public void buttonClick(ClickEvent event) {
+                        String name = (String) fileName.getValue();
+                        String code = (String) editor.getValue();
+                        interpreter.addSource(name, code);
+                        fileSelect.addItem(name);
+                    }
+                });
+        return saveFileButton;
+    }
 
-	private TextField createFileName() {
-		final TextField tf = new TextField();
-		return tf;
-	}
+    private TextField createFileName() {
+        final TextField tf = new TextField();
+        return tf;
+    }
 
-	private VerticalSplitPanel constructEditorAndLayoutPanel() {
-		VerticalSplitPanel vsp = new VerticalSplitPanel();
-		vsp.setSizeFull();
-		vsp.addComponent(constructEditorAndLayout());
-		vsp.setSplitPosition(80);
-		console = createConsole();
-		vsp.addComponent(console);
-		return vsp;
-	}
+    private VerticalSplitPanel constructEditorAndLayoutPanel() {
+        VerticalSplitPanel vsp = new VerticalSplitPanel();
+        vsp.setSizeFull();
+        vsp.addComponent(constructEditorAndLayout());
+        vsp.setSplitPosition(80);
+        console = createConsole();
+        vsp.addComponent(console);
+        return vsp;
+    }
 
-	private TextArea createConsole() {
-		consoleString = new StringBuffer();
-		TextArea ta = new TextArea();
-		ta.setSizeFull();
-		return ta;
-	}
+    private TextArea createConsole() {
+        consoleString = new StringBuffer();
+        TextArea ta = new TextArea();
+        ta.setSizeFull();
+        return ta;
+    }
 
-	private Component constructEditorAndLayout() {
-		TabSheet ts = new TabSheet();
-		ts.setSizeFull();
-		ts.addTab(constructEditorTab(), "Editor", null);
-		ts.addTab(constructOutputTab(), "Output", null);
-		return ts;
-	}
+    private Component constructEditorAndLayout() {
+        TabSheet ts = new TabSheet();
+        ts.setSizeFull();
+        ts.addTab(constructEditorTab(), "Editor", null);
+        ts.addTab(constructOutputTab(), "Output", null);
+        return ts;
+    }
 
-	private Component constructOutputTab() {
-		VerticalLayout vl = new VerticalLayout();
-		vl.setSizeFull();
-		vl.addComponent(createLayoutClearButton());
-		mainPanel = createMainPanel();
-		vl.addComponent(mainPanel);
-		vl.setExpandRatio(mainPanel, 1);
-		return vl;
-	}
+    private Component constructOutputTab() {
+        VerticalLayout vl = new VerticalLayout();
+        vl.setSizeFull();
+        vl.addComponent(createLayoutClearButton());
+        mainPanel = createMainPanel();
+        vl.addComponent(mainPanel);
+        vl.setExpandRatio(mainPanel, 1);
+        return vl;
+    }
 
-	private Component createLayoutClearButton() {
-		return new Button("Clear layout", new Button.ClickListener() {
-			/**
+    private Component createLayoutClearButton() {
+        return new Button("Clear layout", new Button.ClickListener() {
+            /**
 	     * 
 	     */
-			private static final long serialVersionUID = -7003358831608079032L;
+            private static final long serialVersionUID = -7003358831608079032L;
 
-			public void buttonClick(ClickEvent event) {
-				((VerticalLayout) mainPanel.getContent()).removeAllComponents();
-			}
-		});
-	}
+            public void buttonClick(ClickEvent event) {
+                ((VerticalLayout) mainPanel.getContent())
+                        .removeAllComponents();
+            }
+        });
+    }
 
-	private Panel createMainPanel() {
-		Panel p = new Panel();
-		VerticalLayout vl = new VerticalLayout();
-		vl.setSpacing(true);
-		p.setContent(vl);
-		p.setSizeFull();
-		return p;
-	}
+    private Panel createMainPanel() {
+        Panel p = new Panel();
+        VerticalLayout vl = new VerticalLayout();
+        vl.setSpacing(true);
+        p.setContent(vl);
+        p.setSizeFull();
+        return p;
+    }
 
-	private Component constructEditorTab() {
-		VerticalLayout vl = new VerticalLayout();
-		vl.setSpacing(true);
-		vl.setSizeFull();
-		editor = createEditor();
-		vl.addComponent(editor);
-		vl.setExpandRatio(editor, 1);
-		vl.addComponent(constructButtons());
-		return vl;
-	}
+    private Component constructEditorTab() {
+        VerticalLayout vl = new VerticalLayout();
+        vl.setSpacing(true);
+        vl.setSizeFull();
+        editor = createEditor();
+        vl.addComponent(editor);
+        vl.setExpandRatio(editor, 1);
+        vl.addComponent(constructButtons());
+        return vl;
+    }
 
-	private Component constructButtons() {
+    private Component constructButtons() {
 
-		HorizontalLayout hl = new HorizontalLayout();
-		hl.setSpacing(true);
-		hl.addComponent(createRunButton());
-		hl.addComponent(createClearAndExecuteButton());
-		hl.addComponent(createClearConsoleButton());
-		hl.addComponent(createLogExecutedWordsCheckBox());
-		hl.addComponent(createLogAddedWordCheckBox());
+        HorizontalLayout hl = new HorizontalLayout();
+        hl.setSpacing(true);
+        hl.addComponent(createRunButton());
+        hl.addComponent(createClearAndExecuteButton());
+        hl.addComponent(createClearConsoleButton());
+        hl.addComponent(createLogExecutedWordsCheckBox());
+        hl.addComponent(createLogAddedWordCheckBox());
 
-		return hl;
-	}
+        return hl;
+    }
 
-	private Component createLogAddedWordCheckBox() {
-		CheckBox cb = new CheckBox("log added words");
-		cb.addValueChangeListener(new ValueChangeListener() {
+    private Component createLogAddedWordCheckBox() {
+        CheckBox cb = new CheckBox("log added words");
+        cb.addValueChangeListener(new ValueChangeListener() {
 
-			private static final long serialVersionUID = 3555018128568837160L;
+            private static final long serialVersionUID = 3555018128568837160L;
 
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				interpreter.setLogNewWords((Boolean) event.getProperty()
-						.getValue());
-			}
-		});
-		return cb;
-	}
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                interpreter.setLogNewWords((Boolean) event.getProperty()
+                        .getValue());
+            }
+        });
+        return cb;
+    }
 
-	private Component createLogExecutedWordsCheckBox() {
-		
-		CheckBox cb = new CheckBox("log executed words");
-		cb.addValueChangeListener(new ValueChangeListener() {
+    private Component createLogExecutedWordsCheckBox() {
 
-			private static final long serialVersionUID = 8229355957367047681L;
+        CheckBox cb = new CheckBox("log executed words");
+        cb.addValueChangeListener(new ValueChangeListener() {
 
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				interpreter.setLogExecutedWords((Boolean) event.getProperty()
-						.getValue());
-			}
-		});
-		return cb;
-	}
+            private static final long serialVersionUID = 8229355957367047681L;
 
-	private Component createClearConsoleButton() {
-		return new Button("Clear console",
-				new Button.ClickListener() {
+            @Override
+            public void valueChange(ValueChangeEvent event) {
+                interpreter.setLogExecutedWords((Boolean) event.getProperty()
+                        .getValue());
+            }
+        });
+        return cb;
+    }
 
-			private static final long serialVersionUID = -795270660017061409L;
+    private Component createClearConsoleButton() {
+        return new Button("Clear console", new Button.ClickListener() {
 
-			public void buttonClick(ClickEvent event) {
-				consoleString = new StringBuffer();
-				print("");
-			}
-		});
-	}
+            private static final long serialVersionUID = -795270660017061409L;
 
-	private Component createClearAndExecuteButton() {
-		return  new Button("Clear and execute",
-				new Button.ClickListener() {
+            public void buttonClick(ClickEvent event) {
+                consoleString = new StringBuffer();
+                print("");
+            }
+        });
+    }
 
-			private static final long serialVersionUID = 8556993951867295858L;
+    private Component createClearAndExecuteButton() {
+        return new Button("Clear and execute", new Button.ClickListener() {
 
-			public void buttonClick(ClickEvent event) {
-				String command = (String) editor.getValue();
-				if (!command.isEmpty()) {
-					((VerticalLayout) mainPanel.getContent()).removeAllComponents();
-					interpreter.runFile(command);
-				}
-			}
-		});
-	}
+            private static final long serialVersionUID = 8556993951867295858L;
 
-	private Component createRunButton() {
+            public void buttonClick(ClickEvent event) {
+                String command = (String) editor.getValue();
+                if (!command.isEmpty()) {
+                    ((VerticalLayout) mainPanel.getContent())
+                            .removeAllComponents();
+                    interpreter.runFile(command);
+                }
+            }
+        });
+    }
 
-		return new Button("Execute", new Button.ClickListener() {
+    private Component createRunButton() {
 
-			private static final long serialVersionUID = -4517134025974358295L;
+        return new Button("Execute", new Button.ClickListener() {
 
-			public void buttonClick(ClickEvent event) {
-				String command = (String) editor.getValue();
-				if (!command.isEmpty()) {
-					interpreter.runFile(command);
-				}
-			}
-		});
-	}
+            private static final long serialVersionUID = -4517134025974358295L;
 
-	public AceEditor createEditor() {
-		AceEditor editor = new AceEditor();
-		editor.setMode(AceMode.text);
-		editor.setTheme(AceTheme.vibrant_ink);
-		editor.setSizeFull();
-		return editor;
-	}
+            public void buttonClick(ClickEvent event) {
+                String command = (String) editor.getValue();
+                if (!command.isEmpty()) {
+                    interpreter.runFile(command);
+                }
+            }
+        });
+    }
 
-	public void print(String msg) {
-		consoleString.insert(0, "\n");
-		consoleString.insert(0, msg);
-		console.setValue(consoleString.toString());
-	}
+    public AceEditor createEditor() {
+        AceEditor editor = new AceEditor();
+        editor.setMode(AceMode.forth);
+        editor.setTheme(AceTheme.vibrant_ink);
+        editor.setSizeFull();
+        return editor;
+    }
 
-	public void addNewWord(String word) {
-		wordListSelect.addItem(word);
-	}
+    public void print(String msg) {
+        consoleString.insert(0, "\n");
+        consoleString.insert(0, msg);
+        console.setValue(consoleString.toString());
+    }
 
-	public ComponentContainer getMainComponentContainer() {
-		return (ComponentContainer) mainPanel.getContent();
-	}
+    public void addNewWord(String word) {
+        wordListSelect.addItem(word);
+    }
+
+    public ComponentContainer getMainComponentContainer() {
+        return (ComponentContainer) mainPanel.getContent();
+    }
 }

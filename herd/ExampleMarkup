@@ -1,0 +1,15 @@
+require Core
+require UIML
+
+: show-window 
+    window 
+        caption: "Hello there"
+        contains: ( label value: "I'm here" ) drop
+    add-window ;
+
+: show-main
+    main-panel
+        ( button caption: "press me"
+                 click:   show-window ) ;
+
+show-main

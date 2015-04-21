@@ -11,15 +11,15 @@ import com.github.mjvesa.herd.Word;
  */
 public class WordSet {
 
-	public void install(Interpreter interpreter) {
+    public void install(Interpreter interpreter) {
 
-		for (Word word : getWords()) {
-			interpreter.getDictionary().put(word.getName(), word);
-		}
-	}
+        for (Word word : getWords()) {
+            interpreter.getDictionary().put(word.getName(), word);
+        }
+    }
 
-	public Word[] getWords() {
-		return null;
-	}
+    public Word[] getWords() {
+        return null;
+    }
 
 }

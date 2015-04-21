@@ -21,31 +21,31 @@ import com.github.mjvesa.herd.Word;
 
 public class HeapWordSet extends WordSet {
 
-	@Override
-	public Word[] getWords() {
-		return new Word[] {
+    @Override
+    public Word[] getWords() {
+        return new Word[] {
 
-		new BaseWord("!", "STORE", Word.POSTPONED) {
-			private static final long serialVersionUID = 862230778092694578L;
+        new BaseWord("!", "STORE", Word.POSTPONED) {
+            private static final long serialVersionUID = 862230778092694578L;
 
-			@Override
-			public void execute(Interpreter interpreter) {
-				Integer address = (Integer) interpreter.popData();
-				Object value = interpreter.popData();
-				interpreter.poke(address, value);
-			}
-		},
+            @Override
+            public void execute(Interpreter interpreter) {
+                Integer address = (Integer) interpreter.popData();
+                Object value = interpreter.popData();
+                interpreter.poke(address, value);
+            }
+        },
 
-		new BaseWord("@", "LOAD", Word.POSTPONED) {
-			private static final long serialVersionUID = -3546157881639146300L;
+        new BaseWord("@", "LOAD", Word.POSTPONED) {
+            private static final long serialVersionUID = -3546157881639146300L;
 
-			@Override
-			public void execute(Interpreter interpreter) {
-				Integer address = (Integer) interpreter.popData();
-				interpreter.pushData(interpreter.peek(address));
-			}
-		}
+            @Override
+            public void execute(Interpreter interpreter) {
+                Integer address = (Integer) interpreter.popData();
+                interpreter.pushData(interpreter.peek(address));
+            }
+        }
 
-		};
-	}
+        };
+    }
 }

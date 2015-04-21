@@ -1,0 +1,11 @@
+\ Simple static record structures creates recordname.fieldname
+\ records for easy grouping of values
+: record 
+  word "." cat
+  begin 
+    dup word dup "endrecord" equals not 
+  while 
+    cat stackvar 
+  repeat 
+  drop drop drop  
+;

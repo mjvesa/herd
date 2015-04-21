@@ -22,13 +22,13 @@ import java.io.Serializable;
  * for strings and for definitions.
  * 
  */
-public class  Parser implements Serializable {
+public class Parser implements Serializable {
 
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = -5089380317630429856L;
-	private String string;
+    private static final long serialVersionUID = -5089380317630429856L;
+    private String string;
     private int pos;
     private int line;
     private int col;
@@ -103,5 +103,16 @@ public class  Parser implements Serializable {
 
     public String getPosition() {
         return "line " + line + " column " + col;
+    }
+
+    public void nextLine() {
+        while (pos < string.length()) {
+            if (string.charAt(pos) == '\n') {
+                line++;
+                col = 1;
+                return;
+            }
+            pos++;
+        }
     }
 }

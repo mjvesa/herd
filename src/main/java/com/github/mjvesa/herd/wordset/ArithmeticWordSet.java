@@ -21,75 +21,74 @@ import com.github.mjvesa.herd.Word;
 
 public class ArithmeticWordSet extends WordSet {
 
-	@Override
-	public Word[] getWords() {
-		return new Word[] {
+    @Override
+    public Word[] getWords() {
+        return new Word[] {
 
-				new BaseWord("+", "( n1 n2 -- n1 + n2 ) Adds TOS to NOS",
-						Word.POSTPONED) {
+                new BaseWord("+", "( n1 n2 -- n1 + n2 ) Adds TOS to NOS",
+                        Word.POSTPONED) {
 
-					/**
+                    /**
 							 * 
 							 */
-							private static final long serialVersionUID = 7532548718246139262L;
+                    private static final long serialVersionUID = 7532548718246139262L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						Integer a = (Integer) interpreter.popData();
-						Integer b = (Integer) interpreter.popData();
-						interpreter.pushData(a + b);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        Integer a = (Integer) interpreter.popData();
+                        Integer b = (Integer) interpreter.popData();
+                        interpreter.pushData(a + b);
+                    }
+                },
 
-				new BaseWord("-",
-						"( n1 n2 -- n1 - n2 ) Substracts TOS from NOS",
-						Word.POSTPONED) {
+                new BaseWord("-",
+                        "( n1 n2 -- n1 - n2 ) Substracts TOS from NOS",
+                        Word.POSTPONED) {
 
-					/**
+                    /**
 							 * 
 							 */
-							private static final long serialVersionUID = -3716555841893556413L;
+                    private static final long serialVersionUID = -3716555841893556413L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						Integer a = (Integer) interpreter.popData();
-						Integer b = (Integer) interpreter.popData();
-						interpreter.pushData(b - a);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        Integer a = (Integer) interpreter.popData();
+                        Integer b = (Integer) interpreter.popData();
+                        interpreter.pushData(b - a);
+                    }
+                },
 
-				new BaseWord("*",
-						"( n1 n2 -- n1 * n2 ) Multiplies TOS with NOS",
-						Word.POSTPONED) {
+                new BaseWord("*",
+                        "( n1 n2 -- n1 * n2 ) Multiplies TOS with NOS",
+                        Word.POSTPONED) {
 
-					/**
+                    /**
 							 * 
 							 */
-							private static final long serialVersionUID = 3043022843877114055L;
+                    private static final long serialVersionUID = 3043022843877114055L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						Integer a = (Integer) interpreter.popData();
-						Integer b = (Integer) interpreter.popData();
-						interpreter.pushData(a * b);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        Integer a = (Integer) interpreter.popData();
+                        Integer b = (Integer) interpreter.popData();
+                        interpreter.pushData(a * b);
+                    }
+                },
 
-				new BaseWord("/", "( n1  n2 -- n1 / n2 ) Divides NOS by TOS",
-						Word.POSTPONED) {
+                new BaseWord("/", "( n1  n2 -- n1 / n2 ) Divides NOS by TOS",
+                        Word.POSTPONED) {
 
-					/**
+                    /**
 							 * 
 							 */
-							private static final long serialVersionUID = 3806523703688323839L;
+                    private static final long serialVersionUID = 3806523703688323839L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						Integer a = (Integer) interpreter.popData();
-						Integer b = (Integer) interpreter.popData();
-						interpreter.pushData(b / a);
-					}
-				}
-		};
-	}
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        Integer a = (Integer) interpreter.popData();
+                        Integer b = (Integer) interpreter.popData();
+                        interpreter.pushData(b / a);
+                    }
+                } };
+    }
 }

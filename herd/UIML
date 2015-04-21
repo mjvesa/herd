@@ -1,0 +1,17 @@
+\ User Interface Markup Languge. Sexpr-like language for
+\ declaring UIs 
+createnop (
+: ) add-component ;
+
+: window new-window ;
+: button new-button ;
+: label new-label ;
+
+: caption: word , "set-caption" find compile ; immediate
+: value: word , "set-value" find compile ; immediate
+: click: word find , "set-click-listener" find compile ; immediate
+: contains: ;
+
+: hl new-hl ;
+: vl new-vl ;
+: gl new-gl ;

@@ -1,5 +1,6 @@
 package com.github.mjvesa.herd;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -13,11 +14,7 @@ public class MyVaadinUI extends UI
 
     @Override
     protected void init(VaadinRequest request) {
-        HerdIDE ide = new HerdIDE();
-        VerticalLayout vl = new VerticalLayout();
-        vl.addComponent(ide);
-        vl.setSizeFull();
-        setContent(vl);
+        setContent(new HerdIDE());
     }
 
 }

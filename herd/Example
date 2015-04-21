@@ -1,4 +1,5 @@
 require Core
+require Vaadin
 
 : show-window 
   a-window "Hello there" as-window-caption contains:

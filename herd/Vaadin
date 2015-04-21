@@ -1,0 +1,101 @@
+require List
+
+\ Attempt at something smalltalkish
+: inside-it add-component ;
+: as-column-names set-column-headers ;
+: as-visible-columns set-visible-columns ;
+: as-caption set-caption ;
+: as-window-caption rot swap as-caption swap ;
+: as-value set-value ;
+: as-click-listener find set-click-listener ;
+: create-a-SQL-container create-SQL-container ;
+: create-a-filtered-SQL-container create-filtered-SQL-container ;
+: as-container-datasource set-container-data-source drop ;
+: as-name ! ;
+: as-width set-width ;
+: as-height set-height ;
+: uses-it @ swap ;
+: pack add-component ;
+\ caption -- Button
+: a-button new-button swap set-caption ;
+: a-label new-label ;
+: a-text-field new-text-field ;
+: a-combo-box new-combo-box ;
+: a-table new-table ;
+: a-select new-select ;
+: a-window new-window ;
+: a-text-field new-text-field ;
+\ : -> ' EXECUTE , COMPILE ! ; IMMEDIATE
+: prop get-property ;
+: from-stack swap ;
+
+\ Space for lists
+var list[ 100 allot
+
+\ Stuff to do with lists
+: ]-as-params-for-query | list-terminator | drop ;
+: ]-is-used-by | list-terminator | drop ;
+
+\ executes a token for each entry in a list
+: map
+ \ TODO do this sometime
+;
+
+\ Takes the list being defined and adds a terminator to its end
+: terminate-list
+  || list-terminator | drop ;
+
+\ Checks to see if the list we are traversing has a terminator
+\ and is terminated at the current point
+: check-for-list-terminator 
+ dup @ list-terminator = not ;
+
+: load-caption-and-click-listener
+ dup dup @ swap 1 + @  ;
+
+: create-button-and-add-to-layout
+ a-button swap set-click-listener rot swap pack swap ;
+
+: go-to-next-item
+ 2 + ;
+
+\ Fills a layout with a list of pairs: buttons and their click listeners
+: ]addButtonsToLayout
+  terminate-list
+  list[
+  begin
+    check-for-list-terminator
+  while  \ layout addr
+    load-caption-and-click-listener
+    create-button-and-add-to-layout
+    go-to-next-item
+  repeat
+  drop
+;
+
+\ loads a list of properties to an item
+\ item record_name --
+: load-props
+  "." cat
+  list[
+  begin
+    dup @ list-terminator equals not
+  while
+    rot swap tuck @ get-property
+    2swap dup @ rot dup rot
+    cat 2swap -rot
+    swap find execute !
+    1 +
+  repeat
+  drop drop drop
+;
+
+\ addr record_name -- record_name
+: ]-load-props-to | list-terminator | drop word load-props ;
+  
+\ These words are more filling and less taste
+createnop has createnop a
+createnop the createnop with
+createnop and createnop or
+createnop is  createnop to
+createnop use createnop contains:

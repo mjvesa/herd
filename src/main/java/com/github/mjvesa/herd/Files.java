@@ -26,20 +26,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Manages Herd source files. 
+ * Manages Herd source files.
  * 
  * @author mjvesa@vaadin.com
  * 
  */
 public class Files implements Serializable {
 
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2085093837272288299L;
-	// This needs to be the directory Herd files are stored in
-    public static final String FILE_DIRECTORY = "/home/dev/herd";
+    private static final long serialVersionUID = -2085093837272288299L;
+    // This needs to be the directory Herd files are stored in
+    public static final String FILE_DIRECTORY = "/home/mjvesa/f4v/herd";
 
     public HashMap<String, String> loadFiles() {
         HashMap<String, String> files = new HashMap<String, String>();
@@ -74,28 +70,31 @@ public class Files implements Serializable {
 
     /**
      * Saves a file by the specified name.
+     * 
      * @param name
      * @param content
      */
     public void saveFile(String name, String content) {
-    	
-//    	StringBuffer cleanName = new StringBuffer();
-//    	
-//    	Pattern p = Pattern.compile("[a-zA-Z]");
-//    	for (char ch : name.toCharArray()) {
-//        	Matcher m = p.matcher(Character.toString(ch));    		
-//    		if (m.matches())
-//    		cleanName.append(ch);
-//    	}
-//    	
-//		try {
-//			File file = new File(FILE_DIRECTORY + cleanName.toString());
-//			file.createNewFile();
-//			FileWriter fw = new FileWriter(file);
-//			fw.write(content);
-//			fw.close();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+
+        StringBuffer cleanName = new StringBuffer();
+
+        Pattern p = Pattern.compile("[a-zA-Z]");
+        for (char ch : name.toCharArray()) {
+            Matcher m = p.matcher(Character.toString(ch));
+            if (m.matches()) {
+                cleanName.append(ch);
+            }
+        }
+
+        try {
+            File file = new File(FILE_DIRECTORY + "/" + cleanName.toString());
+            file.createNewFile();
+            FileWriter fw = new FileWriter(file);
+            fw.write(content);
+            fw.flush();
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

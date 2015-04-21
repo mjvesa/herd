@@ -22,235 +22,239 @@ import com.github.mjvesa.herd.Word;
 
 public class InterpreterWordSet extends WordSet {
 
-	@Override
-	public Word[] getWords() {
-		return new Word[] {
+    @Override
+    public Word[] getWords() {
+        return new Word[] {
 
-				new BaseWord("[", "BEGININTERPRET", Word.IMMEDIATE) {
+                new BaseWord("[", "BEGININTERPRET", Word.IMMEDIATE) {
 
-					private static final long serialVersionUID = 1272939771583867641L;
+                    private static final long serialVersionUID = 1272939771583867641L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.setCompiling(false);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.setCompiling(false);
+                    }
+                },
 
-				new BaseWord("]", "ENDINTERPRET", Word.IMMEDIATE) {
+                new BaseWord("]", "ENDINTERPRET", Word.IMMEDIATE) {
 
-					private static final long serialVersionUID = -8143466942808300858L;
+                    private static final long serialVersionUID = -8143466942808300858L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.setCompiling(true);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.setCompiling(true);
+                    }
+                },
 
-				new BaseWord(
-						"'",
-						"Resolves the next word in the stream to a word in the dictionary",
-						Word.POSTPONED) {
+                new BaseWord(
+                        "'",
+                        "Resolves the next word in the stream to a word in the dictionary",
+                        Word.POSTPONED) {
 
-					private static final long serialVersionUID = -7445999245783149399L;
+                    private static final long serialVersionUID = -7445999245783149399L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.pushData(interpreter.getNextWord());
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.pushData(interpreter.getNextWord());
+                    }
+                },
 
-				new BaseWord(
-						"[']",
-						"Resolves the next word in the stream to a word in the dictionary. Immediate version of ' (TICK)",
-						Word.IMMEDIATE) {
+                new BaseWord(
+                        "[']",
+                        "Resolves the next word in the stream to a word in the dictionary. Immediate version of ' (TICK)",
+                        Word.IMMEDIATE) {
 
-					private static final long serialVersionUID = 1419283126594784727L;
+                    private static final long serialVersionUID = 1419283126594784727L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.pushData(interpreter.getNextWord());
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.pushData(interpreter.getNextWord());
+                    }
+                },
 
-				new BaseWord("find",
-						"Resolves the word defined by the string at TOS",
-						Word.POSTPONED) {
+                new BaseWord("find",
+                        "Resolves the word defined by the string at TOS",
+                        Word.POSTPONED) {
 
-					private static final long serialVersionUID = 3375284831658980419L;
+                    private static final long serialVersionUID = 3375284831658980419L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						String s = (String) interpreter.popData();
-						Word word = interpreter.getDictionary().get(s);
-						interpreter.pushData(word);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        String s = (String) interpreter.popData();
+                        Word word = interpreter.getDictionary().get(s);
+                        // TODO could use proper line and col numbers. And no parameter, ever?
+                        interpreter.pushData(new CompiledWord(word, null));
+                    }
+                },
 
-				new BaseWord("execute", "Executes the word at TOS",
-						Word.POSTPONED) {
+                new BaseWord("execute", "Executes the word at TOS",
+                        Word.POSTPONED) {
 
-					private static final long serialVersionUID = 2273176615613845378L;
+                    private static final long serialVersionUID = 2273176615613845378L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						Word word = (Word) interpreter.popData();
-						interpreter.execute(word);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        Word word = (Word) interpreter.popData();
+                        interpreter.execute(word);
+                    }
+                },
 
-				new BaseWord("word", "Parses the next word in the stream",
-						Word.POSTPONED) {
+                new BaseWord("word", "Parses the next word in the stream",
+                        Word.POSTPONED) {
 
-					private static final long serialVersionUID = -8167133157280043136L;
+                    private static final long serialVersionUID = -8167133157280043136L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						String s = interpreter.getParser().getNextWord();
-						interpreter.pushData(s);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        String s = interpreter.getParser().getNextWord();
+                        interpreter.pushData(s);
+                    }
+                },
 
-				new BaseWord("create", "", Word.POSTPONED) {
+                new BaseWord("create", "", Word.POSTPONED) {
 
-					private static final long serialVersionUID = 5815660181444927938L;
+                    private static final long serialVersionUID = 5815660181444927938L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.create();
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.create();
+                    }
+                },
 
-				new BaseWord("stack-create", "", Word.POSTPONED) {
+                new BaseWord("stack-create", "", Word.POSTPONED) {
 
-					private static final long serialVersionUID = -5766347393995029396L;
+                    private static final long serialVersionUID = -5766347393995029396L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.createFromStack();
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.createFromStack();
+                    }
+                },
 
-				new BaseWord("does>", "", Word.POSTPONED) {
+                new BaseWord("does>", "", Word.POSTPONED) {
 
-					private static final long serialVersionUID = 4642119217442404327L;
+                    private static final long serialVersionUID = 4642119217442404327L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						// Find where DOES> is
-						int codeLength = interpreter.getCodeLength();
-						int i = codeLength - 1;
-						while (!"does>".equals(interpreter.peekCode(i).getName())) {
-							i--;
-						}
-						i++; // We don't want to copy DOES> now do we
-						// Copy words over
-						for (; i < codeLength; i++) {
-							interpreter.addToCurrentDefinition(interpreter.peekCode(i));
-						}
-						interpreter.finishCompilation();
-						interpreter.setIp(codeLength); // Don't execute stuff
-														// after
-														// DOES>
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        // Find where DOES> is
+                        int codeLength = interpreter.getCodeLength();
+                        int i = codeLength - 1;
+                        while (!"does>".equals(interpreter.peekCode(i)
+                                .getName())) {
+                            i--;
+                        }
+                        i++; // We don't want to copy DOES> now do we
+                        // Copy words over
+                        for (; i < codeLength; i++) {
+                            interpreter.addToCurrentDefinition(interpreter
+                                    .peekCode(i));
+                        }
+                        interpreter.finishCompilation();
+                        interpreter.setIp(codeLength); // Don't execute stuff
+                                                       // after
+                                                       // DOES>
+                    }
+                },
 
-				new BaseWord("immediate",
-						"Marks the current definition as immediate",
-						Word.POSTPONED) {
+                new BaseWord("immediate",
+                        "Marks the current definition as immediate",
+                        Word.POSTPONED) {
 
-					private static final long serialVersionUID = -6550448846189084427L;
+                    private static final long serialVersionUID = -6550448846189084427L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.getCurrentDefinition().setImmediate(true);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.getCurrentDefinition().setImmediate(true);
+                    }
+                },
 
-				new BaseWord(
-						"compile",
-						"When executed, adds the compiled word at TOS to the current definition",
-						Word.POSTPONED) {
+                new BaseWord(
+                        "compile",
+                        "When executed, adds the compiled word at TOS to the current definition",
+                        Word.POSTPONED) {
 
-					private static final long serialVersionUID = -5521906716269728024L;
+                    private static final long serialVersionUID = -5521906716269728024L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter
-								.addToCurrentDefinition((CompiledWord) interpreter
-										.popData());
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter
+                                .addToCurrentDefinition((CompiledWord) interpreter
+                                        .popData());
+                    }
+                },
 
-				new BaseWord(":", "Creates a new definition", Word.IMMEDIATE) {
+                new BaseWord(":", "Creates a new definition", Word.IMMEDIATE) {
 
-					private static final long serialVersionUID = -6005418447489241645L;
+                    private static final long serialVersionUID = -6005418447489241645L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.create();
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.create();
+                    }
+                },
 
-				new BaseWord(
-						"anon-create",
-						"Creates a definition without a name, an anonymous definition",
-						Word.POSTPONED) {
-					private static final long serialVersionUID = -7773886489827608666L;
+                new BaseWord(
+                        "anon-create",
+                        "Creates a definition without a name, an anonymous definition",
+                        Word.POSTPONED) {
+                    private static final long serialVersionUID = -7773886489827608666L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.anonCreate();
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.anonCreate();
+                    }
+                },
 
-				new BaseWord(";", "Finish compilation", Word.IMMEDIATE) {
+                new BaseWord(";", "Finish compilation", Word.IMMEDIATE) {
 
-					private static final long serialVersionUID = 5489762761234465242L;
+                    private static final long serialVersionUID = 5489762761234465242L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.finishCompilation();
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.finishCompilation();
+                    }
+                },
 
-				new BaseWord("xt?", "", Word.POSTPONED) {
+                new BaseWord("xt?", "", Word.POSTPONED) {
 
-					private static final long serialVersionUID = 1570459301027566588L;
+                    private static final long serialVersionUID = 1570459301027566588L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter
-								.pushData(interpreter.popData() instanceof Word);
-					}
-				},
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter
+                                .pushData(interpreter.popData() instanceof Word);
+                    }
+                },
 
-				new BaseWord(
-						",",
-						"Generates a literal word into the current definition from a value at TOS",
-						Word.POSTPONED) {
+                new BaseWord(
+                        ",",
+                        "Generates a literal word into the current definition from a value at TOS",
+                        Word.POSTPONED) {
 
-					private static final long serialVersionUID = 4971321412813826616L;
+                    private static final long serialVersionUID = 4971321412813826616L;
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						interpreter.generateLiteral(interpreter.popData());
-					}
-				},
-				
-				new BaseWord(
-						"require",
-						"Executes the file defined by the next word in the stream",
-						Word.POSTPONED) {
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        interpreter.generateLiteral(interpreter.popData());
+                    }
+                },
 
-					private static final long serialVersionUID = 5575355458227239352L;
+                new BaseWord(
+                        "require",
+                        "Executes the file defined by the next word in the stream",
+                        Word.POSTPONED) {
 
-					@Override
-					public void execute(Interpreter interpreter) {
-						String fileName = interpreter.getParser().getNextWord();
-						String source = interpreter.getSource(fileName);
-						interpreter.interpret(source);
-					}
-				} };
+                    private static final long serialVersionUID = 5575355458227239352L;
 
-	}
+                    @Override
+                    public void execute(Interpreter interpreter) {
+                        String fileName = interpreter.getParser()
+                                .getNextWord();
+                        String source = interpreter.getSource(fileName);
+                        interpreter.interpret(source);
+                    }
+                } };
+
+    }
 }

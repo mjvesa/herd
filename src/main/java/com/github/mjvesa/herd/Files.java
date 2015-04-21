@@ -16,6 +16,7 @@
 package com.github.mjvesa.herd;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -36,14 +37,22 @@ public class Files implements Serializable {
     private static final long serialVersionUID = -2085093837272288299L;
     // This needs to be the directory Herd files are stored in
     public static final String FILE_DIRECTORY = "/home/mjvesa/f4v/herd";
+    public static final String HERD_SUFFIX = ".herd";
 
     public HashMap<String, String> loadFiles() {
         HashMap<String, String> files = new HashMap<String, String>();
 
         File dir = new File(FILE_DIRECTORY);
-        File[] fileNames = dir.listFiles();
+        File[] fileNames = dir.listFiles(new FileFilter() {
+            
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.isFile() && pathname.toString().contains(HERD_SUFFIX);
+            }
+        });
         for (File file : fileNames) {
             String name = file.getName();
+            
             FileReader fr;
             try {
                 fr = new FileReader(file);
@@ -55,7 +64,7 @@ public class Files implements Serializable {
                     sb.append(chars, 0, count);
                 }
 
-                files.put(name, sb.toString());
+                files.put(name.replaceAll(HERD_SUFFIX, ""), sb.toString());
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -87,7 +96,7 @@ public class Files implements Serializable {
         }
 
         try {
-            File file = new File(FILE_DIRECTORY + "/" + cleanName.toString());
+            File file = new File(FILE_DIRECTORY + "/" + cleanName.toString() + ".herd");
             file.createNewFile();
             FileWriter fw = new FileWriter(file);
             fw.write(content);

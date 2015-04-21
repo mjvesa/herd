@@ -1,17 +1,20 @@
-( Test app dear chap )
+\ Test app dear chap
 require Core
+require Vaadin
+require Record
+require List
   
-( Filter attribs ) 
+\ Filter attribs
 record Filter
  name beginYear endYear beginDuration endDuration genres
 endrecord
 
-( Movie attributes ) 
+\ Movie attributes
 record Movie
  id name duration prodyear genres
 endrecord
 
-( A table for movies ) 
+\ A table for movies
 var movie-table
 
 : set-table-headers
@@ -21,12 +24,12 @@ var movie-table
     movie-table @ as-column-names
 ;
 
-( Attach '%' to the beginning and end of a string )
+\ Attach '%' to the beginning and end of a string
 : wildcard
   "%" cat "%" swap cat
 ;
 
-( Form field listeners )
+\ Form field listeners
 : setNameFilter Filter.name ! ;
 : setDurationBegin str-to-int Filter.beginDuration ! ;
 : setDurationEnd str-to-int Filter.endDuration ! ;
@@ -34,7 +37,7 @@ var movie-table
 : setProdYearEnd str-to-int Filter.endYear ! ;
 : setGenresFilter "name" prop wildcard  Filter.genres ! ;
 
-( This stuff is for the window )
+\ This stuff is for the window
 : setName Movie.name ! ;
 : setDuration str-to-int Movie.duration ! ;
 : setProdYear str-to-int Movie.prodyear ! ;
@@ -82,7 +85,7 @@ var genreComboBox
   fillGenreComboBox
 ;
 
-( TODO this can be optimized )
+\ TODO this can be optimized
 : genreSelected
    "name" prop nip
    genreTextField @ get-value nip  " " cat
@@ -91,7 +94,7 @@ var genreComboBox
    drop
 ;
 
-( a combobox for genres )  
+\ a combobox for genres
 "Choose a genre" is a-combo-box listened-by newGenre and genreSelected
 genreComboBox as-name
 
@@ -124,41 +127,41 @@ genreComboBox as-name
   fillMovieList
 ;
 
-( This listener gets the properties of the selected movie )
+\ This listener gets the properties of the selected movie
 : movieSelected
   list[ "id" | "name" | "duration" | "prodyear" | "genres" ]load-props-to Movie
 ;
 
 
-( Fill main panel with components )
+\ Fill main panel with components
 mainPanel contains:
 
-  "name" is a-text-field listened-by setNameFilter add-it
+  "name" is a-text-field listened-by setNameFilter pack
   a new-hl
-    "Duration begin" is a-text-field listened-by setDurationBegin add-it
-    "Duration end" is a-text-field listened-by setDurationEnd add-it
-  add-it
+    "Duration begin" is a-text-field listened-by setDurationBegin pack
+    "Duration end" is a-text-field listened-by setDurationEnd pack
+  pack
   a new-hl
-    "Prod. year begin" is a-text-field listened-by setProdYearBegin add-it
-    "Prod. year end" is a-text-field listened-by setProdYearEnd add-it
-  add-it
+    "Prod. year begin" is a-text-field listened-by setProdYearBegin pack
+    "Prod. year end" is a-text-field listened-by setProdYearEnd pack
+  pack
   
   "Genre" is a-select listened-by setGenresFilter dup
    makeGenreContainer as-container-datasource 
-  add-it
+  pack
 
-  "Filter list" is a-button with "filterList" as-click-listener add-it
+  "Filter list" is a-button with "filterList" as-click-listener pack
 
   ( Create movie table and fill with content from DB )
   "Movies" is a-table listened-by movieSelected with movieTable as-name
-  movieTable @ add-it
+  movieTable @ pack
   fillMovieList
 
   a new-hl
-   "Delete" is a-button with "deleteSelection" as-clicklistener add-it
-   "Edit selection" is aButton with "showEditWindow" asClickListener add-it
-   "Add New Movie" is aButton with "showEditWindow" asClickListener add-it 
-  add-it
+   "Delete" is a-button with "deleteSelection" as-clicklistener pack
+   "Edit selection" is aButton with "showEditWindow" asClickListener pack
+   "Add New Movie" is aButton with "showEditWindow" asClickListener pack
+  pack
 
 drop
  

@@ -15,12 +15,19 @@
  */
 package com.github.mjvesa.herd;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
 import org.vaadin.aceeditor.AceEditor;
 import org.vaadin.aceeditor.AceMode;
 import org.vaadin.aceeditor.AceTheme;
 
+import com.vaadin.data.Container.Sortable;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
+import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.data.util.ItemSorter;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CheckBox;
@@ -56,6 +63,7 @@ public class HerdIDE extends HorizontalSplitPanel implements View {
     private TextField fileName;
     private ListSelect wordListSelect;
     private AceEditor editor;
+    private ArrayList<String> wordList = new ArrayList<String>();
 
     private Interpreter interpreter;
 
@@ -119,7 +127,11 @@ public class HerdIDE extends HorizontalSplitPanel implements View {
     }
 
     private ListSelect createWordListSelect() {
+
         ListSelect ls = new ListSelect("Wordlist");
+        IndexedContainer c = new IndexedContainer();
+        c.sort(new Object[] { "id" }, new boolean[] { true });
+        ls.setContainerDataSource(c);
         ls.setSizeFull();
         ls.addStyleName("wordlist");
         return ls;
@@ -357,7 +369,15 @@ public class HerdIDE extends HorizontalSplitPanel implements View {
     }
 
     public void addNewWord(String word) {
-        wordListSelect.addItem(word);
+        wordList.add(word);
+        wordList.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        wordListSelect.removeAllItems();
+        wordListSelect.addItems(wordList);
     }
 
     public ComponentContainer getMainComponentContainer() {

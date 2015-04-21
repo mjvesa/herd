@@ -1,0 +1,4 @@
+"CREATE TABLE Genre (id int, name varchar(255) );" do-plain-query
+"CREATE TABLE Movie (id int, name varchar(255), duration int, prodyear int, genres varchar(255));" do-plain-query
+"INSERT INTO Movie values (1, 'test', 120, 1982, 'action romance');" do-plain-query
+"INSERT INTO Genre values (1, 'romance');" do-plain-query

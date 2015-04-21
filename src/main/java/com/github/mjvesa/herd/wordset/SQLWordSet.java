@@ -70,6 +70,15 @@ public class SQLWordSet extends WordSet {
             }
         },
 
+        new BaseWord("do-plain-query", "", Word.POSTPONED) {
+            private static final long serialVersionUID = 7935650989639855151L;
+
+            @Override
+            public void execute(Interpreter interpreter) {
+                doPlainQuery(interpreter, (String) interpreter.popData());
+            }
+        },
+
         new BaseWord("get-property", "", Word.POSTPONED) {
             private static final long serialVersionUID = -2919657094395490760L;
 
@@ -204,8 +213,13 @@ public class SQLWordSet extends WordSet {
      * @throws SQLException
      */
     private Connection getConnection() throws SQLException {
+        try {
+            Class.forName("org.hsqldb.jdbcDriver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         Connection conn = DriverManager.getConnection("jdbc:hsqldb:mem:herd",
-                "herd", "herd");
+                "sa", "");
         return conn;
     }
 
@@ -218,6 +232,21 @@ public class SQLWordSet extends WordSet {
             Connection conn = getConnection();
             PreparedStatement st = conn.prepareStatement(sql);
             applyParameterListToPreparedStatement(interpreter, st);
+            st.execute();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * Mostly for create
+     */
+    public void doPlainQuery(Interpreter interpreter, String sql) {
+
+        try {
+            Connection conn = getConnection();
+            PreparedStatement st = conn.prepareStatement(sql);
             st.execute();
         } catch (SQLException e) {
             // TODO Auto-generated catch block

@@ -3,7 +3,7 @@ require Core
 require Vaadin
 require Record
 require List
-  
+
 \ Filter attribs
 record Filter
  name beginYear endYear beginDuration endDuration genres
@@ -93,48 +93,49 @@ var genreComboBox
    genreTextField @ swap set-value
    drop
 ;
+\ listened-by newGenre and genreSelected
 
 \ a combobox for genres
-"Choose a genre" is a-combo-box listened-by newGenre and genreSelected
+"Choose a genre" is a-combo-box 
 genreComboBox as-name
 
 
 : showEditWindow
   a-window with "Edit movie" as-caption "40em" as-width contains:
-    [ "Name" is aTextField listenedBy setName , ] Movie.name @ asValue 
+    [ "Name" is a-text-field listened-by setName , ] Movie.name @ as-value 
     "30em" as-width
-    add-it
+    pack
     [ "Production year" is a-text-field listened-by setProdYear , ]
     Movie.prodyear @ as-value "5em" as-width
-    add-it
+    pack
     [ "Duration" is a-text-field listened-by setDuration , ] Movie.duration @ as-value
     "5em" as-width
-    add-it
+    pack
  
-    [ "Genres" is aTextField listenedBy setGenres , ] Movie.genres @ as-value
-    "30em" asWidth genreTextField as-name
-    genreTextField @ addIt
+    [ "Genres" is a-text-field listened-by setGenres , ] Movie.genres @ as-value
+    "30em" as-width genreTextField as-name
+    genreTextField @ pack
     fillGenreComboBox
-    genreComboBox @ addIt
-    "Add movie" is aButton with "addMovie" asClickListener
-    add-it
+    genreComboBox @ pack
+    "Add movie" is a-button with "addMovie" as-click-listener
+    pack
 
   add-window
 ;
 
 : deleteSelection
-  use list[ Movie.id @ ]as-params-for-query "DELETE FROM movie WHERE id = ?" do-query
+  use list[ Movie.id @ ]-as-params-for-query "DELETE FROM movie WHERE id = ?" do-query
   fillMovieList
 ;
 
 \ This listener gets the properties of the selected movie
 : movieSelected
-  list[ "id" | "name" | "duration" | "prodyear" | "genres" ]load-props-to Movie
+  list[ "id" | "name" | "duration" | "prodyear" | "genres" ]-load-props-to Movie
 ;
 
 
 \ Fill main panel with components
-mainPanel contains:
+main-panel contains:
 
   "name" is a-text-field listened-by setNameFilter pack
   a new-hl
@@ -152,7 +153,7 @@ mainPanel contains:
 
   "Filter list" is a-button with "filterList" as-click-listener pack
 
-  ( Create movie table and fill with content from DB )
+  \ Create movie table and fill with content from DB
   "Movies" is a-table listened-by movieSelected with movieTable as-name
   movieTable @ pack
   fillMovieList

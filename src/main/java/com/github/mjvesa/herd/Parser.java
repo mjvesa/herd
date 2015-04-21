@@ -110,6 +110,7 @@ public class Parser implements Serializable {
             if (string.charAt(pos) == '\n') {
                 line++;
                 col = 1;
+                pos++;
                 return;
             }
             pos++;

@@ -91,7 +91,7 @@ var list[ 100 allot
 ;
 
 \ addr record_name -- record_name
-: ]-load-props-to | list-terminator | drop word load-props ;
+: ]-load-props-to word , does> swap | list-terminator | drop word load-props ; immediate
   
 \ These words are more filling and less taste
 createnop has createnop a
